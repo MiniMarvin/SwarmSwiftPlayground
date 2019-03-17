@@ -1,0 +1,384 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25C6223E9F870034AEEC /* AppDelegate.swift */; };
+		68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25C8223E9F870034AEEC /* GameScene.sks */; };
+		68BA25CB223E9F870034AEEC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25CA223E9F870034AEEC /* Actions.sks */; };
+		68BA25CD223E9F870034AEEC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25CC223E9F870034AEEC /* GameScene.swift */; };
+		68BA25CF223E9F870034AEEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25CE223E9F870034AEEC /* ViewController.swift */; };
+		68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25D0223E9F880034AEEC /* Assets.xcassets */; };
+		68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25D2223E9F880034AEEC /* Main.storyboard */; };
+		68BA25DE223E9FA50034AEEC /* Boid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25DD223E9FA50034AEEC /* Boid.swift */; };
+		68BA25E1223E9FF10034AEEC /* CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E0223E9FF10034AEEC /* CGExtensions.swift */; };
+		68BA25E3223EA05C0034AEEC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E2223EA05C0034AEEC /* Utils.swift */; };
+		68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E4223EA0BB0034AEEC /* Behavior.swift */; };
+		68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25E6223EAC0E0034AEEC /* play-arrow.png */; };
+		68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E8223EB8700034AEEC /* OtherExtensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwarmPlayground2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BA25C6223E9F870034AEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		68BA25C8223E9F870034AEEC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		68BA25CA223E9F870034AEEC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		68BA25CC223E9F870034AEEC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		68BA25CE223E9F870034AEEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		68BA25D0223E9F880034AEEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		68BA25D3223E9F880034AEEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		68BA25D5223E9F880034AEEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68BA25D6223E9F880034AEEC /* SwarmPlayground2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwarmPlayground2.entitlements; sourceTree = "<group>"; };
+		68BA25DD223E9FA50034AEEC /* Boid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boid.swift; sourceTree = "<group>"; };
+		68BA25E0223E9FF10034AEEC /* CGExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGExtensions.swift; sourceTree = "<group>"; };
+		68BA25E2223EA05C0034AEEC /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		68BA25E4223EA0BB0034AEEC /* Behavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
+		68BA25E6223EAC0E0034AEEC /* play-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-arrow.png"; sourceTree = "<group>"; };
+		68BA25E8223EB8700034AEEC /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		68BA25C0223E9F870034AEEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		68BA25BA223E9F870034AEEC = {
+			isa = PBXGroup;
+			children = (
+				68BA25C5223E9F870034AEEC /* SwarmPlayground2 */,
+				68BA25C4223E9F870034AEEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		68BA25C4223E9F870034AEEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		68BA25C5223E9F870034AEEC /* SwarmPlayground2 */ = {
+			isa = PBXGroup;
+			children = (
+				68BA25DF223E9FDC0034AEEC /* Utils */,
+				68BA25DC223E9F9B0034AEEC /* Boids */,
+				68BA25C6223E9F870034AEEC /* AppDelegate.swift */,
+				68BA25CC223E9F870034AEEC /* GameScene.swift */,
+				68BA25C8223E9F870034AEEC /* GameScene.sks */,
+				68BA25CA223E9F870034AEEC /* Actions.sks */,
+				68BA25CE223E9F870034AEEC /* ViewController.swift */,
+				68BA25D0223E9F880034AEEC /* Assets.xcassets */,
+				68BA25D2223E9F880034AEEC /* Main.storyboard */,
+				68BA25D5223E9F880034AEEC /* Info.plist */,
+				68BA25D6223E9F880034AEEC /* SwarmPlayground2.entitlements */,
+			);
+			path = SwarmPlayground2;
+			sourceTree = "<group>";
+		};
+		68BA25DC223E9F9B0034AEEC /* Boids */ = {
+			isa = PBXGroup;
+			children = (
+				68BA25DD223E9FA50034AEEC /* Boid.swift */,
+				68BA25E4223EA0BB0034AEEC /* Behavior.swift */,
+				68BA25E6223EAC0E0034AEEC /* play-arrow.png */,
+			);
+			path = Boids;
+			sourceTree = "<group>";
+		};
+		68BA25DF223E9FDC0034AEEC /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				68BA25E0223E9FF10034AEEC /* CGExtensions.swift */,
+				68BA25E2223EA05C0034AEEC /* Utils.swift */,
+				68BA25E8223EB8700034AEEC /* OtherExtensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		68BA25C2223E9F870034AEEC /* SwarmPlayground2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68BA25D9223E9F880034AEEC /* Build configuration list for PBXNativeTarget "SwarmPlayground2" */;
+			buildPhases = (
+				68BA25BF223E9F870034AEEC /* Sources */,
+				68BA25C0223E9F870034AEEC /* Frameworks */,
+				68BA25C1223E9F870034AEEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwarmPlayground2;
+			productName = SwarmPlayground2;
+			productReference = 68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		68BA25BB223E9F870034AEEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Caio Gomes";
+				TargetAttributes = {
+					68BA25C2223E9F870034AEEC = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 68BA25BE223E9F870034AEEC /* Build configuration list for PBXProject "SwarmPlayground2" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 68BA25BA223E9F870034AEEC;
+			productRefGroup = 68BA25C4223E9F870034AEEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				68BA25C2223E9F870034AEEC /* SwarmPlayground2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		68BA25C1223E9F870034AEEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */,
+				68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */,
+				68BA25CB223E9F870034AEEC /* Actions.sks in Resources */,
+				68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */,
+				68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		68BA25BF223E9F870034AEEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68BA25CF223E9F870034AEEC /* ViewController.swift in Sources */,
+				68BA25CD223E9F870034AEEC /* GameScene.swift in Sources */,
+				68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */,
+				68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */,
+				68BA25DE223E9FA50034AEEC /* Boid.swift in Sources */,
+				68BA25E1223E9FF10034AEEC /* CGExtensions.swift in Sources */,
+				68BA25E3223EA05C0034AEEC /* Utils.swift in Sources */,
+				68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		68BA25D2223E9F880034AEEC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				68BA25D3223E9F880034AEEC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		68BA25D7223E9F880034AEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		68BA25D8223E9F880034AEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		68BA25DA223E9F880034AEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SwarmPlayground2/SwarmPlayground2.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q3AL2NX4UR;
+				INFOPLIST_FILE = SwarmPlayground2/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caiogomes.SwarmPlayground2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		68BA25DB223E9F880034AEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SwarmPlayground2/SwarmPlayground2.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q3AL2NX4UR;
+				INFOPLIST_FILE = SwarmPlayground2/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caiogomes.SwarmPlayground2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		68BA25BE223E9F870034AEEC /* Build configuration list for PBXProject "SwarmPlayground2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68BA25D7223E9F880034AEEC /* Debug */,
+				68BA25D8223E9F880034AEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68BA25D9223E9F880034AEEC /* Build configuration list for PBXNativeTarget "SwarmPlayground2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68BA25DA223E9F880034AEEC /* Debug */,
+				68BA25DB223E9F880034AEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 68BA25BB223E9F870034AEEC /* Project object */;
+}

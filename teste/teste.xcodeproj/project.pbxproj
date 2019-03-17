@@ -1,0 +1,170 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		68BA2588223DBE220034AEEC /* teste.metal in Sources */ = {isa = PBXBuildFile; fileRef = 68BA2587223DBE220034AEEC /* teste.metal */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		68BA2584223DBE220034AEEC /* teste.metallib */ = {isa = PBXFileReference; explicitFileType = "archive.metal-library"; includeInIndex = 0; path = teste.metallib; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BA2587223DBE220034AEEC /* teste.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = teste.metal; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		68BA257D223DBE220034AEEC = {
+			isa = PBXGroup;
+			children = (
+				68BA2586223DBE220034AEEC /* teste */,
+				68BA2585223DBE220034AEEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		68BA2585223DBE220034AEEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68BA2584223DBE220034AEEC /* teste.metallib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		68BA2586223DBE220034AEEC /* teste */ = {
+			isa = PBXGroup;
+			children = (
+				68BA2587223DBE220034AEEC /* teste.metal */,
+			);
+			path = teste;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		68BA2583223DBE220034AEEC /* teste */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68BA258B223DBE220034AEEC /* Build configuration list for PBXNativeTarget "teste" */;
+			buildPhases = (
+				68BA2582223DBE220034AEEC /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = teste;
+			productName = teste;
+			productReference = 68BA2584223DBE220034AEEC /* teste.metallib */;
+			productType = "com.apple.product-type.metal-library";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		68BA257E223DBE220034AEEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Caio Gomes";
+				TargetAttributes = {
+					68BA2583223DBE220034AEEC = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 68BA2581223DBE220034AEEC /* Build configuration list for PBXProject "teste" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 68BA257D223DBE220034AEEC;
+			productRefGroup = 68BA2585223DBE220034AEEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				68BA2583223DBE220034AEEC /* teste */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		68BA2582223DBE220034AEEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68BA2588223DBE220034AEEC /* teste.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		68BA2589223DBE220034AEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		68BA258A223DBE220034AEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		68BA258C223DBE220034AEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q3AL2NX4UR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		68BA258D223DBE220034AEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q3AL2NX4UR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		68BA2581223DBE220034AEEC /* Build configuration list for PBXProject "teste" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68BA2589223DBE220034AEEC /* Debug */,
+				68BA258A223DBE220034AEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68BA258B223DBE220034AEEC /* Build configuration list for PBXNativeTarget "teste" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68BA258C223DBE220034AEEC /* Debug */,
+				68BA258D223DBE220034AEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 68BA257E223DBE220034AEEC /* Project object */;
+}
