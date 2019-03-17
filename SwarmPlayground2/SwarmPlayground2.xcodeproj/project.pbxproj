@@ -20,6 +20,9 @@
 		68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E4223EA0BB0034AEEC /* Behavior.swift */; };
 		68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25E6223EAC0E0034AEEC /* play-arrow.png */; };
 		68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E8223EB8700034AEEC /* OtherExtensions.swift */; };
+		68BA25EF223F100E0034AEEC /* firefly.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25EE223F100E0034AEEC /* firefly.png */; };
+		68BA25F2223F12160034AEEC /* FireflyEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25F0223F12160034AEEC /* FireflyEmitter.sks */; };
+		68BA25F3223F12160034AEEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25F1223F12160034AEEC /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,9 @@
 		68BA25E4223EA0BB0034AEEC /* Behavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
 		68BA25E6223EAC0E0034AEEC /* play-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-arrow.png"; sourceTree = "<group>"; };
 		68BA25E8223EB8700034AEEC /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
+		68BA25EE223F100E0034AEEC /* firefly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firefly.png; sourceTree = "<group>"; };
+		68BA25F0223F12160034AEEC /* FireflyEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireflyEmitter.sks; sourceTree = "<group>"; };
+		68BA25F1223F12160034AEEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +97,10 @@
 			children = (
 				68BA25DD223E9FA50034AEEC /* Boid.swift */,
 				68BA25E4223EA0BB0034AEEC /* Behavior.swift */,
+				68BA25EE223F100E0034AEEC /* firefly.png */,
 				68BA25E6223EAC0E0034AEEC /* play-arrow.png */,
+				68BA25F0223F12160034AEEC /* FireflyEmitter.sks */,
+				68BA25F1223F12160034AEEC /* Assets.xcassets */,
 			);
 			path = Boids;
 			sourceTree = "<group>";
@@ -165,10 +174,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */,
+				68BA25F2223F12160034AEEC /* FireflyEmitter.sks in Resources */,
 				68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */,
 				68BA25CB223E9F870034AEEC /* Actions.sks in Resources */,
 				68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */,
 				68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */,
+				68BA25F3223F12160034AEEC /* Assets.xcassets in Resources */,
+				68BA25EF223F100E0034AEEC /* firefly.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

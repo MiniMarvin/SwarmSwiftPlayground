@@ -7,6 +7,7 @@
 //
 
 // TODO: Update neighborhood with a lower rate
+// TODO: Add a alpha blending logic to the scenario
 
 import Foundation
 import SpriteKit
@@ -46,13 +47,17 @@ public class Boid: SKSpriteNode {
     
     public init(withTexture file:String = "play-arrow.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
-        let texture = SKTexture(imageNamed: file)
+        let texture = SKTexture(imageNamed: "firefly.png")
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
+        
+        self.alpha = 0.4
+        self.color = .yellow
+        self.colorBlendFactor = 0.1
         
         // Configure SpriteNode properties
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.position = CGPoint.zero
-        self.zPosition = 2
+        self.zPosition = 3
         self.name = "boid"
         self.id = id
         self.category = category
@@ -60,7 +65,7 @@ public class Boid: SKSpriteNode {
         
         self.orientation = orientation
         // TODO: Behaviors
-        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.3), Bound(intensity:0.4)]
+        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
 //        self.behaviors = []
     }
     

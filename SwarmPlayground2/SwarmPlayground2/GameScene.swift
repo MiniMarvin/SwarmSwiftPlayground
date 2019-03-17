@@ -19,10 +19,39 @@ public class GameScene: SKScene {
     public var nodeSize:CGFloat = 16
     
     public override func didMove(to view: SKView) {
+        self.backgroundColor = SKColor.black
         
-        self.backgroundColor = SKColor.white
+        self.buildAgents()
+    }
+    
+    
+    override public func update(_ currentTime: TimeInterval) {
+        // Called before each frame is rendered
+        let deltaTime: TimeInterval = self.lastUpdateTime == 0 ? 0 : currentTime - self.lastUpdateTime
+        self.lastUpdateTime = currentTime
+        
+        for boid in self.agents {
+            // Each boid should reevaluate its neighborhood and perception every so often
+            if frameCount % updateFrequency == 0 {
+                DispatchQueue.global(qos: .background).async {
+                    let startTime = Date()
+                    boid.evaluateNeighborhood(forFlock: self.agents)
+                    boid.updatePerception()
+
+                    DispatchQueue.main.async {
+                        boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
+                    }
+                }
+            } else {
+                boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
+            }
+        }
+        
+        frameCount += 1
+    }
+    
+    public func buildAgents() {
         var agents:[Boid] = []
-        
         // populate
         for i in 0...(agentsNum - 1) {
             let bd = Boid(withTexture: "play-arrow.png", category: 1, id: i, size: self.nodeSize, orientation: .north)
@@ -53,31 +82,5 @@ public class GameScene: SKScene {
         
         // Update the class variable
         self.agents = agents
-    }
-    
-    
-    override public func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        let deltaTime: TimeInterval = self.lastUpdateTime == 0 ? 0 : currentTime - self.lastUpdateTime
-        self.lastUpdateTime = currentTime
-        
-        for boid in self.agents {
-            // Each boid should reevaluate its neighborhood and perception every so often
-            if frameCount % updateFrequency == 0 {
-                DispatchQueue.global(qos: .background).async {
-                    let startTime = Date()
-                    boid.evaluateNeighborhood(forFlock: self.agents)
-                    boid.updatePerception()
-
-                    DispatchQueue.main.async {
-                        boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
-                    }
-                }
-            } else {
-                boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
-            }
-        }
-        
-        frameCount += 1
     }
 }
