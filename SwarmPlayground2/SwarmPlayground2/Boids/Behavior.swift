@@ -258,3 +258,29 @@ public class Evade: Behavior {
         boid.currentSpeed = evadeSpeed < boid.maximumFlockSpeed ? boid.maximumFlockSpeed : evadeSpeed
     }
 }
+
+public class FlockBehavior: Behavior {
+    public var name: String = "alignment"
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 1.0
+    public var intensities: [Float] = []
+    public var scaledVelocity: vector_float2 {
+        return velocity
+    }
+    
+    public required init() { }
+    
+    convenience init(intensities: [Float]) {
+        self.init(intensity: 1)
+        self.intensities = intensities
+    }
+    
+    func apply(toBoid boid: Boid) {
+        
+        let alignment = boid.perceivedDirection - boid.velocity
+        let cohesion = boid.perceivedCenter - boid.position.toVec()
+        let separation = boid.awayPerception
+        
+        self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
+    }
+}

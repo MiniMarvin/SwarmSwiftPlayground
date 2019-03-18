@@ -12,15 +12,16 @@ import GameplayKit
 
 public class GameScene: SKScene {
     
-    public var agentsNum:Int = 600
+    public var agentsNum:Int = 1000
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
     public let updateFrequency = 60
-    public var nodeSize:CGFloat = 8
+    public var nodeSize:CGFloat = 16
     
     public override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.black
+        self.physicsWorld.speed = 0
         
         self.buildAgents()
     }
@@ -44,9 +45,10 @@ public class GameScene: SKScene {
                     boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
 //                    }
                 }
-            } else {
-                boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
             }
+//            else {
+            boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
+//            }
         }
         
         frameCount += 1
@@ -79,6 +81,7 @@ public class GameScene: SKScene {
         // Setup the agents in the board
         agents.forEach { agent in
             agent.allNeighboors = agents
+            agent.updatePerception()
             self.addChild(agent)
         }
         

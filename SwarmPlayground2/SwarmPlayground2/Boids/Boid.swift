@@ -39,6 +39,7 @@ public class Boid: SKSpriteNode {
     public var orientation: BoidOrientation = .west
     public var perceivedCenter = vector_float2([0,0])
     public var perceivedDirection = vector_float2([0,0])
+    public var awayPerception = vector_float2([0,0])
     
     
     lazy var radius: Float = { return min(size.width.toDouble(), size.height.toDouble()) }()
@@ -73,9 +74,9 @@ public class Boid: SKSpriteNode {
         
         self.orientation = orientation
         // TODO: Behaviors
-//        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-//        self.behaviors = []
+        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+//        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+        self.behaviors = [FlockBehavior(intensities: [0.01, 0.1, 0.5]), Bound(intensity: 0.4)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -101,6 +102,10 @@ public class Boid: SKSpriteNode {
             if let alignment = behavior as? Alignment {
 //                alignment.apply(toBoid: self)
                 alignment.apply(toBoid: self, withAlignment: perceivedDirection)
+                continue
+            }
+            if let flockBehavior = behavior as? FlockBehavior {
+                flockBehavior.apply(toBoid: self)
                 continue
             }
             if let bound = behavior as? Bound {
@@ -193,12 +198,41 @@ public extension Boid {
         if neighborhood.count == 0 {
             return
         }
-        self.perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
-        self.perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
+//        self.perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
+//        self.perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
         
-        self.nearNodes = self.allNeighboors.filter { (boid) in
-            return boid.position.distance(from: self.position) < 100
+        
+        var nearNodes:[Boid] = []
+        var perceivedDirection = vector_float2([0,0])
+        var perceivedCenter = vector_float2([0,0])
+        let total = Float(neighborhood.count)
+        for node in neighborhood {
+            perceivedDirection += node.velocity
+            perceivedCenter += node.position.toVec()
+            if node.position.distance(from: self.position) < 100 {
+                nearNodes.append(node)
+            }
+            
+            let awayVector = (node.position - self.position)
+            awayPerception = awayVector.toVec() * (1/node.position.distance(from: self.position).toDouble())
         }
+        self.perceivedCenter = perceivedCenter/total
+        self.perceivedDirection = perceivedDirection/total
+        self.nearNodes = nearNodes
+        
+        
+//        for flockBoid in flock {
+//            guard flockBoid != boid else { continue }
+//
+//            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
+//                let awayVector = (flockBoid.position - boid.position)
+//                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
+//            }
+//        }
+        
+//        self.nearNodes = self.allNeighboors.filter { (boid) in
+//            return boid.position.distance(from: self.position) < 100
+//        }
     }
     
     public func evaluateNeighborhood(forFlock flock: [Boid]) {
