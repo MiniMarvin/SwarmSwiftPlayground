@@ -45,6 +45,9 @@ public class Boid: SKSpriteNode {
     lazy var neighborhoodSize: Double = { return radius * 4 }()
     
     
+    var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
+    
+    
     public init(withTexture file:String = "play-arrow.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
         let texture = SKTexture(imageNamed: "firefly.png")
@@ -53,6 +56,11 @@ public class Boid: SKSpriteNode {
         self.alpha = 0.4
         self.color = .yellow
         self.colorBlendFactor = 0.1
+        
+        // Add an emitter node
+        emitter.particleSize = CGSize(width:size/2, height:size)
+        emitter.position = CGPoint(x: 0, y: size/2)
+        self.addChild(emitter)
         
         // Configure SpriteNode properties
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -107,6 +115,14 @@ public class Boid: SKSpriteNode {
                 continue
             }
         }
+        
+//        self.alpha = randomInterval(min: 0, max: 5*Double(self.neighborhood.count)/Double(self.allNeighboors.count), precision: 5).toCGFloat()
+        let nb = self.allNeighboors.filter { (boid) in
+            return boid.position.distance(from: self.position) < 100
+        }
+        self.alpha = 2*CGFloat(nb.count)/CGFloat(self.allNeighboors.count)
+        self.emitter.alpha = self.alpha
+        
         
         // Sum the velocities supplied by each of the behaviors
         let v = self.behaviors.reduce(self.velocity) { $0 + $1.scaledVelocity }

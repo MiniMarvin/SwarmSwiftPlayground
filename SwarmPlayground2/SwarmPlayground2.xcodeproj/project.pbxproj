@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6859402F223F1C3A006A7B33 /* MyParticle.sks */; };
+		68594032223F1CF6006A7B33 /* Blue.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68594031223F1CF6006A7B33 /* Blue.sks */; };
+		68594034223F1D04006A7B33 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 68594033223F1D04006A7B33 /* circle.png */; };
 		68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25C6223E9F870034AEEC /* AppDelegate.swift */; };
 		68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25C8223E9F870034AEEC /* GameScene.sks */; };
 		68BA25CB223E9F870034AEEC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25CA223E9F870034AEEC /* Actions.sks */; };
@@ -21,11 +24,12 @@
 		68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25E6223EAC0E0034AEEC /* play-arrow.png */; };
 		68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E8223EB8700034AEEC /* OtherExtensions.swift */; };
 		68BA25EF223F100E0034AEEC /* firefly.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25EE223F100E0034AEEC /* firefly.png */; };
-		68BA25F2223F12160034AEEC /* FireflyEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25F0223F12160034AEEC /* FireflyEmitter.sks */; };
-		68BA25F3223F12160034AEEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25F1223F12160034AEEC /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6859402F223F1C3A006A7B33 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		68594031223F1CF6006A7B33 /* Blue.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Blue.sks; sourceTree = "<group>"; };
+		68594033223F1D04006A7B33 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
 		68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwarmPlayground2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BA25C6223E9F870034AEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68BA25C8223E9F870034AEEC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -43,8 +47,6 @@
 		68BA25E6223EAC0E0034AEEC /* play-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-arrow.png"; sourceTree = "<group>"; };
 		68BA25E8223EB8700034AEEC /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
 		68BA25EE223F100E0034AEEC /* firefly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firefly.png; sourceTree = "<group>"; };
-		68BA25F0223F12160034AEEC /* FireflyEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireflyEmitter.sks; sourceTree = "<group>"; };
-		68BA25F1223F12160034AEEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +101,9 @@
 				68BA25E4223EA0BB0034AEEC /* Behavior.swift */,
 				68BA25EE223F100E0034AEEC /* firefly.png */,
 				68BA25E6223EAC0E0034AEEC /* play-arrow.png */,
-				68BA25F0223F12160034AEEC /* FireflyEmitter.sks */,
-				68BA25F1223F12160034AEEC /* Assets.xcassets */,
+				68594031223F1CF6006A7B33 /* Blue.sks */,
+				68594033223F1D04006A7B33 /* circle.png */,
+				6859402F223F1C3A006A7B33 /* MyParticle.sks */,
 			);
 			path = Boids;
 			sourceTree = "<group>";
@@ -174,12 +177,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */,
-				68BA25F2223F12160034AEEC /* FireflyEmitter.sks in Resources */,
 				68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */,
+				68594032223F1CF6006A7B33 /* Blue.sks in Resources */,
+				68594034223F1D04006A7B33 /* circle.png in Resources */,
 				68BA25CB223E9F870034AEEC /* Actions.sks in Resources */,
 				68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */,
+				68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */,
 				68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */,
-				68BA25F3223F12160034AEEC /* Assets.xcassets in Resources */,
 				68BA25EF223F100E0034AEEC /* firefly.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
