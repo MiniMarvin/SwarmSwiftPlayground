@@ -5,18 +5,19 @@
 //  Created by Caio Gomes on 17/03/19.
 //  Copyright © 2019 Caio Gomes. All rights reserved.
 //
+//  Reference: https://github.com/dionlarson/Duet-Trail-Effect-SpriteKit-Playground
 
 import SpriteKit
 import GameplayKit
 
 public class GameScene: SKScene {
     
-    public var agentsNum:Int = 100
+    public var agentsNum:Int = 600
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
-    public let updateFrequency = 31
-    public var nodeSize:CGFloat = 16
+    public let updateFrequency = 60
+    public var nodeSize:CGFloat = 8
     
     public override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.black
@@ -33,14 +34,15 @@ public class GameScene: SKScene {
         for boid in self.agents {
             // Each boid should reevaluate its neighborhood and perception every so often
             if frameCount % updateFrequency == 0 {
+                
                 DispatchQueue.global(qos: .background).async {
                     let startTime = Date()
                     boid.evaluateNeighborhood(forFlock: self.agents)
                     boid.updatePerception()
 
-                    DispatchQueue.main.async {
-                        boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
-                    }
+//                    DispatchQueue.main.async {
+                    boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
+//                    }
                 }
             } else {
                 boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)

@@ -66,7 +66,7 @@ public class Cohesion: Behavior {
     public required init() { }
     
     public func apply(toBoid boid: Boid, withCenterOfMass centerOfMass: vector_double2) {
-        velocity = (centerOfMass - boid.position.toVec())
+        self.velocity = (centerOfMass - boid.position.toVec())
     }
     
     public func apply(toBoid boid: Boid, withNeighboors neighborhood:[Boid]) {

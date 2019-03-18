@@ -45,8 +45,8 @@ public class Boid: SKSpriteNode {
     lazy var neighborhoodSize: Double = { return radius * 4 }()
     
     
-    var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
-    
+//    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
+    public var nearNodes:[Boid] = []
     
     public init(withTexture file:String = "play-arrow.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
@@ -58,9 +58,9 @@ public class Boid: SKSpriteNode {
         self.colorBlendFactor = 0.1
         
         // Add an emitter node
-        emitter.particleSize = CGSize(width:size/2, height:size)
-        emitter.position = CGPoint(x: 0, y: size/2)
-        self.addChild(emitter)
+//        emitter.particleSize = CGSize(width:size/2, height:size)
+//        emitter.position = CGPoint(x: 0, y: size/2)
+//        self.addChild(emitter)
         
         // Configure SpriteNode properties
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -73,7 +73,8 @@ public class Boid: SKSpriteNode {
         
         self.orientation = orientation
         // TODO: Behaviors
-        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+//        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
 //        self.behaviors = []
     }
     
@@ -116,22 +117,11 @@ public class Boid: SKSpriteNode {
             }
         }
         
-//        self.alpha = randomInterval(min: 0, max: 5*Double(self.neighborhood.count)/Double(self.allNeighboors.count), precision: 5).toCGFloat()
-        let nb = self.allNeighboors.filter { (boid) in
-            return boid.position.distance(from: self.position) < 100
-        }
-        self.alpha = 2*CGFloat(nb.count)/CGFloat(self.allNeighboors.count)
-        self.emitter.alpha = self.alpha
-        
+        self.alpha = 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
+//        self.emitter.alpha = self.alpha
         
         // Sum the velocities supplied by each of the behaviors
         let v = self.behaviors.reduce(self.velocity) { $0 + $1.scaledVelocity }
-//        print("v: ", v)
-//        print("center: ", self.perceivedCenter)
-//        print("direction:", self.perceivedDirection)
-//        if v.x.isNaN || self.perceivedCenter.x.isNaN || self.perceivedDirection.x.isNaN {
-//            print("here8")
-//        }
         self.velocity += v / momentum
         
         // Limit the maximum velocity per update
@@ -205,6 +195,10 @@ public extension Boid {
         }
         self.perceivedDirection = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.velocity }) / Double(neighborhood.count)
         self.perceivedCenter = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.position.toVec() }) / Double(neighborhood.count)
+        
+        self.nearNodes = self.allNeighboors.filter { (boid) in
+            return boid.position.distance(from: self.position) < 100
+        }
     }
     
     public func evaluateNeighborhood(forFlock flock: [Boid]) {
