@@ -64,11 +64,11 @@ public class GameScene: SKScene {
             bd.position = CGPoint(x: randomStartPositionX, y: randomStartPositionY)
             
             // Varying fear thresholds prevents "boid walls" during evade
-            bd.fearThreshold = Double.random(in: bd.radius*4...bd.radius*6)
+            bd.fearThreshold = Float.random(in: bd.radius*4...bd.radius*6)
             
             // Assign slightly randomized speeds for variety in flock movement
-            let randomFlockSpeed = Double.random(in: 2...3)
-            let randomGoalSpeed = Double.random(in: 5...6)
+            let randomFlockSpeed = Float.random(in: 2...3)
+            let randomGoalSpeed = Float.random(in: 5...6)
             bd.maximumFlockSpeed = randomFlockSpeed
             bd.maximumGoalSpeed = randomGoalSpeed
             

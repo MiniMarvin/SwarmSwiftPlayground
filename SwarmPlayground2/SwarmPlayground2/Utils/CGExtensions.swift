@@ -11,8 +11,8 @@ import SpriteKit
 import CoreGraphics
 
 public extension CGFloat {
-    public func toDouble() -> Double {
-        return Double(self)
+    public func toDouble() -> Float {
+        return Float(self)
     }
     
     var degreesToRadians: CGFloat {
@@ -26,8 +26,8 @@ public extension CGFloat {
 
 
 extension CGPoint {
-    public func toVec() -> vector_double2 {
-        return vector_double2([self.x.toDouble(), self.y.toDouble()])
+    public func toVec() -> vector_float2 {
+        return vector_float2([self.x.toDouble(), self.y.toDouble()])
     }
     
     public func within(_ range: CGFloat, of point: CGPoint) -> Bool {

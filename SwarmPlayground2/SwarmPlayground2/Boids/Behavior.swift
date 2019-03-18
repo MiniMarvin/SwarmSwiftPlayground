@@ -15,14 +15,14 @@ import SpriteKit
 
 public protocol Behavior: AnyObject {
     // The result velocity after the calculation
-    var velocity: vector_double2 { get }
+    var velocity: vector_float2 { get }
 
     // The intensity applied to the velocity, bounded 0.0 to 1.0
-    var intensity: Double { get set }
+    var intensity: Float { get set }
     
 //    var name: String { get set }
 
-    init(intensity: Double)
+    init(intensity: Float)
 
     init()
 }
@@ -36,19 +36,19 @@ public protocol Behavior: AnyObject {
  scaled vector.
  */
 public extension Behavior {
-    public init(intensity: Double) {
+    public init(intensity: Float) {
         self.init()
         self.intensity = intensity
 
         // Make sure that intensity gets capped between 0 and 1
-        let valid: ClosedRange<Double> = 0.0...1.0
+        let valid: ClosedRange<Float> = 0.0...1.0
         guard valid.contains(intensity) else {
             self.intensity = (round(intensity) > valid.upperBound/2) ? valid.lowerBound : valid.upperBound
             return
         }
     }
 
-    public var scaledVelocity: vector_double2 {
+    public var scaledVelocity: vector_float2 {
         return velocity*intensity
     }
 }
@@ -60,23 +60,23 @@ public extension Behavior {
  */
 public class Cohesion: Behavior {
     public var name: String = "cohesion"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
     
     public required init() { }
     
-    public func apply(toBoid boid: Boid, withCenterOfMass centerOfMass: vector_double2) {
+    public func apply(toBoid boid: Boid, withCenterOfMass centerOfMass: vector_float2) {
         self.velocity = (centerOfMass - boid.position.toVec())
     }
     
     public func apply(toBoid boid: Boid, withNeighboors neighborhood:[Boid]) {
-        let perceivedCenter = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.position.toVec() }) / Double(neighborhood.count)
+        let perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
         self.apply(toBoid: boid, withCenterOfMass: perceivedCenter)
     }
     
     public func apply(toBoid boid: Boid) {
         if boid.getNeighboors().count == 0 {
-            self.velocity = vector_double2([0,0])
+            self.velocity = vector_float2([0,0])
         }
         else {
             self.apply(toBoid: boid, withNeighboors: boid.getNeighboors())
@@ -91,13 +91,13 @@ public class Cohesion: Behavior {
  */
 public class Separation: Behavior {
     public var name: String = "separation"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
     
     public required init() { }
     
     func apply(toBoid boid: Boid, inFlock flock: [Boid]) {
-        self.velocity = vector_double2([0,0])
+        self.velocity = vector_float2([0,0])
         
         for flockBoid in flock {
             guard flockBoid != boid else { continue }
@@ -121,23 +121,23 @@ public class Separation: Behavior {
  */
 public class Alignment: Behavior {
     public var name: String = "alignment"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
     
     public required init() { }
     
-    func apply(toBoid boid: Boid, withAlignment alignment: vector_double2) {
+    func apply(toBoid boid: Boid, withAlignment alignment: vector_float2) {
         self.velocity = (alignment - boid.velocity)
     }
     
     func apply(toBoid boid:Boid, withNeighboors neighborhood: [Boid]) {
-        let perceivedDirection = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.velocity }) / Double(neighborhood.count)
+        let perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
         self.apply(toBoid: boid, withAlignment: perceivedDirection)
     }
     
     func apply(toBoid boid:Boid) {
         if boid.getNeighboors().count == 0 {
-            self.velocity = vector_double2([0,0])
+            self.velocity = vector_float2([0,0])
         }
         else {
             self.apply(toBoid: boid, withNeighboors: boid.getNeighboors())
@@ -152,21 +152,21 @@ public class Alignment: Behavior {
  */
 public class Bound: Behavior {
     public var name: String = "bound"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
     
     public required init() { }
     
     func apply(toBoid boid: Boid) {
-        self.velocity = vector_double2([0,0])
+        self.velocity = vector_float2([0,0])
         
         // Make sure each boid has a parent scene frame
         guard let frame = boid.parent?.frame else {
             return
         }
         
-        let borderMargin: Double = 10
-        let borderAversion: Double = boid.currentSpeed
+        let borderMargin: Float = 10
+        let borderAversion: Float = boid.currentSpeed
         
         let horizontal = (-frame.size.width.toDouble()/2 + borderMargin)...(frame.size.width.toDouble()/2 - borderMargin)
         let vertical = (-frame.size.height.toDouble()/2 + borderMargin)...(frame.size.height.toDouble()/2 - borderMargin)
@@ -197,14 +197,14 @@ public class Bound: Behavior {
  */
 public class Seek: Behavior {
     public var name: String = "seek"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
-    public var point: vector_double2 = vector_double2([0,0])
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
+    public var point: vector_float2 = vector_float2([0,0])
     
     public required init() { }
     
     
-    convenience init(intensity: Double, point: vector_double2) {
+    convenience init(intensity: Float, point: vector_float2) {
         self.init(intensity: intensity)
         self.point = point
     }
@@ -232,13 +232,13 @@ public class Seek: Behavior {
  */
 public class Evade: Behavior {
     public var name: String = "evade"
-    public var velocity: vector_double2 = vector_double2([0,0])
-    public var intensity: Double = 0.0
-    public var point: vector_double2 = vector_double2([0,0])
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
+    public var point: vector_float2 = vector_float2([0,0])
     
     public required init() { }
     
-    convenience init(intensity: Double, point: vector_double2) {
+    convenience init(intensity: Float, point: vector_float2) {
         self.init(intensity: intensity)
         self.point = point
     }
@@ -252,7 +252,7 @@ public class Evade: Behavior {
         }
         self.velocity = boid.position.toVec() - self.point
         
-        let multiplier: Double = 150
+        let multiplier: Float = 150
         let distanceFromTouch = boid.position.distance(from: point.toCGPoint()).toDouble()
         let evadeSpeed = boid.maximumGoalSpeed * (multiplier/distanceFromTouch)
         boid.currentSpeed = evadeSpeed < boid.maximumFlockSpeed ? boid.maximumFlockSpeed : evadeSpeed

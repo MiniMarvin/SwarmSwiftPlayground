@@ -12,7 +12,7 @@
 import Foundation
 import SpriteKit
 
-public enum BoidOrientation: Double {
+public enum BoidOrientation: Float {
     case north = 0
     case east = 270
     case south = 180
@@ -21,14 +21,14 @@ public enum BoidOrientation: Double {
 
 public class Boid: SKSpriteNode {
     
-    public var maximumFlockSpeed: Double = 2
-    public var maximumGoalSpeed: Double = 4
-    public var currentSpeed: Double = 2
-    public var fearThreshold: Double = 100
-    public var velocity = vector_double2([0,0])
+    public var maximumFlockSpeed: Float = 2
+    public var maximumGoalSpeed: Float = 4
+    public var currentSpeed: Float = 2
+    public var fearThreshold: Float = 100
+    public var velocity = vector_float2([0,0])
     public var behaviors:[Behavior] = []
-    public let momentum: Double = 6
-    public let visionAngle: Double = 180
+    public let momentum: Float = 6
+    public let visionAngle: Float = 180
     
     public var id: Int = 0
     public var category: Int = 0
@@ -37,12 +37,12 @@ public class Boid: SKSpriteNode {
     public var neighborhood: [Boid] = []
     public var allNeighboors: [Boid] = []
     public var orientation: BoidOrientation = .west
-    public var perceivedCenter = vector_double2([0,0])
-    public var perceivedDirection = vector_double2([0,0])
+    public var perceivedCenter = vector_float2([0,0])
+    public var perceivedDirection = vector_float2([0,0])
     
     
-    lazy var radius: Double = { return min(size.width.toDouble(), size.height.toDouble()) }()
-    lazy var neighborhoodSize: Double = { return radius * 4 }()
+    lazy var radius: Float = { return min(size.width.toDouble(), size.height.toDouble()) }()
+    lazy var neighborhoodSize: Float = { return radius * 4 }()
     
     
 //    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
@@ -151,7 +151,7 @@ public extension Boid {
     }
     
     public func rotate() {
-        zRotation = CGFloat(-atan2(Double(velocity.x), Double(velocity.y))) - orientation.rawValue.toCGFloat().degreesToRadians
+        zRotation = CGFloat(-atan2(Float(velocity.x), Float(velocity.y))) - orientation.rawValue.toCGFloat().degreesToRadians
     }
 }
 
@@ -193,8 +193,8 @@ public extension Boid {
         if neighborhood.count == 0 {
             return
         }
-        self.perceivedDirection = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.velocity }) / Double(neighborhood.count)
-        self.perceivedCenter = (neighborhood.reduce(vector_double2([0,0])) { $0 + $1.position.toVec() }) / Double(neighborhood.count)
+        self.perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
+        self.perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
         
         self.nearNodes = self.allNeighboors.filter { (boid) in
             return boid.position.distance(from: self.position) < 100
