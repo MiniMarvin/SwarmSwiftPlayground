@@ -40,14 +40,11 @@ public class GameScene: SKScene {
                     let startTime = Date()
                     boid.evaluateNeighborhood(forFlock: self.agents)
                     boid.updatePerception()
-
-//                    DispatchQueue.main.async {
                     boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
-//                    }
                 }
             }
 //            else {
-            boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
+                boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
 //            }
         }
         
