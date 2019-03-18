@@ -63,3 +63,8 @@ public func randomInterval(min:Float, max:Float, precision:Int) -> Float {
     return r
 }
 
+
+
+// Global variables
+
+var __GLOBAL_POINTING_SPOT:CGPoint? = nil

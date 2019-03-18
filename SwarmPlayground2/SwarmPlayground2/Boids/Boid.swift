@@ -8,6 +8,9 @@
 
 // TODO: Update neighborhood with a lower rate
 // TODO: Add a alpha blending logic to the scenario
+// TODO: Enhance the behavio
+// TODO: Avoid the v = -v behavior
+// TODO: Add a method to make the flocks separe themselves
 
 import Foundation
 import SpriteKit
@@ -76,7 +79,7 @@ public class Boid: SKSpriteNode {
         // TODO: Behaviors
 //        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
 //        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-        self.behaviors = [FlockBehavior(intensities: [0.02, 0.1, 0.1]), Bound(intensity: 0.4)]
+        self.behaviors = [FlockBehavior(intensities: [0.001, 0.8, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -90,17 +93,14 @@ public class Boid: SKSpriteNode {
         
         for behavior in self.behaviors {
             if let cohension = behavior as? Cohesion {
-//                cohension.apply(toBoid: self)
                 cohension.apply(toBoid: self, withCenterOfMass:perceivedCenter)
                 continue
             }
             if let separation = behavior as? Separation {
-//                separation.apply(toBoid: self)
                 separation.apply(toBoid: self, inFlock: neighborhood)
                 continue
             }
             if let alignment = behavior as? Alignment {
-//                alignment.apply(toBoid: self)
                 alignment.apply(toBoid: self, withAlignment: perceivedDirection)
                 continue
             }
@@ -116,18 +116,29 @@ public class Boid: SKSpriteNode {
                 seek.apply(boid: self)
                 continue
             }
+            if let seekFinger = behavior as? SeekFinger {
+                seekFinger.apply(boid: self)
+                continue
+            }
             if let evade = behavior as? Evade {
                 evade.apply(boid: self)
                 continue
             }
         }
         
-        self.alpha = 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
+        self.alpha = 0.1 + 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
 //        self.emitter.alpha = self.alpha
         
         // Sum the velocities supplied by each of the behaviors
-        let v = self.behaviors.reduce(self.velocity) { $0 + $1.scaledVelocity }
-        self.velocity += v / momentum
+        var v = self.behaviors.reduce(self.velocity) { $0 + $1.scaledVelocity }
+        // Add a noise to the vector by rotating it
+        // Rotate randomly from -10 degrees to 10 degrees in the v vector
+        let vl = v
+        let t = Float.random(in: ClosedRange(uncheckedBounds: (-Float.pi/18, Float.pi/18)))
+        v.x = vl.x*cos(t) - vl.y*sin(t)
+        v.y = vl.x*sin(t) + vl.y*cos(t)
+        
+        self.velocity += v / self.momentum
         
         // Limit the maximum velocity per update
         self.applySpeedLimit()
@@ -202,7 +213,9 @@ public extension Boid {
         var nearNodes:[Boid] = []
         var perceivedDirection = vector_float2([0,0])
         var perceivedCenter = vector_float2([0,0])
+        var awayPerception = vector_float2([0,0])
         let total = Float(neighborhood.count)
+        
         for node in neighborhood {
             perceivedDirection += node.velocity
             perceivedCenter += node.position.toVec()
@@ -210,14 +223,31 @@ public extension Boid {
                 nearNodes.append(node)
             }
             
-            let awayVector = (node.position - self.position)
-            awayPerception = awayVector.toVec() * (1/node.position.distance(from: self.position).toDouble())
+            if node != self {
+                let dist = node.position.distance(from: self.position).toDouble()
+                if dist < self.radius*8 {
+                    let awayVector = (node.position - self.position)
+                    awayPerception -= awayVector.toVec()/dist
+                }
+            }
+//            let awayVector = (node.position - self.position)
+            
         }
         self.perceivedCenter = perceivedCenter/total
         self.perceivedDirection = perceivedDirection/total
+        self.awayPerception = awayPerception
         self.nearNodes = nearNodes
         
+//        for flockBoid in flock {
+//            guard flockBoid != boid else { continue }
+//
+//            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
+//                let awayVector = (flockBoid.position - boid.position)
+//                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
+//            }
+//        }
     }
+    
     
     public func evaluateNeighborhood(forFlock flock: [Boid]) {
         self.neighborhood = flock.filter { boid in

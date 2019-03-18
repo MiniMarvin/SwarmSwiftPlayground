@@ -238,12 +238,12 @@ public class Evade: Behavior {
     
     public required init() { }
     
-    convenience init(intensity: Float, point: vector_float2) {
+    public convenience init(intensity: Float, point: vector_float2) {
         self.init(intensity: intensity)
         self.point = point
     }
     
-    func apply(boid: Boid) {
+    public func apply(boid: Boid) {
         // Remove this behavior once the goal has been reached
         guard boid.position.within(boid.fearThreshold.toCGFloat(), of: point.toCGPoint()) else {
             boid.currentSpeed = boid.maximumFlockSpeed
@@ -260,7 +260,7 @@ public class Evade: Behavior {
 }
 
 public class FlockBehavior: Behavior {
-    public var name: String = "alignment"
+    public var name: String = "flockbehavior"
     public var velocity: vector_float2 = vector_float2([0,0])
     public var intensity: Float = 1.0
     public var intensities: [Float] = []
@@ -270,18 +270,55 @@ public class FlockBehavior: Behavior {
     
     public required init() { }
     
-    convenience init(intensities: [Float]) {
+    public convenience init(intensities: [Float]) {
         self.init(intensity: 1)
         self.intensities = intensities
     }
     
-    func apply(toBoid boid: Boid) {
+    public func apply(toBoid boid: Boid) {
         
         let alignment = boid.perceivedDirection - boid.velocity
         let cohesion = boid.perceivedCenter - boid.position.toVec()
-        let separation = boid.awayPerception
+        var separation = -boid.awayPerception
 //        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
         
         self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
+    }
+}
+
+/// WARNING: for performance reasons this behavior uses a GLOBAL VARIABLE!!!
+public class SeekFinger: Behavior {
+    public var name: String = "seekfinger"
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
+    public var centerRadius: CGFloat = 20.0
+    public var actionRadius: CGFloat = 200.0
+    
+    public required init() { }
+    
+    public convenience init(intensity: Float, centerRadius:CGFloat, actionRadius:CGFloat) {
+        self.init(intensity:intensity)
+        self.centerRadius = centerRadius
+        self.actionRadius = actionRadius
+    }
+    
+    func apply(boid: Boid) {
+        // Approximate touch size
+//        let goalThreshhold: CGFloat = 60.0
+        self.velocity = vector_float2([0,0])
+        
+        guard let pt = __GLOBAL_POINTING_SPOT else { return }
+        
+        // Remove this behavior once the goal has been reached
+        guard boid.position.outside(self.centerRadius, of: pt) else {
+            return
+        }
+        
+        if boid.position.outside(self.actionRadius, of: pt) {
+            return
+        }
+        
+//        boid.currentSpeed = boid.maximumGoalSpeed
+        self.velocity = (pt - boid.position).toVec()
     }
 }

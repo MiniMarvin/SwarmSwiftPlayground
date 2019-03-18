@@ -23,6 +23,8 @@ public class GameScene: SKScene {
         self.backgroundColor = SKColor.black
         self.physicsWorld.speed = 0
         
+//        __GLOBAL_POINTING_SPOT = CGPoint(x: 300, y: -200)
+        
         self.buildAgents()
     }
     
@@ -85,4 +87,30 @@ public class GameScene: SKScene {
         // Update the class variable
         self.agents = agents
     }
+    
+    
+//    public override func touchesBegan(with event: NSEvent) {
+//        print(event.touches(for: self.view!))
+//    }
+    
+    
+    // TODO: Split by the version to mac and to iOS
+    #if os(OSX)
+    public override func mouseDown(with event: NSEvent) {
+        let pt = event.location(in: self)
+        __GLOBAL_POINTING_SPOT = pt
+    }
+    
+    public override func mouseDragged(with event: NSEvent) {
+        let pt = event.location(in: self)
+        __GLOBAL_POINTING_SPOT = pt
+    }
+    
+    public override func mouseUp(with event: NSEvent) {
+        __GLOBAL_POINTING_SPOT = nil
+    }
+    #elseif os(iOS) || os(watchOS) || os(tvOS)
+    #endif
+    
+    
 }
