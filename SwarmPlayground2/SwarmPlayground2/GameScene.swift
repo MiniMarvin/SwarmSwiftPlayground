@@ -12,11 +12,11 @@ import GameplayKit
 
 public class GameScene: SKScene {
     
-    public var agentsNum:Int = 1000
+    public var agentsNum:Int = 600
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
-    public let updateFrequency = 60
+    public let updateFrequency = 30
     public var nodeSize:CGFloat = 16
     
     public override func didMove(to view: SKView) {
@@ -43,9 +43,9 @@ public class GameScene: SKScene {
                     boid.updateBoid(inFlock: self.agents, deltaTime: -startTime.timeIntervalSinceNow)
                 }
             }
-//            else {
+            else {
                 boid.updateBoid(inFlock: self.agents, deltaTime: deltaTime)
-//            }
+            }
         }
         
         frameCount += 1

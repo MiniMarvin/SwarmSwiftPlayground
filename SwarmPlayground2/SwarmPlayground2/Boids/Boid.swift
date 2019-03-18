@@ -74,9 +74,9 @@ public class Boid: SKSpriteNode {
         
         self.orientation = orientation
         // TODO: Behaviors
-        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+//        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
 //        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-        self.behaviors = [FlockBehavior(intensities: [0.01, 0.1, 0.5]), Bound(intensity: 0.4)]
+        self.behaviors = [FlockBehavior(intensities: [0.02, 0.1, 0.1]), Bound(intensity: 0.4)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -198,9 +198,6 @@ public extension Boid {
         if neighborhood.count == 0 {
             return
         }
-//        self.perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
-//        self.perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
-        
         
         var nearNodes:[Boid] = []
         var perceivedDirection = vector_float2([0,0])
@@ -220,19 +217,6 @@ public extension Boid {
         self.perceivedDirection = perceivedDirection/total
         self.nearNodes = nearNodes
         
-        
-//        for flockBoid in flock {
-//            guard flockBoid != boid else { continue }
-//
-//            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
-//                let awayVector = (flockBoid.position - boid.position)
-//                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
-//            }
-//        }
-        
-//        self.nearNodes = self.allNeighboors.filter { (boid) in
-//            return boid.position.distance(from: self.position) < 100
-//        }
     }
     
     public func evaluateNeighborhood(forFlock flock: [Boid]) {

@@ -280,6 +280,7 @@ public class FlockBehavior: Behavior {
         let alignment = boid.perceivedDirection - boid.velocity
         let cohesion = boid.perceivedCenter - boid.position.toVec()
         let separation = boid.awayPerception
+//        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
         
         self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
     }
