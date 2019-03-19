@@ -52,7 +52,13 @@ public class Boid: SKSpriteNode {
 //    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
     public var nearNodes:[Boid] = []
     
-    public init(withTexture file:String = "play-arrow.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
+    
+    // Every boid must know it's own zone
+    public var zone:Zone? = nil
+    public var scenario:Scenario? = nil
+    
+    
+    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
         let texture = SKTexture(imageNamed: "firefly.png")
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
@@ -60,11 +66,6 @@ public class Boid: SKSpriteNode {
         self.alpha = 0.4
         self.color = .yellow
         self.colorBlendFactor = 0.1
-        
-        // Add an emitter node
-//        emitter.particleSize = CGSize(width:size/2, height:size)
-//        emitter.position = CGPoint(x: 0, y: size/2)
-//        self.addChild(emitter)
         
         // Configure SpriteNode properties
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -78,8 +79,10 @@ public class Boid: SKSpriteNode {
         self.orientation = orientation
         // TODO: Behaviors
 //        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-//        self.behaviors = [Cohesion(intensity: 0.1), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-        self.behaviors = [FlockBehavior(intensities: [0.001, 0.8, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
+        
+        // FlockBehavior: Cohesion, Separation, Alignment
+//        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
+        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.3), AvoidZone(intensity: 1)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -112,6 +115,10 @@ public class Boid: SKSpriteNode {
                 bound.apply(toBoid: self)
                 continue
             }
+            if let avoid = behavior as? AvoidZone {
+                avoid.apply(toBoid: self, borderMargin: 30)
+                continue
+            }
             if let seek = behavior as? Seek {
                 seek.apply(boid: self)
                 continue
@@ -127,10 +134,12 @@ public class Boid: SKSpriteNode {
         }
         
         self.alpha = 0.1 + 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
-//        self.emitter.alpha = self.alpha
         
         // Sum the velocities supplied by each of the behaviors
-        var v = self.behaviors.reduce(self.velocity) { $0 + $1.scaledVelocity }
+        var v = self.behaviors.reduce(self.velocity) {
+            return $0 + $1.scaledVelocity
+        }
+        
         // Add a noise to the vector by rotating it
         // Rotate randomly from -10 degrees to 10 degrees in the v vector
         let vl = v
@@ -231,7 +240,6 @@ public extension Boid {
                 }
             }
 //            let awayVector = (node.position - self.position)
-            
         }
         self.perceivedCenter = perceivedCenter/total
         self.perceivedDirection = perceivedDirection/total

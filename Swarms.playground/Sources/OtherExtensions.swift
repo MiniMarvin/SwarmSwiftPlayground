@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-extension vector_double2 {
+extension vector_float2 {
     func toCGPoint() -> CGPoint {
         return convertDouble2CGPoint(self)
     }
@@ -19,7 +19,7 @@ extension vector_double2 {
     }
 }
 
-extension Double {
+extension Float {
     func toCGFloat() -> CGFloat {
         return CGFloat(self)
     }

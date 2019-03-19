@@ -20,6 +20,8 @@ public protocol Behavior: AnyObject {
     // The intensity applied to the velocity, bounded 0.0 to 1.0
     var intensity: Float { get set }
     
+    var name: String { get }
+    
 //    var name: String { get set }
 
     init(intensity: Float)
@@ -279,7 +281,7 @@ public class FlockBehavior: Behavior {
         
         let alignment = boid.perceivedDirection - boid.velocity
         let cohesion = boid.perceivedCenter - boid.position.toVec()
-        var separation = -boid.awayPerception
+        let separation = boid.awayPerception
 //        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
         
         self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
@@ -320,5 +322,131 @@ public class SeekFinger: Behavior {
         
 //        boid.currentSpeed = boid.maximumGoalSpeed
         self.velocity = (pt - boid.position).toVec()
+    }
+}
+
+
+public class AvoidZone: Behavior {
+    public var name: String = "avoidzone"
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
+    
+    public required init() { }
+    
+    func apply(toBoid boid: Boid, borderMargin: Float) {
+        self.velocity = vector_float2([0,0])
+        
+        // Make sure each boid has a parent scene frame
+        guard let _ = boid.parent?.frame else {
+            return
+        }
+
+        // Make sure that the scenario does exist
+        guard let _ = boid.scenario else {
+            return
+        }
+
+        guard let zone = boid.zone else {
+            return
+        }
+        
+        let borderAversion:Float = 1000
+        
+        let h0 = zone.computedRect.minY
+        let h1 = zone.computedRect.maxY
+        let w0 = zone.computedRect.minX
+        let w1 = zone.computedRect.maxX
+        
+        
+        if boid.position.x < w0 {
+            var allowed = false
+            // verify if it is in the allowed border
+            if let edges = zone.allowedEdges[.left] {
+                for edge in edges {
+                    if edge.contains(position: boid.position.y) {
+                        allowed = true
+                        break
+                    }
+                }
+            }
+            
+            if !allowed {
+                self.velocity.x += borderAversion
+//                print("left")
+            }
+            else { AvoidZone.updateZone(boid: boid) }
+        }
+
+        if boid.position.x > w1 {
+            // Verify if it is in the allowed border
+            var allowed = false
+            // verify if it is in the allowed border
+            if let edges = zone.allowedEdges[.right] {
+                for edge in edges {
+                    print(edge, boid.position.y)
+                    if edge.contains(position: boid.position.y) {
+                        allowed = true
+                        break
+                    }
+                }
+            }
+            
+            if !allowed {
+                self.velocity.x -= borderAversion
+//                print("right")
+            }
+            else { AvoidZone.updateZone(boid: boid) }
+        }
+
+        if boid.position.y < h0 {
+            // Verify if it is in the allowed border
+            var allowed = false
+            // verify if it is in the allowed border
+            if let edges = zone.allowedEdges[.bottom] {
+                for edge in edges {
+                    if edge.contains(position: boid.position.x) {
+                        allowed = true
+                        break
+                    }
+                }
+            }
+            
+            if !allowed {
+                self.velocity.y += borderAversion
+//                print("top")
+            }
+            else { AvoidZone.updateZone(boid: boid) }
+        }
+
+        if boid.position.y > h1 {
+            // Verify if it is in the allowed border
+            var allowed = false
+            // verify if it is in the allowed border
+            if let edges = zone.allowedEdges[.top] {
+                for edge in edges {
+                    if edge.contains(position: boid.position.x) {
+                        allowed = true
+                        break
+                    }
+                }
+            }
+            
+            if !allowed { self.velocity.y -= borderAversion }
+            else {
+                AvoidZone.updateZone(boid: boid)
+//                print("bottom")
+            }
+        }
+    }
+    
+    public static func updateZone(boid:Boid) {
+        guard let zones = boid.scenario?.zones else { return }
+        for zone in zones {
+//            print(zone.computedRect, boid.position, zone.computedRect.contains(boid.position))
+            if zone.computedRect.contains(boid.position) {
+                boid.zone = zone
+                break
+            }
+        }
     }
 }

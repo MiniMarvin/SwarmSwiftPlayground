@@ -10,6 +10,7 @@
 		68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6859402F223F1C3A006A7B33 /* MyParticle.sks */; };
 		68594032223F1CF6006A7B33 /* Blue.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68594031223F1CF6006A7B33 /* Blue.sks */; };
 		68594034223F1D04006A7B33 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 68594033223F1D04006A7B33 /* circle.png */; };
+		685AC20E224107AB00478B44 /* Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685AC20D224107AB00478B44 /* Zone.swift */; };
 		68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25C6223E9F870034AEEC /* AppDelegate.swift */; };
 		68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25C8223E9F870034AEEC /* GameScene.sks */; };
 		68BA25CB223E9F870034AEEC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25CA223E9F870034AEEC /* Actions.sks */; };
@@ -30,6 +31,7 @@
 		6859402F223F1C3A006A7B33 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		68594031223F1CF6006A7B33 /* Blue.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Blue.sks; sourceTree = "<group>"; };
 		68594033223F1D04006A7B33 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
+		685AC20D224107AB00478B44 /* Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; };
 		68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwarmPlayground2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BA25C6223E9F870034AEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68BA25C8223E9F870034AEEC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -60,6 +62,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		685AC20C2241079900478B44 /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				685AC20D224107AB00478B44 /* Zone.swift */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
 		68BA25BA223E9F870034AEEC = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 		68BA25C5223E9F870034AEEC /* SwarmPlayground2 */ = {
 			isa = PBXGroup;
 			children = (
+				685AC20C2241079900478B44 /* Zones */,
 				68BA25DF223E9FDC0034AEEC /* Utils */,
 				68BA25DC223E9F9B0034AEEC /* Boids */,
 				68BA25C6223E9F870034AEEC /* AppDelegate.swift */,
@@ -201,6 +212,7 @@
 				68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */,
 				68BA25DE223E9FA50034AEEC /* Boid.swift in Sources */,
 				68BA25E1223E9FF10034AEEC /* CGExtensions.swift in Sources */,
+				685AC20E224107AB00478B44 /* Zone.swift in Sources */,
 				68BA25E3223EA05C0034AEEC /* Utils.swift in Sources */,
 				68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */,
 			);

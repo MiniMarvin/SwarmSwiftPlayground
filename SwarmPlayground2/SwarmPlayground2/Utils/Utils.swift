@@ -68,3 +68,19 @@ public func randomInterval(min:Float, max:Float, precision:Int) -> Float {
 // Global variables
 
 var __GLOBAL_POINTING_SPOT:CGPoint? = nil
+var __GLOBAL_POINTING_LOCK:Bool = false
+
+func setGlobalPointing(point:CGPoint?) {
+    if !__GLOBAL_POINTING_LOCK {
+        __GLOBAL_POINTING_SPOT = point
+    }
+}
+
+func lockGlobalPointing() {
+    __GLOBAL_POINTING_LOCK = true
+}
+
+func unlockGlobalPointing() {
+    __GLOBAL_POINTING_LOCK = false
+}
+

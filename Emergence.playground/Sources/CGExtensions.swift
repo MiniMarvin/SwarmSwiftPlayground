@@ -15,17 +15,17 @@ public extension CGFloat {
         return Float(self)
     }
     
-    var degreesToRadians: CGFloat {
+    public var degreesToRadians: CGFloat {
         return self * .pi / 180
     }
     
-    var radiansToDegrees: CGFloat {
+    public var radiansToDegrees: CGFloat {
         return self * 180 / .pi
     }
 }
 
 
-extension CGPoint {
+public extension CGPoint {
     public func toVec() -> vector_float2 {
         return vector_float2([self.x.toDouble(), self.y.toDouble()])
     }

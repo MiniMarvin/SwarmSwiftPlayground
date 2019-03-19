@@ -127,7 +127,7 @@ public class GameScene: SKScene {
     }
     
     #elseif os(iOS) || os(watchOS) || os(tvOS)
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             unlockGlobalPointing()
@@ -135,14 +135,14 @@ public class GameScene: SKScene {
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             setGlobalPointing(point: pt)
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)
