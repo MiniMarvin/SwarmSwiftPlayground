@@ -1,4 +1,6 @@
 //: A SpriteKit based Playground
+// TODO: Make a glow under the fireflies
+
 
 import Foundation
 import PlaygroundSupport

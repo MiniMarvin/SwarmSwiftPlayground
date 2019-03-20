@@ -11,6 +11,8 @@
 // TODO: Enhance the behavio
 // TODO: Avoid the v = -v behavior
 // TODO: Add a method to make the flocks separe themselves
+// TODO: Enforce the boids to attach to the prize
+
 
 import Foundation
 import SpriteKit
@@ -56,9 +58,10 @@ public class Boid: SKSpriteNode {
     // Every boid must know it's own zone
     public var zone:Zone? = nil
     public var scenario:Scenario? = nil
+    public var glow:SKSpriteNode?
     
     
-    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
+    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west, behaviors:[Behavior] = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8), AvoidZone(intensity: 1)]) {
         
         let texture = SKTexture(imageNamed: file)
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
@@ -76,13 +79,25 @@ public class Boid: SKSpriteNode {
         self.category = category
         self.size = CGSize(width: size, height: size)
         
+        // TODO: Add glow in a performatic way
+        // Add a glow effect under the fireflies
+//        self.glow = SKSpriteNode(imageNamed: "spark.png")
+//        self.glow = SKSpriteNode(color: .yellow, size: self.size)
+//        self.glow?.color = .yellow
+//        self.glow?.size = CGSize(width: 6*self.size.width, height: 6*self.size.height)
+//        self.glow?.alpha = 0.01
+//        self.glow?.colorBlendFactor = 1
+//        self.glow?.blendMode = .alpha
+//        self.addChild(glow!)
+        
         self.orientation = orientation
         // TODO: Behaviors
         //        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
         
         // FlockBehavior: Cohesion, Separation, Alignment
         //        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
-        self.behaviors = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.7), AvoidZone(intensity: 1)]
+//        self.behaviors = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.7), AvoidZone(intensity: 1)]
+        self.behaviors = behaviors
     }
     
     public required init?(coder aDecoder: NSCoder) {

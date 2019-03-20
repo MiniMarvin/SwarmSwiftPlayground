@@ -355,11 +355,11 @@ public class AvoidZone: Behavior {
         
         let borderAversion:Float = 1000
         
-        let h0 = zone.computedRect.minY
-        let h1 = zone.computedRect.maxY
-        let w0 = zone.computedRect.minX
-        let w1 = zone.computedRect.maxX
-        
+        // TODO: Verify if the margin is okay
+        let h0 = zone.computedRect.minY + borderMargin.toCGFloat()
+        let h1 = zone.computedRect.maxY - borderMargin.toCGFloat()
+        let w0 = zone.computedRect.minX + borderMargin.toCGFloat()
+        let w1 = zone.computedRect.maxX - borderMargin.toCGFloat()
         
 //        print(h0, h1, w0, w1)
         

@@ -20,11 +20,13 @@ public class GameScene: SKScene {
     public let updateFrequency = 30
     public var nodeSize:CGFloat = 16
     public var scenario:Scenario?
-    public var prize:Prize?
+    public var prizes:[Prize] = []
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
 //    public var circle:CircularProgressBar?
+    
+    // Check every single prize
     
     public override func didMove(to view: SKView) {
         // Setup the scene
@@ -43,10 +45,13 @@ public class GameScene: SKScene {
         self.buildAgents(intervalX: (0)...(0.3), intervalY: (0.4)...(0.6))
         
         // Setup the prizes
-        self.prize = prize0(canvas: self.canvas!)
-        self.prize?.agents = self.agents
-        self.prize?.computeHorizon(distance: prizeHorizon)
-        self.addChild(prize!)
+        self.prizes = prize0(canvas: self.canvas!)
+        for prize in prizes {
+            prize.agents = self.agents
+            prize.computeHorizon(distance: prizeHorizon)
+            addChild(prize)
+        }
+        
         
         // Debug label
 //        self.label = SKLabelNode(text: "apisdfjapdsiofjsdfpoij")
@@ -65,16 +70,21 @@ public class GameScene: SKScene {
         // Setup the alpha of the trophy
         if frameCount % 4 == 0 {
             DispatchQueue.global(qos: .background).async {
-                self.prize?.computeHorizon(distance: self.prizeHorizon)
+                for prize in self.prizes {
+                    prize.computeHorizon(distance: self.prizeHorizon)
+                }
             }
         }
         else {
         DispatchQueue.global(qos: .background).async {
-                self.prize?.setAlpha()
-                //                print(self.prize?.alpha)
+                for prize in self.prizes {
+                    prize.setAlpha()
+                }
             }
             // WARNING: Must be sync to avoid memory access error!!!!
-            self.prize?.roundCircle()
+            for prize in self.prizes {
+                prize.roundCircle()
+            }
         }
         
         for boid in self.agents {

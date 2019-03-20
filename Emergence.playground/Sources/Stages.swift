@@ -16,10 +16,11 @@ func Zone0(canvas:CGRect) -> Scenario {
     return Scenario(zones: [zone1])
 }
 
-func prize0(canvas:CGRect) -> Prize {
+func prize0(canvas:CGRect) -> [Prize] {
     let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 300)
     let x = canvas.width*0.8 - canvas.width/2
     let y = canvas.height*0.5 - canvas.height/2
     prize.position = CGPoint(x: x, y: y)
-    return prize
+    
+    return [prize]
 }
