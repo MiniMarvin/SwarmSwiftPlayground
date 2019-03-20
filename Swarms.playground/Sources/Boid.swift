@@ -49,7 +49,7 @@ public class Boid: SKSpriteNode {
     lazy var neighborhoodSize: Float = { return radius * 4 }()
     
     
-//    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
+    //    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
     public var nearNodes:[Boid] = []
     
     
@@ -60,7 +60,7 @@ public class Boid: SKSpriteNode {
     
     public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
-        let texture = SKTexture(imageNamed: "firefly.png")
+        let texture = SKTexture(imageNamed: file)
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
         
         self.alpha = 0.4
@@ -78,11 +78,11 @@ public class Boid: SKSpriteNode {
         
         self.orientation = orientation
         // TODO: Behaviors
-//        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
+        //        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
         
         // FlockBehavior: Cohesion, Separation, Alignment
-//        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
-        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.3), AvoidZone(intensity: 1)]
+        //        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
+        self.behaviors = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.7), AvoidZone(intensity: 1)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -133,7 +133,7 @@ public class Boid: SKSpriteNode {
             }
         }
         
-        self.alpha = 0.1 + 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
+        self.alpha = 0.3 + 0.7*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
         
         // Sum the velocities supplied by each of the behaviors
         var v = self.behaviors.reduce(self.velocity) {
@@ -239,21 +239,21 @@ public extension Boid {
                     awayPerception -= awayVector.toVec()/dist
                 }
             }
-//            let awayVector = (node.position - self.position)
+            //            let awayVector = (node.position - self.position)
         }
         self.perceivedCenter = perceivedCenter/total
         self.perceivedDirection = perceivedDirection/total
         self.awayPerception = awayPerception
         self.nearNodes = nearNodes
         
-//        for flockBoid in flock {
-//            guard flockBoid != boid else { continue }
-//
-//            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
-//                let awayVector = (flockBoid.position - boid.position)
-//                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
-//            }
-//        }
+        //        for flockBoid in flock {
+        //            guard flockBoid != boid else { continue }
+        //
+        //            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
+        //                let awayVector = (flockBoid.position - boid.position)
+        //                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
+        //            }
+        //        }
     }
     
     

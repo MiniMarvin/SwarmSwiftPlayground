@@ -6,28 +6,39 @@
 //  Copyright © 2019 Caio Gomes. All rights reserved.
 //
 //  Reference: https://github.com/dionlarson/Duet-Trail-Effect-SpriteKit-Playground
+// TODO: Add sound effects and music CRITICAL
 
 import SpriteKit
 import GameplayKit
 
 public class GameScene: SKScene {
     
-    public var agentsNum:Int = 600
+    public var agentsNum:Int = 300
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
     public let updateFrequency = 30
     public var nodeSize:CGFloat = 16
     public var scenario:Scenario?
+    public var prize:Prize?
+    public var prizeHorizon:CGFloat = 100
     
     public override func didMove(to view: SKView) {
+        // Setup the scene
         self.backgroundColor = SKColor.black
-        //        self.physicsWorld.speed = 0
-        self.buildScenario()
+        self.physicsWorld.speed = 0
         
-        //        __GLOBAL_POINTING_SPOT = CGPoint(x: 300, y: -200)
+        // Setup the maze
+        self.scenario = Zone0(canvas: self.frame)
         
-        self.buildAgents()
+        // Setup the agents
+        self.buildAgents(intervalX: (0)...(0.3), intervalY: (0.4)...(0.6))
+        
+        // Setup the prizes
+        self.prize = prize0(canvas: self.frame)
+        self.prize?.agents = self.agents
+        self.prize?.computeHorizon(distance: prizeHorizon)
+        self.addChild(prize!)
     }
     
     
@@ -35,6 +46,19 @@ public class GameScene: SKScene {
         // Called before each frame is rendered
         let deltaTime: TimeInterval = self.lastUpdateTime == 0 ? 0 : currentTime - self.lastUpdateTime
         self.lastUpdateTime = currentTime
+        
+        // Setup the alpha of the trophy
+        if frameCount % 4 == 0 {
+            DispatchQueue.global(qos: .background).async {
+                self.prize?.computeHorizon(distance: self.prizeHorizon)
+            }
+        }
+        else {
+            DispatchQueue.global(qos: .background).async {
+                self.prize?.setAlpha()
+                //                print(self.prize?.alpha)
+            }
+        }
         
         for boid in self.agents {
             // Each boid should reevaluate its neighborhood and perception every so often
@@ -55,18 +79,18 @@ public class GameScene: SKScene {
         frameCount += 1
     }
     
-    public func buildAgents() {
+    // MARK: Generator functions
+    
+    public func buildAgents(intervalX:ClosedRange<CGFloat> = 0...(0.5), intervalY:ClosedRange<CGFloat> = 0...1) {
         var agents:[Boid] = []
         // populate
         for i in 0...(agentsNum - 1) {
-            let bd = Boid(withTexture: "play-arrow.png", category: 1, id: i, size: self.nodeSize, orientation: .north)
+            let bd = Boid(withTexture: "firefly (2).png", category: 1, id: i, size: self.nodeSize, orientation: .north)
             
             bd.id = i
             // Position the boid at a random scene location to start
-            //            let randomStartPositionX = CGFloat.random(in: 1...self.size.width) - self.size.width/2
-            //            let randomStartPositionY = CGFloat.random(in: 1...self.size.height) - self.size.height/2
-            let randomStartPositionX = CGFloat.random(in: 1...self.size.width/2) - self.size.width/2
-            let randomStartPositionY = CGFloat.random(in: 1...self.size.height) - self.size.height/2
+            let randomStartPositionX = CGFloat.random(in: intervalX)*self.size.width - self.size.width/2
+            let randomStartPositionY = CGFloat.random(in: intervalY)*self.size.height - self.size.height/2
             bd.position = CGPoint(x: randomStartPositionX, y: randomStartPositionY)
             
             // Varying fear thresholds prevents "boid walls" during evade
@@ -104,6 +128,8 @@ public class GameScene: SKScene {
         self.scenario = Scenario(zones: [zone1, zone2])
     }
     
+    // MARK: Click controller
+    
     
     // TODO: Split by the version to mac and to iOS
     #if os(OSX)
@@ -127,7 +153,7 @@ public class GameScene: SKScene {
     }
     
     #elseif os(iOS) || os(watchOS) || os(tvOS)
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             unlockGlobalPointing()
@@ -135,14 +161,14 @@ public class GameScene: SKScene {
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             setGlobalPointing(point: pt)
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)

@@ -25,14 +25,21 @@ public extension Float {
     }
 }
 
+#if swift(>=4.2)
+#else
+//print("Hello, Swift 4!")
+
 public extension Float {
-    public static func random(in range:ClosedRange<Float>) -> Float {
-        return randomInterval(min: range.lowerBound, max: range.upperBound, precision: 5)
-    }
+public static func random(in range:ClosedRange<Float>) -> Float {
+return randomInterval(min: range.lowerBound, max: range.upperBound, precision: 7) + range.lowerBound
+}
 }
 
 public extension CGFloat {
-    public static func random(in range:ClosedRange<CGFloat>) -> CGFloat {
-        return randomInterval(min: range.lowerBound.toDouble(), max: range.upperBound.toDouble(), precision: 5).toCGFloat()
-    }
+public static func random(in range:ClosedRange<CGFloat>) -> CGFloat {
+return randomInterval(min: range.lowerBound.toDouble(), max: range.upperBound.toDouble(), precision: 7).toCGFloat() + range.lowerBound
 }
+}
+
+#endif
+

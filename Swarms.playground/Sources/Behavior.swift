@@ -16,16 +16,16 @@ import SpriteKit
 public protocol Behavior: AnyObject {
     // The result velocity after the calculation
     var velocity: vector_float2 { get }
-
+    
     // The intensity applied to the velocity, bounded 0.0 to 1.0
     var intensity: Float { get set }
     
     var name: String { get }
     
-//    var name: String { get set }
-
+    //    var name: String { get set }
+    
     init(intensity: Float)
-
+    
     init()
 }
 
@@ -41,7 +41,7 @@ public extension Behavior {
     public init(intensity: Float) {
         self.init()
         self.intensity = intensity
-
+        
         // Make sure that intensity gets capped between 0 and 1
         let valid: ClosedRange<Float> = 0.0...1.0
         guard valid.contains(intensity) else {
@@ -49,7 +49,7 @@ public extension Behavior {
             return
         }
     }
-
+    
     public var scaledVelocity: vector_float2 {
         return velocity*intensity
     }
@@ -282,7 +282,7 @@ public class FlockBehavior: Behavior {
         let alignment = boid.perceivedDirection - boid.velocity
         let cohesion = boid.perceivedCenter - boid.position.toVec()
         let separation = boid.awayPerception
-//        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
+        //        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
         
         self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
     }
@@ -306,7 +306,7 @@ public class SeekFinger: Behavior {
     
     func apply(boid: Boid) {
         // Approximate touch size
-//        let goalThreshhold: CGFloat = 60.0
+        //        let goalThreshhold: CGFloat = 60.0
         self.velocity = vector_float2([0,0])
         
         guard let pt = __GLOBAL_POINTING_SPOT else { return }
@@ -320,7 +320,7 @@ public class SeekFinger: Behavior {
             return
         }
         
-//        boid.currentSpeed = boid.maximumGoalSpeed
+        //        boid.currentSpeed = boid.maximumGoalSpeed
         self.velocity = (pt - boid.position).toVec()
     }
 }
@@ -340,15 +340,18 @@ public class AvoidZone: Behavior {
         guard let _ = boid.parent?.frame else {
             return
         }
-
+//        print("aaaaa")
+        
         // Make sure that the scenario does exist
         guard let _ = boid.scenario else {
             return
         }
-
+//        print("bbbbb")
+        
         guard let zone = boid.zone else {
             return
         }
+//        print("ccccc")
         
         let borderAversion:Float = 1000
         
@@ -357,6 +360,8 @@ public class AvoidZone: Behavior {
         let w0 = zone.computedRect.minX
         let w1 = zone.computedRect.maxX
         
+        
+//        print(h0, h1, w0, w1)
         
         if boid.position.x < w0 {
             var allowed = false
@@ -376,14 +381,14 @@ public class AvoidZone: Behavior {
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
-
+        
         if boid.position.x > w1 {
             // Verify if it is in the allowed border
             var allowed = false
             // verify if it is in the allowed border
             if let edges = zone.allowedEdges[.right] {
                 for edge in edges {
-//                    print(edge, boid.position.y)
+                    //                    print(edge, boid.position.y)
                     if edge.contains(position: boid.position.y) {
                         allowed = true
                         break
@@ -397,7 +402,7 @@ public class AvoidZone: Behavior {
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
-
+        
         if boid.position.y < h0 {
             // Verify if it is in the allowed border
             var allowed = false
@@ -417,7 +422,7 @@ public class AvoidZone: Behavior {
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
-
+        
         if boid.position.y > h1 {
             // Verify if it is in the allowed border
             var allowed = false
@@ -441,8 +446,10 @@ public class AvoidZone: Behavior {
     
     public static func updateZone(boid:Boid) {
         guard let zones = boid.scenario?.zones else { return }
+//        print("iiiiihaaaa")
         for zone in zones {
-//            print(zone.computedRect, boid.position, zone.computedRect.contains(boid.position))
+            //            print(zone.computedRect, boid.position, zone.computedRect.contains(boid.position))
+//            print(zone.computedRect, boid.position)
             if zone.computedRect.contains(boid.position) {
                 boid.zone = zone
                 break

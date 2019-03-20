@@ -60,7 +60,7 @@ public class Boid: SKSpriteNode {
     
     public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west) {
         
-        let texture = SKTexture(imageNamed: "firefly.png")
+        let texture = SKTexture(imageNamed: file)
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
         
         self.alpha = 0.4
@@ -82,7 +82,7 @@ public class Boid: SKSpriteNode {
         
         // FlockBehavior: Cohesion, Separation, Alignment
         //        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
-        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.3), AvoidZone(intensity: 1)]
+        self.behaviors = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.7), AvoidZone(intensity: 1)]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -133,7 +133,7 @@ public class Boid: SKSpriteNode {
             }
         }
         
-        self.alpha = 0.1 + 2*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
+        self.alpha = 0.3 + 0.7*CGFloat(self.nearNodes.count)/CGFloat(self.allNeighboors.count)
         
         // Sum the velocities supplied by each of the behaviors
         var v = self.behaviors.reduce(self.velocity) {

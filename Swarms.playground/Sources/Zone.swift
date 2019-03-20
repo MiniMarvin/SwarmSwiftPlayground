@@ -71,22 +71,22 @@ public class Zone: NSObject {
         self.computedRect = CGRect(x: x, y: y, width: width, height: height)
         
         let bottom = self.allowedEdgesFractions[.bottom] ?? []
-        self.allowedEdges[.bottom] = bottom.compactMap({ pair in
+        self.allowedEdges[.bottom] = bottom.flatMap({ pair in
             return EdgePair(begin: pair.begin*width + x, length: pair.length*width)
         })
         
         let top = self.allowedEdgesFractions[.top] ?? []
-        self.allowedEdges[.top] = top.compactMap({ pair in
+        self.allowedEdges[.top] = top.flatMap({ pair in
             return EdgePair(begin: pair.begin*width + x, length: pair.length*width)
         })
         
         let right = self.allowedEdgesFractions[.right] ?? []
-        self.allowedEdges[.right] = right.compactMap({ pair in
+        self.allowedEdges[.right] = right.flatMap({ pair in
             return EdgePair(begin: pair.begin*height + y, length: pair.length*height)
         })
         
         let left = self.allowedEdgesFractions[.left] ?? []
-        self.allowedEdges[.left] = left.compactMap({ pair in
+        self.allowedEdges[.left] = left.flatMap({ pair in
             return EdgePair(begin: pair.begin*height + y, length: pair.length*height)
         })
         

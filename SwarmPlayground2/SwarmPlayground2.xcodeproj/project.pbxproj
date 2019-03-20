@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6815578A22427D3800003009 /* Prize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6815578922427D3800003009 /* Prize.swift */; };
+		6815578C22427E3800003009 /* gem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6815578B22427E3800003009 /* gem.png */; };
+		6815578E22427EB300003009 /* firefly.png in Resources */ = {isa = PBXBuildFile; fileRef = 6815578D22427EB300003009 /* firefly.png */; };
+		6815579022427F6100003009 /* firefly (2).png in Resources */ = {isa = PBXBuildFile; fileRef = 6815578F22427F6100003009 /* firefly (2).png */; };
+		681557922242984100003009 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 681557912242984100003009 /* MyParticle.sks */; };
+		6815579622429A8100003009 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6815579522429A8100003009 /* spark.png */; };
 		68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6859402F223F1C3A006A7B33 /* MyParticle.sks */; };
 		68594032223F1CF6006A7B33 /* Blue.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68594031223F1CF6006A7B33 /* Blue.sks */; };
 		68594034223F1D04006A7B33 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 68594033223F1D04006A7B33 /* circle.png */; };
@@ -24,10 +30,16 @@
 		68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E4223EA0BB0034AEEC /* Behavior.swift */; };
 		68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25E6223EAC0E0034AEEC /* play-arrow.png */; };
 		68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25E8223EB8700034AEEC /* OtherExtensions.swift */; };
-		68BA25EF223F100E0034AEEC /* firefly.png in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25EE223F100E0034AEEC /* firefly.png */; };
+		68EA37E122427445008E3CE9 /* Stages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EA37E022427445008E3CE9 /* Stages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6815578922427D3800003009 /* Prize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prize.swift; sourceTree = "<group>"; };
+		6815578B22427E3800003009 /* gem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gem.png; sourceTree = "<group>"; };
+		6815578D22427EB300003009 /* firefly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firefly.png; sourceTree = "<group>"; };
+		6815578F22427F6100003009 /* firefly (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "firefly (2).png"; sourceTree = "<group>"; };
+		681557912242984100003009 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		6815579522429A8100003009 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		6859402F223F1C3A006A7B33 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		68594031223F1CF6006A7B33 /* Blue.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Blue.sks; sourceTree = "<group>"; };
 		68594033223F1D04006A7B33 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
@@ -48,7 +60,7 @@
 		68BA25E4223EA0BB0034AEEC /* Behavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
 		68BA25E6223EAC0E0034AEEC /* play-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-arrow.png"; sourceTree = "<group>"; };
 		68BA25E8223EB8700034AEEC /* OtherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherExtensions.swift; sourceTree = "<group>"; };
-		68BA25EE223F100E0034AEEC /* firefly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firefly.png; sourceTree = "<group>"; };
+		68EA37E022427445008E3CE9 /* Stages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +74,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6815578822427D2700003009 /* Prizes */ = {
+			isa = PBXGroup;
+			children = (
+				6815578922427D3800003009 /* Prize.swift */,
+			);
+			path = Prizes;
+			sourceTree = "<group>";
+		};
+		6815579722429DFF00003009 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6815579522429A8100003009 /* spark.png */,
+				6815578F22427F6100003009 /* firefly (2).png */,
+				6815578D22427EB300003009 /* firefly.png */,
+				6815578B22427E3800003009 /* gem.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		685AC20C2241079900478B44 /* Zones */ = {
 			isa = PBXGroup;
 			children = (
 				685AC20D224107AB00478B44 /* Zone.swift */,
+				68EA37E022427445008E3CE9 /* Stages.swift */,
 			);
 			path = Zones;
 			sourceTree = "<group>";
@@ -89,6 +121,8 @@
 		68BA25C5223E9F870034AEEC /* SwarmPlayground2 */ = {
 			isa = PBXGroup;
 			children = (
+				6815579722429DFF00003009 /* Assets */,
+				6815578822427D2700003009 /* Prizes */,
 				685AC20C2241079900478B44 /* Zones */,
 				68BA25DF223E9FDC0034AEEC /* Utils */,
 				68BA25DC223E9F9B0034AEEC /* Boids */,
@@ -97,6 +131,7 @@
 				68BA25C8223E9F870034AEEC /* GameScene.sks */,
 				68BA25CA223E9F870034AEEC /* Actions.sks */,
 				68BA25CE223E9F870034AEEC /* ViewController.swift */,
+				681557912242984100003009 /* MyParticle.sks */,
 				68BA25D0223E9F880034AEEC /* Assets.xcassets */,
 				68BA25D2223E9F880034AEEC /* Main.storyboard */,
 				68BA25D5223E9F880034AEEC /* Info.plist */,
@@ -110,7 +145,6 @@
 			children = (
 				68BA25DD223E9FA50034AEEC /* Boid.swift */,
 				68BA25E4223EA0BB0034AEEC /* Behavior.swift */,
-				68BA25EE223F100E0034AEEC /* firefly.png */,
 				68BA25E6223EAC0E0034AEEC /* play-arrow.png */,
 				68594031223F1CF6006A7B33 /* Blue.sks */,
 				68594033223F1D04006A7B33 /* circle.png */,
@@ -188,14 +222,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */,
+				6815579022427F6100003009 /* firefly (2).png in Resources */,
+				6815578E22427EB300003009 /* firefly.png in Resources */,
 				68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */,
+				6815579622429A8100003009 /* spark.png in Resources */,
 				68594032223F1CF6006A7B33 /* Blue.sks in Resources */,
+				6815578C22427E3800003009 /* gem.png in Resources */,
 				68594034223F1D04006A7B33 /* circle.png in Resources */,
+				681557922242984100003009 /* MyParticle.sks in Resources */,
 				68BA25CB223E9F870034AEEC /* Actions.sks in Resources */,
 				68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */,
 				68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */,
 				68BA25E7223EAC0E0034AEEC /* play-arrow.png in Resources */,
-				68BA25EF223F100E0034AEEC /* firefly.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,10 +248,12 @@
 				68BA25CD223E9F870034AEEC /* GameScene.swift in Sources */,
 				68BA25E9223EB8700034AEEC /* OtherExtensions.swift in Sources */,
 				68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */,
+				6815578A22427D3800003009 /* Prize.swift in Sources */,
 				68BA25DE223E9FA50034AEEC /* Boid.swift in Sources */,
 				68BA25E1223E9FF10034AEEC /* CGExtensions.swift in Sources */,
 				685AC20E224107AB00478B44 /* Zone.swift in Sources */,
 				68BA25E3223EA05C0034AEEC /* Utils.swift in Sources */,
+				68EA37E122427445008E3CE9 /* Stages.swift in Sources */,
 				68BA25E5223EA0BB0034AEEC /* Behavior.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
