@@ -31,7 +31,7 @@ public class GameScene: SKScene {
     public override func didMove(to view: SKView) {
         // Setup the scene
         self.backgroundColor = SKColor.black
-        self.physicsWorld.speed = 0
+//        self.physicsWorld.speed = 0
         
         // Setup the canvas
 //        self.canvas = self.view?.window?.frame
@@ -66,6 +66,20 @@ public class GameScene: SKScene {
         // Called before each frame is rendered
         let deltaTime: TimeInterval = self.lastUpdateTime == 0 ? 0 : currentTime - self.lastUpdateTime
         self.lastUpdateTime = currentTime
+        
+        // Checkup if all the prizes have been found
+        var prizeCounter = 0
+        for prize in prizes {
+//            print(prize.didFinish())
+            if prize.didFinish() {
+                prizeCounter += 1
+            }
+        }
+        
+        if prizeCounter == prizes.count {
+//            print("ihhuhuhuhu")
+            self.finishLevel()
+        }
         
         // Setup the alpha of the trophy
         if frameCount % 4 == 0 {
@@ -221,7 +235,48 @@ public class GameScene: SKScene {
     }
     #endif
     
+    // MARK: Finish level
+    public func finishLevel() {
+        let agents = self.agents
+        self.agents = []
+        
+        
+        
+        // Tune the trophy
+        for prize in self.prizes {
+            prize.agents = []
+            prize.allowedUpdateAlpha = false
+            let node = SKShapeNode(circleOfRadius: 1)
+            node.fillColor = .yellow
+//            node.strokeColor = .yellow
+            node.glowWidth = 10
+            node.lineWidth = 0
+            node.alpha = 0.05
+            node.position = prize.position
+            let act = SKAction.fadeOut(withDuration: 2)
+            let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 2)
+            let group = SKAction.group([act, act1])
+            self.addChild(node)
+            node.run(group) {
+                node.removeFromParent()
+            }
+            prize.run(act) {
+                prize.removeFromParent()
+            }
+        }
+        
+        // Tune the agent
+        for agent in agents {
+            // TODO: Add smooth remotion
+            agent.removeAllChildren()
+            agent.removeFromParent()
+        }
+        
+    }
     
+    public func nextLevel() {
+        
+    }
     
     
 }

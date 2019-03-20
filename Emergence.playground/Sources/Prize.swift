@@ -19,7 +19,7 @@ public class Prize: SKSpriteNode {
     public var countToFill:Int
     public var progressCount:Int = 0
     public var progressCircle:CircularProgressBar
-    
+    public var allowedUpdateAlpha:Bool = true
     // MARK: Inits
     
     /// Creates a prize node
@@ -94,7 +94,9 @@ public class Prize: SKSpriteNode {
     
     /// Set the sprite alpha
     public func setAlpha() {
-        self.alpha = 0.2 + 0.8*CGFloat(self.horizon.count)/CGFloat(self.countToFill)
+        if self.allowedUpdateAlpha {
+            self.alpha = 0.2 + 0.8*CGFloat(self.horizon.count)/CGFloat(self.countToFill)
+        }
     }
     
     
@@ -106,11 +108,12 @@ public class Prize: SKSpriteNode {
     }
     
     public func didFinish() -> Bool {
-        return self.innerCount >= self.countToFill
+        return self.horizon.count >= self.countToFill
     }
     
     // TODO: Add the drain zone of the fireflies
     
+    // TODO: Add the keep feel zone
     
     
 }
