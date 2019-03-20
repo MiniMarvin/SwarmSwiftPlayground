@@ -17,6 +17,8 @@ public class Prize: SKSpriteNode {
     public var horizon:[Boid] = []
     public var innerCount:Int = 0
     public var countToFill:Int
+    public var progressCount:Int = 0
+    public var progressCircle:CircularProgressBar
     
     // MARK: Inits
     
@@ -30,6 +32,10 @@ public class Prize: SKSpriteNode {
         
         let texture = SKTexture(imageNamed: file)
         self.countToFill = countToFill
+        self.progressCircle = CircularProgressBar(radius: size * 0.8, width: 0.1 * size)
+        self.progressCircle.zPosition = -1
+        
+        
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
         
         self.alpha = 0.8
@@ -54,6 +60,10 @@ public class Prize: SKSpriteNode {
         glow.isHidden = false
         print(glow)
         self.addChild(glow)
+        
+        // Add progressbar
+//        self.progressCircle.radius = self.size.width
+        self.addChild(self.progressCircle)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -67,19 +77,24 @@ public class Prize: SKSpriteNode {
     /// - Parameter distance: The distance from the center that forms the horizon
     public func computeHorizon(distance: CGFloat) {
         var horizon:[Boid] = []
+        var count = 0
         for agent in self.agents{
             let dist = self.position.distance(from: agent.position)
             if dist < distance {
                 horizon.append(agent)
             }
+            if dist < self.progressCircle.radius {
+                count += 1
+            }
         }
         self.horizon = horizon
+        self.progressCount = count
     }
     
     
     /// Set the sprite alpha
     public func setAlpha() {
-        self.alpha = 0.2 + 0.8*CGFloat(self.horizon.count)/CGFloat(self.agents.count)
+        self.alpha = 0.2 + 0.8*CGFloat(self.horizon.count)/CGFloat(self.countToFill)
     }
     
     
@@ -87,7 +102,7 @@ public class Prize: SKSpriteNode {
     // TODO: Add progress bar
     // TODO: Add red zone
     public func roundCircle() {
-        
+        self.progressCircle.value = 100*Double(self.horizon.count)/Double(self.countToFill)
     }
     
     public func didFinish() -> Bool {

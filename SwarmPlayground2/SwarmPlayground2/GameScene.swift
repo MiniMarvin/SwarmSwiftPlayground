@@ -24,6 +24,7 @@ public class GameScene: SKScene {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
+    public var circle:ProgressCircle?
     
     public override func didMove(to view: SKView) {
         // Setup the scene
@@ -67,19 +68,7 @@ public class GameScene: SKScene {
                 self.prize?.computeHorizon(distance: self.prizeHorizon)
             }
             
-            // Reload the position of everything
-            //            if self.view?.window?.frame != self.canvas {
-            //                if let newCanvas = self.view?.window?.frame{
-            //                    if let oldCanvas = self.canvas {
-            //
-            //                        print(newCanvas, oldCanvas)
-            ////                        self.canvas = self.view?.window?.frame
-            //
-            //                        // Reload the scene
-            //                        self.reloadAgents(oldCanvas: oldCanvas, newCanvas: newCanvas)
-            //                    }
-            //                }
-            //            }
+            
         }
         else {
             DispatchQueue.global(qos: .background).async {
