@@ -9,18 +9,30 @@
 import Foundation
 import SpriteKit
 
-extension vector_float2 {
-    func toCGPoint() -> CGPoint {
+public extension vector_float2 {
+    public func toCGPoint() -> CGPoint {
         return convertDouble2CGPoint(self)
     }
     
-    func toCGVector() -> CGVector {
+    public func toCGVector() -> CGVector {
         return convertDouble2CGVector(self)
     }
 }
 
-extension Float {
-    func toCGFloat() -> CGFloat {
+public extension Float {
+    public func toCGFloat() -> CGFloat {
         return CGFloat(self)
+    }
+}
+
+public extension Float {
+    public static func random(in range:ClosedRange<Float>) -> Float {
+        return randomInterval(min: range.lowerBound, max: range.upperBound, precision: 5)
+    }
+}
+
+public extension CGFloat {
+    public static func random(in range:ClosedRange<CGFloat>) -> CGFloat {
+        return randomInterval(min: range.lowerBound.toDouble(), max: range.upperBound.toDouble(), precision: 5).toCGFloat()
     }
 }

@@ -22,10 +22,10 @@ public class GameScene: SKScene {
     
     public override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.black
-//        self.physicsWorld.speed = 0
+        //        self.physicsWorld.speed = 0
         self.buildScenario()
         
-//        __GLOBAL_POINTING_SPOT = CGPoint(x: 300, y: -200)
+        //        __GLOBAL_POINTING_SPOT = CGPoint(x: 300, y: -200)
         
         self.buildAgents()
     }
@@ -63,8 +63,8 @@ public class GameScene: SKScene {
             
             bd.id = i
             // Position the boid at a random scene location to start
-//            let randomStartPositionX = CGFloat.random(in: 1...self.size.width) - self.size.width/2
-//            let randomStartPositionY = CGFloat.random(in: 1...self.size.height) - self.size.height/2
+            //            let randomStartPositionX = CGFloat.random(in: 1...self.size.width) - self.size.width/2
+            //            let randomStartPositionY = CGFloat.random(in: 1...self.size.height) - self.size.height/2
             let randomStartPositionX = CGFloat.random(in: 1...self.size.width/2) - self.size.width/2
             let randomStartPositionY = CGFloat.random(in: 1...self.size.height) - self.size.height/2
             bd.position = CGPoint(x: randomStartPositionX, y: randomStartPositionY)
@@ -109,41 +109,41 @@ public class GameScene: SKScene {
     #if os(OSX)
     public override func mouseDown(with event: NSEvent) {
         let pt = event.location(in: self)
-//        __GLOBAL_POINTING_SPOT = pt
+        //        __GLOBAL_POINTING_SPOT = pt
         unlockGlobalPointing()
         setGlobalPointing(point: pt)
     }
     
     public override func mouseDragged(with event: NSEvent) {
         let pt = event.location(in: self)
-//        __GLOBAL_POINTING_SPOT = pt
+        //        __GLOBAL_POINTING_SPOT = pt
         setGlobalPointing(point: pt)
     }
     
     public override func mouseUp(with event: NSEvent) {
-//        __GLOBAL_POINTING_SPOT = nil
+        //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)
     }
     
     #elseif os(iOS) || os(watchOS) || os(tvOS)
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
-//            __GLOBAL_POINTING_SPOT = pt
+            //            __GLOBAL_POINTING_SPOT = pt
             unlockGlobalPointing()
             setGlobalPointing(point: pt)
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let pt = touches.first?.location(in: self) {
-//            __GLOBAL_POINTING_SPOT = pt
+            //            __GLOBAL_POINTING_SPOT = pt
             setGlobalPointing(point: pt)
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        __GLOBAL_POINTING_SPOT = nil
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)
     }
