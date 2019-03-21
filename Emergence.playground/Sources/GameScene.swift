@@ -25,8 +25,13 @@ public class GameScene: SKScene, Stage, Pointable {
     public var canvas:CGRect?
     public var label:SKLabelNode?
     
-    public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
-//    public var circle:CircularProgressBar?
+//    public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
+    public var pointingOutline:SKSpriteNode = SKSpriteNode(color: SKColor.red, size: CGSize(width: 0, height: 0))
+    
+    // Path technique
+    public var pathArray:[CGPoint] = []
+    public var coloredPath:CGMutablePath = CGMutablePath()
+    
     
     // Check every single prize
     
@@ -38,7 +43,6 @@ public class GameScene: SKScene, Stage, Pointable {
         // Setup the canvas
 //        self.canvas = self.view?.window?.frame
         self.canvas = self.frame
-//        print(self.view?.window)
         
         // Setup the maze
         self.scenario = self.levelZone(canvas: self.canvas!)
@@ -126,6 +130,7 @@ public class GameScene: SKScene, Stage, Pointable {
         // populate
         for i in 0...(agentsNum - 1) {
             let bd = Boid(withTexture: "firefly (2).png", category: 1, id: i, size: self.nodeSize, orientation: .north)
+//            let bd = Boid(withTexture: "spark.png", category: 1, id: i, size: self.nodeSize, orientation: .north)
             
             bd.id = i
             // Position the boid at a random scene location to start
@@ -240,7 +245,22 @@ public class GameScene: SKScene, Stage, Pointable {
     }
     #endif
     
-    // MARK: Finish level
+    // MARK: Level related
+    public func levelZone(canvas:CGRect) -> Scenario {
+        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.4, widthFraction: 1, heightFraction: 0.2, canvas: canvas, allowedEdgesFractions: [:])
+        
+        return Scenario(zones: [zone1])
+    }
+    
+    public func levelPrizes(canvas:CGRect) -> [Prize] {
+        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 300)
+        let x = canvas.width*0.8 - canvas.width/2
+        let y = canvas.height*0.5 - canvas.height/2
+        prize.position = CGPoint(x: x, y: y)
+        
+        return [prize]
+    }
+    
     public func finishLevel() {
         let agents = self.agents
         self.agents = []
@@ -275,7 +295,6 @@ public class GameScene: SKScene, Stage, Pointable {
             agent.removeAllChildren()
             agent.removeFromParent()
         }
-        
     }
     
     public func nextLevel() {
@@ -286,22 +305,18 @@ public class GameScene: SKScene, Stage, Pointable {
     
     
     // MARK: Finger related functions
-    public func highlightFinger() {
-    }
-    
-    public func levelZone(canvas:CGRect) -> Scenario {
-        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.4, widthFraction: 1, heightFraction: 0.2, canvas: canvas, allowedEdgesFractions: [:])
+    public func emitterFollower(point:CGPoint) {
+//        pointingOutline = SKSpriteNode(color: SKColor.red, size: CGSize(width: 0, height: 0))
+        pointingOutline.position = point
+        if pointingOutline.parent == nil {
+            self.addChild(pointingOutline)
+        }
         
-        return Scenario(zones: [zone1])
-    }
-    
-    public func levelPrizes(canvas:CGRect) -> [Prize] {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 300)
-        let x = canvas.width*0.8 - canvas.width/2
-        let y = canvas.height*0.5 - canvas.height/2
-        prize.position = CGPoint(x: x, y: y)
-        
-        return [prize]
+        if pointingOutline.children.count == 0 {
+            let redTrail = SKEmitterNode(fileNamed: "Red")!
+            redTrail.targetNode = self
+            pointingOutline.addChild(redTrail)
+        }
     }
     
 }

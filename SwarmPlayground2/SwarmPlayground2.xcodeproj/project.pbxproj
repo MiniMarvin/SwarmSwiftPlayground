@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68059B8C224430D4004F1346 /* trail.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68059B8B224430D3004F1346 /* trail.sks */; };
 		6815578A22427D3800003009 /* Prize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6815578922427D3800003009 /* Prize.swift */; };
 		6815578C22427E3800003009 /* gem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6815578B22427E3800003009 /* gem.png */; };
 		6815578E22427EB300003009 /* firefly.png in Resources */ = {isa = PBXBuildFile; fileRef = 6815578D22427EB300003009 /* firefly.png */; };
@@ -17,6 +18,7 @@
 		68594032223F1CF6006A7B33 /* Blue.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68594031223F1CF6006A7B33 /* Blue.sks */; };
 		68594034223F1D04006A7B33 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 68594033223F1D04006A7B33 /* circle.png */; };
 		685AC20E224107AB00478B44 /* Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685AC20D224107AB00478B44 /* Zone.swift */; };
+		6891DCDA2244367C006026F1 /* circle-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6891DCD92244367C006026F1 /* circle-outline.png */; };
 		68BA25C7223E9F870034AEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA25C6223E9F870034AEEC /* AppDelegate.swift */; };
 		68BA25C9223E9F870034AEEC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25C8223E9F870034AEEC /* GameScene.sks */; };
 		68BA25CB223E9F870034AEEC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 68BA25CA223E9F870034AEEC /* Actions.sks */; };
@@ -35,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		68059B8B224430D3004F1346 /* trail.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = trail.sks; sourceTree = "<group>"; };
 		6815578922427D3800003009 /* Prize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prize.swift; sourceTree = "<group>"; };
 		6815578B22427E3800003009 /* gem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gem.png; sourceTree = "<group>"; };
 		6815578D22427EB300003009 /* firefly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firefly.png; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		68594031223F1CF6006A7B33 /* Blue.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Blue.sks; sourceTree = "<group>"; };
 		68594033223F1D04006A7B33 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
 		685AC20D224107AB00478B44 /* Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; };
+		6891DCD92244367C006026F1 /* circle-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "circle-outline.png"; path = "../../../Emergence.playground/Resources/circle-outline.png"; sourceTree = "<group>"; };
 		68BA25C3223E9F870034AEEC /* SwarmPlayground2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwarmPlayground2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BA25C6223E9F870034AEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68BA25C8223E9F870034AEEC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 			children = (
 				6815579522429A8100003009 /* spark.png */,
 				6815578F22427F6100003009 /* firefly (2).png */,
+				68059B8B224430D3004F1346 /* trail.sks */,
+				6891DCD92244367C006026F1 /* circle-outline.png */,
 				6815578D22427EB300003009 /* firefly.png */,
 				6815578B22427E3800003009 /* gem.png */,
 			);
@@ -236,11 +242,13 @@
 				6815579022427F6100003009 /* firefly (2).png in Resources */,
 				6815578E22427EB300003009 /* firefly.png in Resources */,
 				68BA25D1223E9F880034AEEC /* Assets.xcassets in Resources */,
+				68059B8C224430D4004F1346 /* trail.sks in Resources */,
 				6815579622429A8100003009 /* spark.png in Resources */,
 				68594032223F1CF6006A7B33 /* Blue.sks in Resources */,
 				6815578C22427E3800003009 /* gem.png in Resources */,
 				68594034223F1D04006A7B33 /* circle.png in Resources */,
 				681557922242984100003009 /* MyParticle.sks in Resources */,
+				6891DCDA2244367C006026F1 /* circle-outline.png in Resources */,
 				68BA25CB223E9F870034AEEC /* Actions.sks in Resources */,
 				68BA25D4223E9F880034AEEC /* Main.storyboard in Resources */,
 				68594030223F1C3A006A7B33 /* MyParticle.sks in Resources */,

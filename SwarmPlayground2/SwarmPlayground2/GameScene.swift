@@ -24,7 +24,7 @@ public class GameScene: SKScene {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
-    public var circle:ProgressCircle?
+//    public var circle:ProgressCircle?
     
     public override func didMove(to view: SKView) {
         // Setup the scene
