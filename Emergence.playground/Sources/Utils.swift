@@ -69,6 +69,7 @@ public func randomInterval(min:Float, max:Float, precision:Int) -> Float {
 
 var __GLOBAL_POINTING_SPOT:CGPoint? = nil
 var __GLOBAL_POINTING_LOCK:Bool = false
+var __GLOBAL_POINTER_IS_WORKING:Int = 0
 
 func setGlobalPointing(point:CGPoint?) {
     if !__GLOBAL_POINTING_LOCK {

@@ -31,6 +31,12 @@ public class CircularProgressBar: SKNode {
             // Calculate the Bezier path for the circle
             let endAngle = CGFloat.pi/2 - 2 * CGFloat.pi * CGFloat(value)/100
             
+            if value < 1 {
+                self.isHidden = true
+            }
+            else {
+                self.isHidden = false
+            }
             
             
 //            #if os(OSX)

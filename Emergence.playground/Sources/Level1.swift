@@ -11,9 +11,9 @@
 import SpriteKit
 import GameplayKit
 
-public class GameScene: SKScene, Stage, Pointable {
+public class Level1: SKScene, Stage {
     
-    public var agentsNum:Int = 300
+    public var agentsNum:Int = 350
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
@@ -24,9 +24,8 @@ public class GameScene: SKScene, Stage, Pointable {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
-    
-    public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
 //    public var circle:CircularProgressBar?
+    public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
     
     // Check every single prize
     
@@ -44,7 +43,7 @@ public class GameScene: SKScene, Stage, Pointable {
         self.scenario = self.levelZone(canvas: self.canvas!)
         
         // Setup the agents
-        self.buildAgents(intervalX: (0)...(0.3), intervalY: (0.4)...(0.6))
+        self.buildAgents(intervalX: (0)...(0.4), intervalY: (0.6)...(1))
         
         // Setup the prizes
         self.prizes = self.levelPrizes(canvas: self.canvas!)
@@ -57,6 +56,7 @@ public class GameScene: SKScene, Stage, Pointable {
         
         // Setup pointing
         setupPointing(size: 100, pointingOutline: self.pointingOutline)
+        
     }
     
     
@@ -122,7 +122,6 @@ public class GameScene: SKScene, Stage, Pointable {
     
     public func buildAgents(intervalX:ClosedRange<CGFloat> = 0...(0.5), intervalY:ClosedRange<CGFloat> = 0...1) {
         var agents:[Boid] = []
-        
         // populate
         for i in 0...(agentsNum - 1) {
             let bd = Boid(withTexture: "firefly (2).png", category: 1, id: i, size: self.nodeSize, orientation: .north)
@@ -275,33 +274,31 @@ public class GameScene: SKScene, Stage, Pointable {
             agent.removeAllChildren()
             agent.removeFromParent()
         }
-        
     }
     
     public func nextLevel() {
         let transition = SKTransition.fade(withDuration: 1)
-        let nlvl = Level1(fileNamed: "GameScene")
+        let nlvl = GameScene(fileNamed: "GameScene")
         self.view?.presentScene(nlvl)
     }
     
     
-    // MARK: Finger related functions
-    public func highlightFinger() {
-    }
-    
+    // Level Buildups
     public func levelZone(canvas:CGRect) -> Scenario {
-        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.4, widthFraction: 1, heightFraction: 0.2, canvas: canvas, allowedEdgesFractions: [:])
+        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0, length: 0.2)]])
+        let zone2:Zone = Zone(startFractionX: 0.5, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0, length: 0.2)], .bottom: [EdgePair(begin: 0.8, length: 0.2)]])
+        let zone3:Zone = Zone(startFractionX: 0.5, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0.8, length: 0.2)], .top: [EdgePair(begin: 0.8, length: 0.2)]])
+        let zone4:Zone = Zone(startFractionX: 0, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0.8, length: 0.2)]])
         
-        return Scenario(zones: [zone1])
+        return Scenario(zones: [zone1, zone2, zone3, zone4])
     }
     
     public func levelPrizes(canvas:CGRect) -> [Prize] {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 300)
-        let x = canvas.width*0.8 - canvas.width/2
-        let y = canvas.height*0.5 - canvas.height/2
+        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 400)
+        let x = canvas.width*0.2 - canvas.width/2
+        let y = canvas.height*0.3 - canvas.height/2
         prize.position = CGPoint(x: x, y: y)
         
         return [prize]
     }
-    
 }

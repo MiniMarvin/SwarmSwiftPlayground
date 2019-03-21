@@ -61,7 +61,7 @@ public class Boid: SKSpriteNode {
     public var glow:SKSpriteNode?
     
     
-    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west, behaviors:[Behavior] = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8), AvoidZone(intensity: 1)]) {
+    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west, behaviors:[Behavior] = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1)]) {
         
         let texture = SKTexture(imageNamed: file)
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
@@ -140,6 +140,7 @@ public class Boid: SKSpriteNode {
             }
             if let seekFinger = behavior as? SeekFinger {
                 seekFinger.apply(boid: self)
+//                print(seekFinger.scaledVelocity)
                 continue
             }
             if let evade = behavior as? Evade {

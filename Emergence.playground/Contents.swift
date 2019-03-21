@@ -1,6 +1,13 @@
 //: A SpriteKit based Playground
 // TODO: Make a glow under the fireflies
 
+/**
+ # Emergence
+ Emergence is a playground that simulate the behavior of swarms
+ ## Try to enlight the world
+ Fill the magic stones with fireflies to enlight the world again
+ */
+
 
 import Foundation
 import PlaygroundSupport
@@ -18,5 +25,7 @@ if let scene = GameScene(fileNamed: "GameScene") {
 }
 
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
+
+
 
 

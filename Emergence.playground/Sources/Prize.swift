@@ -18,6 +18,7 @@ public class Prize: SKSpriteNode {
     public var innerCount:Int = 0
     public var countToFill:Int
     public var progressCount:Int = 0
+    public var fillHorizon:Int = 0
     public var progressCircle:CircularProgressBar
     public var allowedUpdateAlpha:Bool = true
     // MARK: Inits
@@ -61,6 +62,9 @@ public class Prize: SKSpriteNode {
         print(glow)
         self.addChild(glow)
         
+        // Setup the fill horizon
+        self.fillHorizon = Int(size)
+        
         // Add progressbar
 //        self.progressCircle.radius = self.size.width
         self.addChild(self.progressCircle)
@@ -83,7 +87,7 @@ public class Prize: SKSpriteNode {
             if dist < distance {
                 horizon.append(agent)
             }
-            if dist < self.progressCircle.radius {
+            if Int(dist) <= self.fillHorizon {
                 count += 1
             }
         }
@@ -104,11 +108,11 @@ public class Prize: SKSpriteNode {
     // TODO: Add progress bar
     // TODO: Add red zone
     public func roundCircle() {
-        self.progressCircle.value = 100*Double(self.horizon.count)/Double(self.countToFill)
+        self.progressCircle.value = 100*Double(self.progressCount)/Double(self.countToFill)
     }
     
     public func didFinish() -> Bool {
-        return self.horizon.count >= self.countToFill
+        return self.progressCount >= self.countToFill
     }
     
     // TODO: Add the drain zone of the fireflies

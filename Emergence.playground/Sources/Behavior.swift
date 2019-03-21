@@ -293,7 +293,7 @@ public class SeekFinger: Behavior {
     public var name: String = "seekfinger"
     public var velocity: vector_float2 = vector_float2([0,0])
     public var intensity: Float = 0.0
-    public var centerRadius: CGFloat = 20.0
+    public var centerRadius: CGFloat = 40.0
     public var actionRadius: CGFloat = 200.0
     
     public required init() { }
@@ -322,6 +322,9 @@ public class SeekFinger: Behavior {
         
         //        boid.currentSpeed = boid.maximumGoalSpeed
         self.velocity = (pt - boid.position).toVec()
+        
+        // Say that the finger attracts some node
+        __GLOBAL_POINTER_IS_WORKING = 5
     }
 }
 
