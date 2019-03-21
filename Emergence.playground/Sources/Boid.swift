@@ -68,7 +68,7 @@ public class Boid: SKSpriteNode {
         
         self.alpha = 0.4
         self.color = .yellow
-        self.colorBlendFactor = 0.1
+        self.colorBlendFactor = 0.6
         
         // Configure SpriteNode properties
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
