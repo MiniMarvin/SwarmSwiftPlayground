@@ -69,6 +69,10 @@ public class Cohesion: Behavior {
     
     public func apply(toBoid boid: Boid, withCenterOfMass centerOfMass: vector_float2) {
         self.velocity = (centerOfMass - boid.position.toVec())
+        
+        if __GLOBAL_POINTING_SPOT != nil {
+            self.velocity /= 3
+        }
     }
     
     public func apply(toBoid boid: Boid, withNeighboors neighborhood:[Boid]) {
@@ -107,6 +111,10 @@ public class Separation: Behavior {
             if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
                 let awayVector = (flockBoid.position - boid.position)
                 self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
+                
+                if __GLOBAL_POINTING_SPOT != nil {
+                    self.velocity *= 3
+                }
             }
         }
     }
@@ -202,6 +210,7 @@ public class Seek: Behavior {
     public var velocity: vector_float2 = vector_float2([0,0])
     public var intensity: Float = 0.0
     public var point: vector_float2 = vector_float2([0,0])
+    public var prize:Prize?
     
     public required init() { }
     
@@ -211,18 +220,35 @@ public class Seek: Behavior {
         self.point = point
     }
     
+    convenience init(intensity: Float, prize: Prize) {
+        self.init(intensity: intensity)
+        self.point = prize.position.toVec()
+        self.prize = prize
+    }
+    
+//    func apply(boid: Boid) {
+//        // Approximate touch size
+//        let goalThreshhold: CGFloat = 44.0
+//
+//        // Remove this behavior once the goal has been reached
+//        guard boid.position.outside(goalThreshhold, of: point.toCGPoint()) else {
+//            boid.currentSpeed = boid.maximumFlockSpeed
+//            boid.behaviors = boid.behaviors.filter { $0 as? Seek !== self }
+//            return
+//        }
+//        boid.currentSpeed = boid.maximumGoalSpeed
+//        velocity = (self.point - boid.position.toVec())
+//    }
+    
     func apply(boid: Boid) {
-        // Approximate touch size
-        let goalThreshhold: CGFloat = 44.0
-        
         // Remove this behavior once the goal has been reached
-        guard boid.position.outside(goalThreshhold, of: point.toCGPoint()) else {
-            boid.currentSpeed = boid.maximumFlockSpeed
-            boid.behaviors = boid.behaviors.filter { $0 as? Seek !== self }
-            return
+        guard let prize = self.prize else { return }
+        if boid.position.within(CGFloat(2*prize.fillHorizon), of: prize.position) {
+            self.velocity = (prize.position - boid.position).toVec()
         }
-        boid.currentSpeed = boid.maximumGoalSpeed
-        velocity = (self.point - boid.position.toVec())
+        
+//        boid.currentSpeed = boid.maximumGoalSpeed
+        
     }
 }
 

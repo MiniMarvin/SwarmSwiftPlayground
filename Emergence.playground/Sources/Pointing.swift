@@ -9,7 +9,7 @@ public protocol Pointable {
 }
 
 public func setupPointing(size:CGFloat, pointingOutline:SKSpriteNode) {
-    var sz = 1
+    let sz = 1
     
     pointingOutline.name = "setup"
     pointingOutline.color = .red
@@ -50,9 +50,9 @@ public func addPointing(pointingOutline:SKSpriteNode, scene:SKScene, point:CGPoi
         redTrail.particleScale = 1
         redTrail.particleTexture = SKTexture(imageNamed: "circle-outline")
 //        redTrail.numParticlesToEmit = 60
-        redTrail.particleScaleSpeed = -2
-        redTrail.particleBirthRate = 60
-        redTrail.particleLifetime = 0.3
+        redTrail.particleScaleSpeed = -3
+        redTrail.particleBirthRate = 30
+        redTrail.particleLifetime = 0.1
         redTrail.particleColorSequence = nil;
         redTrail.particleColorBlendFactor = 1;
         redTrail.particleColor = .yellow

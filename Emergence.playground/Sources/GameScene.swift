@@ -7,9 +7,11 @@
 //
 //  Reference: https://github.com/dionlarson/Duet-Trail-Effect-SpriteKit-Playground
 // TODO: Add sound effects and music CRITICAL
+// TODO: Remove the pointing effects after the finish level
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 public class GameScene: SKScene, Stage, Pointable {
     
@@ -24,17 +26,17 @@ public class GameScene: SKScene, Stage, Pointable {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
+
+    public var playable: Bool = true
+    public var musicPlayer:AVAudioPlayer?
     
-//    public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
+    var intervalX:ClosedRange<CGFloat> = (0)...(0.3)
+    var intervalY:ClosedRange<CGFloat> = (0.4)...(0.6)
+    var pointingSize:CGFloat = 100
+    
     public var pointingOutline:SKSpriteNode = SKSpriteNode(color: SKColor.red, size: CGSize(width: 0, height: 0))
     
-    // Path technique
-    public var pathArray:[CGPoint] = []
-    public var coloredPath:CGMutablePath = CGMutablePath()
-    
-    
     // Check every single prize
-    
     public override func didMove(to view: SKView) {
         // Setup the scene
         self.backgroundColor = SKColor.black
@@ -47,11 +49,14 @@ public class GameScene: SKScene, Stage, Pointable {
         // Setup the maze
         self.scenario = self.levelZone(canvas: self.canvas!)
         
-        // Setup the agents
-        self.buildAgents(intervalX: (0)...(0.3), intervalY: (0.4)...(0.6))
-        
         // Setup the prizes
         self.prizes = self.levelPrizes(canvas: self.canvas!)
+        
+        // Setup the agents
+        self.buildAgents(intervalX: self.intervalX, intervalY: self.intervalY)
+        
+        
+        // Setup the level agents into the prize itself
         for prize in prizes {
             prize.agents = self.agents
             prize.computeHorizon(distance: prizeHorizon)
@@ -60,9 +65,17 @@ public class GameScene: SKScene, Stage, Pointable {
         
         
         // Setup pointing
-        setupPointing(size: 100, pointingOutline: self.pointingOutline)
+        setupPointing(size: self.pointingSize, pointingOutline: self.pointingOutline)
+        
+        //Register for the applicationWillResignActive anywhere in your app.
+//        let app = UIApplication.shared
+//        NotificationCenter.default.addObserver(self, selector: #selector(GameScene.applicationWillResignActive(notification:)), name: NSNotification.Name.UIApplicationWillResignActive, object: app)
     }
     
+//    @objc func applicationWillResignActive(notification: NSNotification) {
+//
+//    }
+
     
     override public func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -129,8 +142,7 @@ public class GameScene: SKScene, Stage, Pointable {
         
         // populate
         for i in 0...(agentsNum - 1) {
-            let bd = Boid(withTexture: "firefly (2).png", category: 1, id: i, size: self.nodeSize, orientation: .north)
-//            let bd = Boid(withTexture: "spark.png", category: 1, id: i, size: self.nodeSize, orientation: .north)
+            let bd = Boid(withTexture: "firefly (2).png", category: 1, id: i, size: self.nodeSize, orientation: .north, behaviors: [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1), Seek(intensity: 0.1, prize: self.prizes[0])])
             
             bd.id = i
             // Position the boid at a random scene location to start
@@ -218,6 +230,7 @@ public class GameScene: SKScene, Stage, Pointable {
     
     #elseif os(iOS) || os(watchOS) || os(tvOS)
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             unlockGlobalPointing()
@@ -228,6 +241,7 @@ public class GameScene: SKScene, Stage, Pointable {
     }
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             setGlobalPointing(point: pt)
@@ -237,6 +251,7 @@ public class GameScene: SKScene, Stage, Pointable {
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)
@@ -264,6 +279,10 @@ public class GameScene: SKScene, Stage, Pointable {
     public func finishLevel() {
         let agents = self.agents
         self.agents = []
+        self.pointingOutline.removeFromParent()
+        self.playable = false
+        
+        self.playmusic(fileName: "level completion", withExtension: "mp3")
         
         // Tune the trophy
         for prize in self.prizes {
@@ -276,8 +295,8 @@ public class GameScene: SKScene, Stage, Pointable {
             node.lineWidth = 0
             node.alpha = 0.05
             node.position = prize.position
-            let act = SKAction.fadeOut(withDuration: 2)
-            let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 2)
+            let act = SKAction.fadeOut(withDuration: 5)
+            let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 5)
             let group = SKAction.group([act, act1])
             self.addChild(node)
             node.run(group) {
@@ -299,23 +318,31 @@ public class GameScene: SKScene, Stage, Pointable {
     
     public func nextLevel() {
         let transition = SKTransition.fade(withDuration: 1)
-        let nlvl = Level1(fileNamed: "GameScene")
-        self.view?.presentScene(nlvl)
+        if let scene = Level1(fileNamed: "GameScene") {
+            scene.scaleMode = .aspectFit
+            self.view?.presentScene(scene)
+        }
     }
     
     
-    // MARK: Finger related functions
-    public func emitterFollower(point:CGPoint) {
-//        pointingOutline = SKSpriteNode(color: SKColor.red, size: CGSize(width: 0, height: 0))
-        pointingOutline.position = point
-        if pointingOutline.parent == nil {
-            self.addChild(pointingOutline)
-        }
+    // MARK: Audio Zone
+    func playmusic(fileName name: String, withExtension ext:String) {
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext) else { return }
         
-        if pointingOutline.children.count == 0 {
-            let redTrail = SKEmitterNode(fileNamed: "Red")!
-            redTrail.targetNode = self
-            pointingOutline.addChild(redTrail)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            self.musicPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            guard let player = self.musicPlayer else { return }
+            
+            player.volume = 0.6
+            player.play()
+        }
+        catch let error {
+            print(error.localizedDescription)
         }
     }
     

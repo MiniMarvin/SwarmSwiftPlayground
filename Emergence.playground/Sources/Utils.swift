@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import AVFoundation
 
 // MARK: Enums
 
@@ -61,6 +62,35 @@ public func randomInterval(min:Float, max:Float, precision:Int) -> Float {
     }
     let r = (max - min)*Float(arc4random()%(UInt32(m) + UInt32(1)))/Float(m)
     return r
+}
+
+
+
+// Play Song
+// WARNING: modifying function
+public func playBackgroundSound(player:inout AVAudioPlayer?) {
+    guard let url = Bundle.main.url(forResource: "Forest Song", withExtension: "mp3") else { return }
+    
+    do {
+        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        try AVAudioSession.sharedInstance().setActive(true)
+        
+        /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+        
+        guard let player = player else { return }
+        
+        player.volume = 0.4
+        player.numberOfLoops = -1
+        player.play()
+    }
+    catch let error {
+        print(error.localizedDescription)
+    }
+}
+
+public func stopBackgroundSound(player: inout AVAudioPlayer?) {
+    player?.stop()
 }
 
 

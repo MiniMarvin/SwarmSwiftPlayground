@@ -18,6 +18,8 @@ public class Prize: SKSpriteNode {
     public var innerCount:Int = 0
     public var countToFill:Int
     public var progressCount:Int = 0
+    
+    /// Size of prize's horizon
     public var fillHorizon:Int = 0
     public var progressCircle:CircularProgressBar
     public var allowedUpdateAlpha:Bool = true

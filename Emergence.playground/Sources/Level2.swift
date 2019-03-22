@@ -13,7 +13,7 @@ import GameplayKit
 
 public class Level2: SKScene, Stage {
     
-    public var agentsNum:Int = 400
+    public var agentsNum:Int = 350
     public var agents:[Boid] = []
     public var lastUpdateTime: TimeInterval = 0
     public var frameCount: Int = 0
@@ -24,7 +24,8 @@ public class Level2: SKScene, Stage {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
-//    public var circle:CircularProgressBar?
+    public var playable:Bool = true
+    //    public var circle:CircularProgressBar?
     public var pointingOutline:SKSpriteNode = SKSpriteNode(imageNamed: "circle-outline.png")
     
     // Check every single prize
@@ -32,12 +33,12 @@ public class Level2: SKScene, Stage {
     public override func didMove(to view: SKView) {
         // Setup the scene
         self.backgroundColor = SKColor.black
-//        self.physicsWorld.speed = 0
+        //        self.physicsWorld.speed = 0
         
         // Setup the canvas
-//        self.canvas = self.view?.window?.frame
+        //        self.canvas = self.view?.window?.frame
         self.canvas = self.frame
-//        print(self.view?.window)
+        //        print(self.view?.window)
         
         // Setup the maze
         self.scenario = self.levelZone(canvas: self.canvas!)
@@ -68,14 +69,14 @@ public class Level2: SKScene, Stage {
         // Checkup if all the prizes have been found
         var prizeCounter = 0
         for prize in prizes {
-//            print(prize.didFinish())
+            //            print(prize.didFinish())
             if prize.didFinish() {
                 prizeCounter += 1
             }
         }
         
         if prizeCounter == prizes.count {
-//            print("ihhuhuhuhu")
+            //            print("ihhuhuhuhu")
             self.finishLevel()
         }
         
@@ -88,7 +89,7 @@ public class Level2: SKScene, Stage {
             }
         }
         else {
-        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .background).async {
                 for prize in self.prizes {
                     prize.setAlpha()
                 }
@@ -212,6 +213,7 @@ public class Level2: SKScene, Stage {
     
     #elseif os(iOS) || os(watchOS) || os(tvOS)
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             unlockGlobalPointing()
@@ -222,6 +224,7 @@ public class Level2: SKScene, Stage {
     }
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         if let pt = touches.first?.location(in: self) {
             //            __GLOBAL_POINTING_SPOT = pt
             setGlobalPointing(point: pt)
@@ -231,6 +234,7 @@ public class Level2: SKScene, Stage {
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !self.playable { return }
         //        __GLOBAL_POINTING_SPOT = nil
         unlockGlobalPointing()
         setGlobalPointing(point: nil)
@@ -243,6 +247,8 @@ public class Level2: SKScene, Stage {
     public func finishLevel() {
         let agents = self.agents
         self.agents = []
+        self.pointingOutline.removeFromParent()
+        self.playable = false
         
         // Tune the trophy
         for prize in self.prizes {
@@ -250,7 +256,7 @@ public class Level2: SKScene, Stage {
             prize.allowedUpdateAlpha = false
             let node = SKShapeNode(circleOfRadius: 1)
             node.fillColor = .yellow
-//            node.strokeColor = .yellow
+            //            node.strokeColor = .yellow
             node.glowWidth = 10
             node.lineWidth = 0
             node.alpha = 0.05
@@ -278,28 +284,29 @@ public class Level2: SKScene, Stage {
     
     public func nextLevel() {
         let transition = SKTransition.fade(withDuration: 1)
-        let nlvl = GameScene(fileNamed: "GameScene")
-        self.view?.presentScene(nlvl)
+        if let scene = GameScene(fileNamed: "GameScene") {
+            scene.scaleMode = .aspectFit
+            self.view?.presentScene(scene)
+        }
     }
     
     
     // Level Buildups
     public func levelZone(canvas:CGRect) -> Scenario {
-        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0, length: 0.5)]])
-        let zone2:Zone = Zone(startFractionX: 0.5, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0, length: 0.5)], .bottom: [EdgePair(begin: 0.5, length: 0.5)]])
-        let zone3:Zone = Zone(startFractionX: 0.5, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0, length: 0.5)], .top: [EdgePair(begin: 0.5, length: 0.5)]])
-        let zone4:Zone = Zone(startFractionX: 0, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0, length: 0.5)]])
+        let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0, length: 0.2)]])
+        let zone2:Zone = Zone(startFractionX: 0.5, startFractionY: 0.5, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0, length: 0.2)], .bottom: [EdgePair(begin: 0.8, length: 0.2)]])
+        let zone3:Zone = Zone(startFractionX: 0.5, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.left:[EdgePair(begin: 0.8, length: 0.2)], .top: [EdgePair(begin: 0.8, length: 0.2)]])
+        let zone4:Zone = Zone(startFractionX: 0, startFractionY: 0, widthFraction: 0.5, heightFraction: 0.5, canvas: canvas, allowedEdgesFractions: [.right:[EdgePair(begin: 0.8, length: 0.2)]])
         
         return Scenario(zones: [zone1, zone2, zone3, zone4])
     }
     
     public func levelPrizes(canvas:CGRect) -> [Prize] {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: 400)
+        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: self.agentsNum)
         let x = canvas.width*0.2 - canvas.width/2
         let y = canvas.height*0.3 - canvas.height/2
         prize.position = CGPoint(x: x, y: y)
         
         return [prize]
     }
-    
 }
