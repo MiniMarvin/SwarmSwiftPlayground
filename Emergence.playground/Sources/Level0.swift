@@ -38,7 +38,7 @@ public class Level0 : GameScene {
     }
     
     public override func levelPrizes(canvas:CGRect) -> [Prize] {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: self.agentsNum)
+        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: Int(Float(self.agentsNum)*0.8))
         let x = canvas.width*0.85 - canvas.width/2
         let y = canvas.height*0.15 - canvas.height/2
         prize.position = CGPoint(x: x, y: y)

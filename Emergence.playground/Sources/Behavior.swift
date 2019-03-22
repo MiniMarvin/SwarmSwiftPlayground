@@ -215,12 +215,18 @@ public class Seek: Behavior {
     
     public required init() { }
     
-    
     convenience init(intensity: Float, point: vector_float2) {
         self.init(intensity: intensity)
         self.point = point
     }
     
+    
+    
+    /// Creates a seek behavior into an objective in scene
+    ///
+    /// - Parameters:
+    ///   - intensity: Intensity of seeking the objective
+    ///   - prize: The objective to seek
     convenience init(intensity: Float, prize: Prize) {
         self.init(intensity: intensity)
         self.point = prize.position.toVec()

@@ -94,6 +94,13 @@ public func stopBackgroundSound(player: inout AVAudioPlayer?) {
 }
 
 
+// Add Custom fonts
+public func addCustomFonts() {
+    let cfURL = NSBundle.mainBundle().URLForResource("Proxima Nova Semibold", withExtension: "ttf") as! CFURL
+    CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.Process, nil)
+//    let font = UIFont(name: "ProximaNova-Semibold", size:  14.0)
+}
+
 
 // Global variables
 
