@@ -60,6 +60,13 @@ public class Zone: NSObject {
         self.buildScenarioRect()
     }
     
+    convenience init(startFractionX:CGFloat, endFractionX:CGFloat, startFractionY:CGFloat, endFractionY:CGFloat,canvas:CGRect, allowedEdgesFractions:[ZoneSide: [EdgePair]]) {
+        let widthFraction = endFractionX - startFractionX
+        let heightFraction = endFractionY - startFractionY
+        
+        self.init(startFractionX: startFractionX, startFractionY: startFractionY, widthFraction: widthFraction, heightFraction: heightFraction, canvas: canvas, allowedEdgesFractions: allowedEdgesFractions)
+    }
+    
     public func buildScenarioRect() {
         let startX = self.startFractionX*self.canvas.width
         let startY = self.startFractionY*self.canvas.height
@@ -89,13 +96,19 @@ public class Zone: NSObject {
         self.allowedEdges[.left] = left.flatMap({ pair in
             return EdgePair(begin: pair.begin*height + y, length: pair.length*height)
         })
-        
-        print(self.allowedEdges)
-        
     }
     
     public func isInside(point:CGPoint) {
         self.computedRect.contains(point)
+    }
+    
+    // TODO: Build the dark sprites in the scene
+    
+    public func generateDarkSprites() -> [SKShapeNode] {
+        var shapes:[SKShapeNode] = []
+        
+        
+        return shapes
     }
     
 }

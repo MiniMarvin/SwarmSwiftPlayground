@@ -1,13 +1,15 @@
 import Foundation
 import SpriteKit
 
-
-public class Level0 : GameScene {
+public class gameIntro:GameScene {
+    
+    // Variable to tell how many levels have been unlocked already
+    var unlockedLevels: Int = 0
     
     public override func didMove(to view: SKView) {
         var arr:[ZoneBuilder] = []
-        let frac = 4
-        let n = 200/((frac/2)*(frac/2))
+        let frac = 20
+        let n = 600/((frac/2)*(frac/2))
         
         for pi in 0...(frac-1) {
             for pj in 0...(frac-1) {
@@ -27,7 +29,7 @@ public class Level0 : GameScene {
     }
     
     public override func setupBehavior() {
-        self.behaviors = [FlockBehavior(intensities: [0.1, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1), Seek(intensity: 0.1, prize: self.prizes[0])]
+        self.behaviors = [FlockBehavior(intensities: [0.1, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 0, actionRadius: 5000), AvoidZone(intensity: 1)]
     }
     
     
@@ -38,12 +40,22 @@ public class Level0 : GameScene {
     }
     
     public override func levelPrizes(canvas:CGRect) -> [Prize] {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: self.agentsNum)
-        let x = canvas.width*0.85 - canvas.width/2
-        let y = canvas.height*0.15 - canvas.height/2
-        prize.position = CGPoint(x: x, y: y)
+        var allPrizes:[Prize] = []
         
-        return [prize]
+        let prize1:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: self.agentsNum)
+        let x = canvas.width*0.1 - canvas.width/2
+        let y = canvas.height*0.7 - canvas.height/2
+        prize1.position = CGPoint(x: x, y: y)
+        allPrizes.append(prize1)
+        
+        if self.unlockedLevels > 0 {
+            let prize2:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: self.agentsNum)
+            let x = canvas.width*0.25 - canvas.width/2
+            let y = canvas.height*0.7 - canvas.height/2
+            prize2.position = CGPoint(x: x, y: y)
+        }
+        
+        return allPrizes
     }
     
     public override func nextLevel() {

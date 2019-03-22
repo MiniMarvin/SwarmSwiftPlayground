@@ -48,7 +48,7 @@ public func addPointing(pointingOutline:SKSpriteNode, scene:SKScene, point:CGPoi
         let redTrail = SKEmitterNode(fileNamed: "trail")!
         redTrail.targetNode = scene
         redTrail.particleScale = 1
-        redTrail.particleTexture = SKTexture(imageNamed: "circle-outline")
+        redTrail.particleTexture = SKTexture(imageNamed: "spark")
 //        redTrail.numParticlesToEmit = 60
         redTrail.particleScaleSpeed = -3
         redTrail.particleBirthRate = 30

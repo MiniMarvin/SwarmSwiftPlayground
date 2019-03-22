@@ -211,6 +211,7 @@ public class Seek: Behavior {
     public var intensity: Float = 0.0
     public var point: vector_float2 = vector_float2([0,0])
     public var prize:Prize?
+    public var multiplier:CGFloat = 1.1
     
     public required init() { }
     
@@ -221,6 +222,12 @@ public class Seek: Behavior {
     }
     
     convenience init(intensity: Float, prize: Prize) {
+        self.init(intensity: intensity)
+        self.point = prize.position.toVec()
+        self.prize = prize
+    }
+    
+    convenience init(intensity: Float, prize: Prize, multiplier:CGFloat) {
         self.init(intensity: intensity)
         self.point = prize.position.toVec()
         self.prize = prize
@@ -243,12 +250,9 @@ public class Seek: Behavior {
     func apply(boid: Boid) {
         // Remove this behavior once the goal has been reached
         guard let prize = self.prize else { return }
-        if boid.position.within(CGFloat(2*prize.fillHorizon), of: prize.position) {
+        if boid.position.within(self.multiplier*CGFloat(prize.fillHorizon), of: prize.position) {
             self.velocity = (prize.position - boid.position).toVec()
         }
-        
-//        boid.currentSpeed = boid.maximumGoalSpeed
-        
     }
 }
 
@@ -298,6 +302,7 @@ public class FlockBehavior: Behavior {
     
     public required init() { }
     
+    // Cohesion | Separation | Alignment
     public convenience init(intensities: [Float]) {
         self.init(intensity: 1)
         self.intensities = intensities

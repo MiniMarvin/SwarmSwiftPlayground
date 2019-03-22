@@ -9,6 +9,13 @@
 import Foundation
 import SpriteKit
 
+public struct ZoneBuilder {
+    var intervalX:ClosedRange<CGFloat>
+    var intervalY:ClosedRange<CGFloat>
+    var numOfAgents:Int
+}
+
+
 public protocol Stage {
     func levelZone(canvas:CGRect) -> Scenario
     func levelPrizes(canvas:CGRect) -> [Prize]
