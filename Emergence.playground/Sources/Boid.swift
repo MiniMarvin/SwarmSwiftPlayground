@@ -45,6 +45,7 @@ public class Boid: SKSpriteNode {
     public var perceivedCenter = vector_float2([0,0])
     public var perceivedDirection = vector_float2([0,0])
     public var awayPerception = vector_float2([0,0])
+    public var borderMargin:Float = 0
     
     
     lazy var radius: Float = { return min(size.width.toDouble(), size.height.toDouble()) }()
@@ -61,9 +62,11 @@ public class Boid: SKSpriteNode {
     public var glow:SKSpriteNode?
     
     
-    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west, behaviors:[Behavior] = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1)]) {
+    public init(withTexture file:String = "firefly.png", category:Int = 0, id:Int = 0, size: CGFloat = 10, orientation: BoidOrientation = .west, behaviors:[Behavior] = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1)], borderMargin:Float = 30) {
         
         let texture = SKTexture(imageNamed: file)
+        self.borderMargin = borderMargin
+        
         super.init(texture: texture, color: SKColor.clear, size: CGSize())
         
         self.alpha = 0.4
@@ -131,7 +134,7 @@ public class Boid: SKSpriteNode {
                 continue
             }
             if let avoid = behavior as? AvoidZone {
-                avoid.apply(toBoid: self, borderMargin: 30)
+                avoid.apply(toBoid: self, borderMargin: self.borderMargin)
                 continue
             }
             if let seek = behavior as? Seek {

@@ -27,7 +27,7 @@ var player:AVAudioPlayer? = nil
 
 playBackgroundSound(player: &player)
 
-if let scene = GameIntro(fileNamed: "GameScene") {
+if let scene = Level2(fileNamed: "GameScene") {
     // Set the scale mode to scale to fit the window
 //    scene.scaleMode = .aspectFill
     scene.scaleMode = .aspectFit

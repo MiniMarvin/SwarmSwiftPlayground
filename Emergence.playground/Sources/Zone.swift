@@ -72,7 +72,7 @@ public class Zone: NSObject {
         let startY = self.startFractionY*self.canvas.height
         let width = self.widthFraction*self.canvas.width
         let height = self.heightFraction*self.canvas.height
-        print(self.canvas.minX, self.canvas.minY)
+//        print(self.canvas.minX, self.canvas.minY)
         let x = self.canvas.minX + startX
         let y = self.canvas.minY + startY
         self.computedRect = CGRect(x: x, y: y, width: width, height: height)
@@ -104,8 +104,131 @@ public class Zone: NSObject {
     
     // TODO: Build the dark sprites in the scene
     
-    public func generateDarkSprites() -> [SKShapeNode] {
-        var shapes:[SKShapeNode] = []
+    
+    /// Generate every single dark sprite.
+    /// WARNIN: This function must be run after the rect of the zone has been computed
+    ///
+    /// - Returns: A list of dark sprites of the edges from the actual zone
+    public func generateDarkSprites(wallborder: CGFloat) -> [SKSpriteNode] {
+        var shapes:[SKSpriteNode] = []
+        var darkEdges:[ZoneSide: [EdgePair]] = [:]
+        
+        let sides = [ZoneSide.bottom, ZoneSide.top, ZoneSide.right, ZoneSide.left]
+        
+        //------------------------------------------------
+        // Computes every single dark edge for every side
+        for side in sides {
+            let startX = self.computedRect.minX
+            let endX = self.computedRect.maxX
+            let startY = self.computedRect.minY
+            let endY = self.computedRect.maxY
+            var startPt = startX
+            var endPt = endX
+            var st_dark:Bool = false
+            var is_dark = true
+            
+            var pt0:CGFloat = 0
+            var pt1:CGFloat = 0
+            
+            // Traverse over x axys (default)
+            if side == .bottom || side == .top {}
+            
+            // Traverse over y axys
+            if side == .right || side == .left {
+                startPt = startY
+                endPt = endY
+            }
+            
+            // Traverse every point in the edge
+            for pt in Int(startPt)...Int(endPt) {
+                let edges = self.allowedEdges[side] ?? []
+                
+                //------------------------------------------------
+                // Check if the actual point is dark
+                is_dark = true
+                for edge in edges {
+//                    print("* ", pt, edge.contains(position: CGFloat(pt)), st_dark)
+                    if edge.contains(position: CGFloat(pt)) {
+                        is_dark = false
+                        break // breaks to enhance performance
+                    }
+                }
+                
+                //------------------------------------------------
+                // Verify if we were in a trail of white points
+                if !st_dark {
+                    if is_dark {
+//                        print("-> ", side, pt1, pt0)
+                        st_dark = true
+                        pt0 = CGFloat(pt)
+                    }
+                }
+                else {
+                    pt1 = CGFloat(pt)
+                    if !is_dark {
+//                        print(side, pt1, pt0)
+                        st_dark = false
+                        
+                        let edge = EdgePair(begin: pt0, length: abs(pt1 - pt0))
+                        darkEdges[side] = (darkEdges[side] ?? []) + [edge]
+                    }
+                }
+            }
+            
+            // Add the last dark border if and only if the first script has run
+            if st_dark {
+//                print(side, pt1, pt0)
+                let edge = EdgePair(begin: pt0, length: abs(pt1 - pt0))
+                darkEdges[side] = (darkEdges[side] ?? []) + [edge]
+            }
+        }
+        
+        //------------------------------------------------
+        // Compute the shapes based in the dark edges
+        for side in sides {
+            let edges = darkEdges[side] ?? []
+            print(side, edges)
+            for edge in edges {
+                let center = (2*edge.begin + edge.length)/2
+                var centerX:CGFloat = 0
+                var centerY:CGFloat = 0
+                var width:CGFloat = 0
+                var height:CGFloat = 0
+                
+                print("->", side, edge)
+                
+                // Align the node in the center
+                if side == .bottom {
+                    centerY = self.computedRect.minY + wallborder/2
+                    centerX = center
+                    width = edge.length
+                    height = wallborder
+                }
+                if side == .top {
+                    centerY = self.computedRect.maxY - wallborder/2
+                    centerX = center
+                    width = edge.length
+                    height = wallborder
+                }
+                if side == .right {
+                    centerY = center
+                    centerX = self.computedRect.maxX - wallborder/2
+                    width = wallborder
+                    height = edge.length
+                }
+                if side == .left {
+                    centerY = center
+                    centerX = self.computedRect.minX + wallborder/2
+                    width = wallborder
+                    height = edge.length
+                }
+                
+                let node = SKSpriteNode(color: .black, size: CGSize(width: width, height: height))
+                node.position = CGPoint(x: centerX, y: centerY)
+                node.zPosition = 30
+                shapes.append(node)
+            }
+        }
         
         
         return shapes

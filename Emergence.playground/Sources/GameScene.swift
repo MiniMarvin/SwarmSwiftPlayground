@@ -76,6 +76,17 @@ public class GameScene: SKScene, Stage, Pointable {
         // Setup pointing
         setupPointing(size: self.pointingSize, pointingOutline: self.pointingOutline)
         
+        
+        // Setup the sprites of the maze
+        let zones = self.scenario?.zones ?? []
+        for zone in zones {
+            let sprites = zone.generateDarkSprites(wallborder: 30)
+            for sprite in sprites {
+                self.addChild(sprite)
+            }
+        }
+        
+        
         //Register for the applicationWillResignActive anywhere in your app.
 //        let app = UIApplication.shared
 //        NotificationCenter.default.addObserver(self, selector: #selector(GameScene.applicationWillResignActive(notification:)), name: NSNotification.Name.UIApplicationWillResignActive, object: app)
