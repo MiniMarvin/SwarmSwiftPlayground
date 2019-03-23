@@ -80,7 +80,7 @@ public func playBackgroundSound(player:inout AVAudioPlayer?) {
         
         guard let player = player else { return }
         
-        player.volume = 0.4
+        player.volume = 0.6
         player.numberOfLoops = -1
         player.play()
     }
@@ -96,8 +96,9 @@ public func stopBackgroundSound(player: inout AVAudioPlayer?) {
 
 // Add Custom fonts
 public func addCustomFonts() {
-    let cfURL = NSBundle.mainBundle().URLForResource("Proxima Nova Semibold", withExtension: "ttf") as! CFURL
-    CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.Process, nil)
+//    let cfURL = Bundle.main.URLForResource("Proxima Nova Semibold", withExtension: "ttf") as! CFURL
+    let cfURL = Bundle.main.url(forResource: "Proxima Nova Semibold", withExtension: "ttf") as! CFURL
+    CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
 //    let font = UIFont(name: "ProximaNova-Semibold", size:  14.0)
 }
 

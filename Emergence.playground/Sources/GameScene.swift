@@ -225,7 +225,7 @@ public class GameScene: SKScene, Stage, Pointable {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            // The following line is required for the player to work on iOS 11. Change the file type accordingly
             self.musicPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
             
             guard let player = self.musicPlayer else { return }

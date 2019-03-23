@@ -77,7 +77,7 @@ public class GameIntro:GameScene {
         let x = canvas.width*px - canvas.width/2
         let y = canvas.height*py - canvas.height/2
         prize.position = CGPoint(x: x, y: y)
-        
+        prize.progressCircle.isAvaiable = false
         return prize
     }
     
