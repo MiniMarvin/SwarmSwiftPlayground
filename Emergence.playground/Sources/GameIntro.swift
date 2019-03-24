@@ -22,7 +22,7 @@ public class GameIntro:GameScene {
     }
     
     public override func setupBehavior() {
-        self.behaviors = [FlockBehavior(intensities: [0.05, 0.8, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 0, actionRadius: 5000), AvoidZone(intensity: 1)]
+        self.behaviors = [FlockBehavior(intensities: [0.05, 0.8, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 1, centerRadius: 0, actionRadius: 5000), AvoidZone(intensity: 1)]
     }
     
     
@@ -35,41 +35,34 @@ public class GameIntro:GameScene {
     public override func levelPrizes(canvas:CGRect) -> [Prize] {
         var allPrizes:[Prize] = []
         
-        let prize = self.genPrize(px: 0.2, py: 0.7, canvas:canvas)
-        allPrizes.append(prize)
-        self.genNumber(text: "1", prize: prize)
-        
+        if self.unlockedLevels == 0 {
+            let prize = self.genPrize(px: 0.5, py: 0.5, canvas:canvas)
+            allPrizes.append(prize)
+            self.genNumber(text: "1", prize: prize)
+        }
+        else {
+            let prize = self.genPrize(px: 0.2, py: 0.5, canvas:canvas)
+            allPrizes.append(prize)
+            self.genNumber(text: "1", prize: prize)
+        }
         if self.unlockedLevels > 0 {
-            let prize = self.genPrize(px: 0.5, py: 0.7, canvas:canvas)
+            let prize = self.genPrize(px: 0.2, py: 0.5, canvas:canvas)
             allPrizes.append(prize)
             // Add the label
             self.genNumber(text: "2", prize: prize)
         }
         if self.unlockedLevels > 1 {
-            let prize = self.genPrize(px: 0.8, py: 0.7, canvas:canvas)
+            let prize = self.genPrize(px: 0.5, py: 0.8, canvas:canvas)
             allPrizes.append(prize)
             // Add the label
             self.genNumber(text: "3", prize: prize)
         }
         if self.unlockedLevels > 2 {
-            let prize = self.genPrize(px: 0.2, py: 0.3, canvas:canvas)
+            let prize = self.genPrize(px: 0.8, py: 0.5, canvas:canvas)
             allPrizes.append(prize)
             // Add the label
             self.genNumber(text: "4", prize: prize)
         }
-        if self.unlockedLevels > 3 {
-            let prize = self.genPrize(px: 0.5, py: 0.3, canvas:canvas)
-            allPrizes.append(prize)
-            // Add the label
-            self.genNumber(text: "5", prize: prize)
-        }
-        if self.unlockedLevels > 4 {
-            let prize = self.genPrize(px: 0.8, py: 0.3,canvas:canvas)
-            allPrizes.append(prize)
-            // Add the label
-            self.genNumber(text: "6", prize: prize)
-        }
-        
         // Add the text label to indicate the game itself
         self.genText(text: "hold the circle to go to the level", position: CGPoint(x: 0, y: canvas.minY + 0.1*canvas.height))
         
@@ -204,18 +197,18 @@ public class GameIntro:GameScene {
         node.alpha = 0.05
         node.position = prize.position
         
-        let act = SKAction.fadeOut(withDuration: 7)
-        let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 7)
+        let act = SKAction.fadeOut(withDuration: 3)
+        let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 4)
         let group = SKAction.group([act, act1])
         self.addChild(node)
         node.run(group) {
-            node.removeFromParent()
+            for nd in self.children {
+                nd.run(act) {
+                    node.removeFromParent()
+                }
+            }
         }
-        prize.run(act) {
-            prize.removeFromParent()
-            self.nextLevel()
-        }
-        
+
         // Tune the agent
         for agent in agents {
             // TODO: Add smooth remotion

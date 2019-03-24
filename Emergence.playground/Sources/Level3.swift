@@ -24,7 +24,7 @@ public class Level3 : GameScene {
     public override func setupBehavior() {
 //        self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1, borderMargin: 10), Seek(intensity: 0.2, prize: self.prizes[0]), Seek(intensity: 0.2, prize: self.prizes[1])]
         
-        self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1, borderMargin: 10), Seek(intensity: 0.2, prize: self.prizes[0])]
+        self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1, borderMargin: 10), Seek(intensity: 0.3, prize: self.prizes[0]), Seek(intensity: 0.3, prize: self.prizes[1])]
     }
     
     public override func levelZone(canvas:CGRect) -> Scenario {
@@ -45,7 +45,7 @@ public class Level3 : GameScene {
         prize1.position = CGPoint(x: x1, y: y1)
         
         let prize2:Prize = Prize(withTexture: "spark.png", size: 60, countToFill: Int(Float(self.agentsNum)*0.4))
-        let x2 = canvas.width*0.85 - canvas.width/2
+        let x2 = canvas.width*0.9 - canvas.width/2
         let y2 = canvas.height*0.1 - canvas.height/2
         prize2.position = CGPoint(x: x2, y: y2)
         

@@ -44,6 +44,12 @@ public class Level1 : GameScene {
     
     public override func nextLevel() {
         let transition = SKTransition.fade(withDuration: 1)
+        
+        // Dealloc every node in the scene
+        for node in self.children {
+            node.removeFromParent()
+        }
+        
         if let scene = Level2(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene, transition: transition)

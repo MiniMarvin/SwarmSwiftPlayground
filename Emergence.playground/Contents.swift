@@ -30,7 +30,7 @@ addCustomFonts()
 
 playBackgroundSound(player: &player)
 
-if let scene = Level0(fileNamed: "GameScene") {
+if let scene = GameName(fileNamed: "GameScene") {
     // Set the scale mode to scale to fit the window
 //    scene.scaleMode = .aspectFill
     scene.scaleMode = .aspectFit

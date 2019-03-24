@@ -46,10 +46,16 @@ public class Level2 : GameScene {
     
     public override func nextLevel() {
         // Set the menu with all levels
-        __GLOBAL_UNLOCKED_LEVELS = 2
+        __GLOBAL_UNLOCKED_LEVELS = 3
         __GLOBAL_POINTING_SPOT = nil
         
         let transition = SKTransition.fade(withDuration: 1)
+        
+        // Dealloc every node in the scene
+        for node in self.children {
+            node.removeFromParent()
+        }
+        
         if let scene = GameIntro(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene, transition: transition)

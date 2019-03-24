@@ -142,6 +142,10 @@ public class Boid: SKSpriteNode {
                 seek.apply(boid: self)
                 continue
             }
+            if let seek = behavior as? SeekPoint {
+                seek.apply(boid: self)
+                continue
+            }
             if let seekFinger = behavior as? SeekFinger {
                 seekFinger.apply(boid: self)
 //                print(seekFinger.scaledVelocity)

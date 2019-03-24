@@ -239,10 +239,54 @@ public class Seek: Behavior {
     
     func apply(boid: Boid) {
         // Remove this behavior once the goal has been reached
+        self.velocity = vector_float2([0,0])
+        
         guard let prize = self.prize else { return }
         if boid.position.within(self.multiplier*CGFloat(prize.fillHorizon), of: prize.position) {
             self.velocity = (prize.position - boid.position).toVec()
-            print(self.velocity)
+        }
+    }
+}
+
+
+// Used to make the screen
+public class SeekPoint: Behavior {
+    public var name: String = "seek"
+    public var velocity: vector_float2 = vector_float2([0,0])
+    public var intensity: Float = 0.0
+    public var point:CGPoint?
+    public var multiplier:CGFloat = 1
+    public var actionRadius:CGFloat = 0
+    
+    public required init() { }
+
+    /// Creates a seek behavior into an objective in scene
+    ///
+    /// - Parameters:
+    ///   - intensity: Intensity of seeking the objective
+    ///   - prize: The objective to seek
+    convenience init(intensity: Float, point: CGPoint, actionRadius:CGFloat) {
+        self.init(intensity: intensity)
+        self.point = point
+        self.actionRadius = actionRadius
+    }
+    
+    convenience init(intensity: Float, point: CGPoint, actionRadius:CGFloat, multiplier:CGFloat) {
+        self.init(intensity: intensity)
+        self.point = point
+        self.actionRadius = actionRadius
+        self.multiplier = multiplier
+    }
+    
+    func apply(boid: Boid) {
+        // Remove this behavior once the goal has been reached
+        self.velocity = vector_float2([0,0])
+        
+        guard let point = self.point else { return }
+//        if boid.position.within(self.multiplier*CGFloat(prize.fillHorizon), of: prize.position) {
+        if (boid.position.x - point.x)*(boid.position.x - point.x)
+            + (boid.position.y - point.y)*(boid.position.y - point.y) < CGFloat(self.actionRadius) {
+            self.velocity = (self.multiplier*(point - boid.position)).toVec()
         }
     }
 }

@@ -294,7 +294,12 @@ public class GameScene: SKScene, Stage, Pointable {
     }
     
     public func setupBehavior() {
-        self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1), Seek(intensity: 0.2, prize: self.prizes[0])]
+        if self.prizes.count == 1 {
+            self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1), Seek(intensity: 0.2, prize: self.prizes[0])]
+        }
+        else {
+            self.behaviors = [FlockBehavior(intensities: [0.15, 0.4, 0.4]), Bound(intensity: 4), SeekFinger(intensity: 0.8, centerRadius: 40, actionRadius: 200), AvoidZone(intensity: 1)]
+        }
     }
     
     public func levelZone(canvas:CGRect) -> Scenario {
@@ -321,15 +326,11 @@ public class GameScene: SKScene, Stage, Pointable {
         self.playable = false
         
         self.playmusic(fileName: "level completion", withExtension: "mp3")
-        
-        // TODO: Insert dark sprites here
-        
+
         // Tune the trophy
         for prize in self.prizes {
             prize.agents = []
             prize.allowedUpdateAlpha = false
-            
-            
             
             let node = SKShapeNode(circleOfRadius: 1)
             node.fillColor = .yellow
@@ -338,31 +339,16 @@ public class GameScene: SKScene, Stage, Pointable {
             node.alpha = 0.05
             node.position = prize.position
             
-            // Add a cropnode
-//            let bgSprite = SKSpriteNode(imageNamed: "grass-gray-low.jpg")
-//            bgSprite.alpha = 0
-//            bgSprite.size = self.canvas!.size
-//            bgSprite.position = CGPoint.zero
-//            let crop = SKCropNode()
-//            crop.position = CGPoint.zero
-//            crop.addChild(bgSprite)
-//            crop.maskNode = node
-//            let fadeInAct = SKAction.fadeIn(withDuration: 7)
-//            bgSprite.run(fadeInAct)
-//            self.addChild(bgSprite)
-            
-            
-            
             let act = SKAction.fadeOut(withDuration: 3)
             let act1 = SKAction.scale(by: 1.5*(self.canvas!).width, duration: 4)
-            let group = SKAction.sequence([act1,act])
+            let group = SKAction.sequence([act1])
             self.addChild(node)
             node.run(group) {
-                node.removeFromParent()
-            }
-            prize.run(act) {
-                prize.removeFromParent()
-                self.nextLevel()
+                for nd in self.children {
+                    nd.run(act) {
+                        node.removeFromParent()
+                    }
+                }
             }
         }
         
@@ -376,6 +362,12 @@ public class GameScene: SKScene, Stage, Pointable {
     
     public func nextLevel() {
         let transition = SKTransition.fade(withDuration: 1)
+        
+        // Dealloc every node in the scene
+//        for node in self.children {
+//            node.removeFromParent()
+//        }
+        
         if let scene = Level1(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene)
