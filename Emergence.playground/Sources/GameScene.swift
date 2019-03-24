@@ -33,6 +33,7 @@ public class GameScene: SKScene, Stage, Pointable {
     public var prizeHorizon:CGFloat = 100
     public var canvas:CGRect?
     public var label:SKLabelNode?
+    public var wallBorder:CGFloat = 30
 
     public var playable: Bool = true
     public var musicPlayer:AVAudioPlayer?
@@ -78,13 +79,7 @@ public class GameScene: SKScene, Stage, Pointable {
         
         
         // Setup the sprites of the maze
-        let zones = self.scenario?.zones ?? []
-        for zone in zones {
-            let sprites = zone.generateDarkSprites(wallborder: 30)
-            for sprite in sprites {
-                self.addChild(sprite)
-            }
-        }
+        self.buildDarkSprites()
         
         
         //Register for the applicationWillResignActive anywhere in your app.
@@ -358,9 +353,9 @@ public class GameScene: SKScene, Stage, Pointable {
             
             
             
-            let act = SKAction.fadeOut(withDuration: 7)
-            let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 7)
-            let group = SKAction.group([act, act1])
+            let act = SKAction.fadeOut(withDuration: 3)
+            let act1 = SKAction.scale(by: 1.5*(self.canvas!).width, duration: 4)
+            let group = SKAction.sequence([act1,act])
             self.addChild(node)
             node.run(group) {
                 node.removeFromParent()
@@ -384,6 +379,107 @@ public class GameScene: SKScene, Stage, Pointable {
         if let scene = Level1(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene)
+        }
+    }
+    
+    
+    
+    /// Create all the dark squares
+    public func buildDarkSprites() {
+        let zones = self.scenario?.zones ?? []
+        let wallborder = self.wallBorder
+        for zone in zones {
+            let sprites = zone.generateDarkSprites(wallborder: wallborder)
+            for sprite in sprites {
+                // Verify if the scene already have a node in the position
+                let nodes = self.children
+                var shouldAdd:Bool = true
+                for node in nodes {
+                    if sprite.position == node.position {
+                        shouldAdd = false
+                        break
+                    }
+                }
+                if shouldAdd {
+                    self.addChild(sprite)
+                }
+                
+                // Get the edges* of the squares
+                for sp in sprites {
+                    if sp == sprite { continue }
+                    var square = SKSpriteNode()
+                    
+                    // X zone
+                    let b1 = sp.frame.contains(CGPoint(x: sprite.frame.maxX + 10, y: sprite.position.y + 10))
+                    let b2 = sp.frame.contains(CGPoint(x: sprite.frame.maxX + 10, y: sprite.position.y - 10))
+                    let b3 = sp.frame.contains(CGPoint(x: sprite.frame.minX - 10, y: sprite.position.y + 10))
+                    let b4 = sp.frame.contains(CGPoint(x: sprite.frame.minX - 10, y: sprite.position.y - 10))
+                    // Y zone
+                    let b5 = sp.frame.contains(CGPoint(x: sprite.position.x + 10, y: sprite.frame.maxY + 10))
+                    let b6 = sp.frame.contains(CGPoint(x: sprite.position.x - 10, y: sprite.frame.maxY + 10))
+                    let b7 = sp.frame.contains(CGPoint(x: sprite.position.x + 10, y: sprite.frame.minY - 10))
+                    let b8 = sp.frame.contains(CGPoint(x: sprite.position.x - 10, y: sprite.frame.minY - 10))
+                    
+                    // TODO: Remove the double adition
+                    var shouldAdd = false
+                    
+                    if (b1 && !b2) || (!b1 && b2) {
+                        square = SKSpriteNode(color: .black, size: CGSize(width: 2*wallborder, height: 2*wallborder))
+                        square.position = CGPoint(x: sprite.frame.maxX, y: sprite.position.y)
+                        shouldAdd = true
+                    }
+                    else if (b3 && !b4) || (!b3 && b4) {
+                        square = SKSpriteNode(color: .black, size: CGSize(width: 2*wallborder, height: 2*wallborder))
+                        square.position = CGPoint(x: sprite.frame.minX, y: sprite.position.y)
+                        shouldAdd = true
+                    }
+                    else if (b5 && !b6) || (!b5 && b6) {
+                        square = SKSpriteNode(color: .black, size: CGSize(width: 2*wallborder, height: 2*wallborder))
+                        square.position = CGPoint(x: sprite.frame.maxY, y: sprite.position.x)
+                        shouldAdd = true
+                    }
+                    else if (b7 && !b8) || (!b7 && b8) {
+                        square = SKSpriteNode(color: .black, size: CGSize(width: 2*wallborder, height: 2*wallborder))
+                        square.position = CGPoint(x: sprite.frame.minY, y: sprite.position.x)
+                        shouldAdd = true
+                    }
+                    
+                    let edgePoints = [10, -10]
+                    
+                    // Clean noise
+                    // Search for 
+                    var totalMix = false
+                    for node in self.children {
+                        if !shouldAdd { break }
+                        
+                        if square.position == node.position {
+                            shouldAdd = false
+                            break
+                        }
+                        
+                        if node.name == "dark" {
+                            for i in edgePoints {
+                                for j in edgePoints {
+                                    let pt = CGPoint(x: square.position.x + CGFloat(i), y: square.position.y + CGFloat(j))
+                                    totalMix = totalMix || node.contains(pt)
+                                }
+                            }
+                        }
+                    }
+                    shouldAdd = shouldAdd && totalMix
+                    shouldAdd = shouldAdd && sprite.size.area() > 200
+                    shouldAdd = shouldAdd && sp.size.area() > 200
+                    
+                    if shouldAdd {
+                        square.name = "dark"
+                        square.color = .black
+                        square.zPosition = 30
+                        addChild(square)
+                        print("hehe")
+                    }
+                    
+                }
+            }
         }
     }
     

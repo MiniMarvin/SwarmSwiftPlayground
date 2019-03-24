@@ -9,6 +9,7 @@ public class GameIntro:GameScene {
     
     public override func didMove(to view: SKView) {
         var arr:[ZoneBuilder] = []
+        self.unlockedLevels = __GLOBAL_UNLOCKED_LEVELS
         let frac = 20
         let n = 50
 
@@ -69,6 +70,9 @@ public class GameIntro:GameScene {
             self.genNumber(text: "6", prize: prize)
         }
         
+        // Add the text label to indicate the game itself
+        self.genText(text: "hold the circle to go to the level", position: CGPoint(x: 0, y: canvas.minY + 0.1*canvas.height))
+        
         return allPrizes
     }
     
@@ -83,8 +87,18 @@ public class GameIntro:GameScene {
     
     func genNumber(text:String, prize:Prize) {
         let label = SKLabelNode(text: text)
-        label.position = CGPoint(x: prize.position.x - 5, y: prize.position.y - 20)
-        label.color = .yellow
+        label.fontName = "GermaniaOne-Regular"
+        label.position = CGPoint(x: prize.position.x, y: prize.position.y - 20)
+        label.fontColor = .white
+        label.fontSize = 60
+        self.addChild(label)
+    }
+    
+    func genText(text:String, position:CGPoint) {
+        let label = SKLabelNode(text: text)
+        label.fontName = "GermaniaOne-Regular"
+        label.position = position
+        label.fontColor = .lightGray
         label.fontSize = 60
         self.addChild(label)
     }
@@ -162,6 +176,51 @@ public class GameIntro:GameScene {
         if let scene = partScene {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene)
+        }
+    }
+    
+    
+    
+    override public func finishLevel() {
+        let agents = self.agents
+        self.agents = []
+        self.pointingOutline.removeFromParent()
+        self.playable = false
+        
+        self.playmusic(fileName: "level completion", withExtension: "mp3")
+        
+        // TODO: Insert dark sprites here
+        
+        // Tune the trophy
+//        for prize in self.prizes {
+        let prize = self.prizes[self.selectedLevel]
+        prize.agents = []
+        prize.allowedUpdateAlpha = false
+        
+        let node = SKShapeNode(circleOfRadius: 1)
+        node.fillColor = .yellow
+        node.glowWidth = 10
+        node.lineWidth = 0
+        node.alpha = 0.05
+        node.position = prize.position
+        
+        let act = SKAction.fadeOut(withDuration: 7)
+        let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 7)
+        let group = SKAction.group([act, act1])
+        self.addChild(node)
+        node.run(group) {
+            node.removeFromParent()
+        }
+        prize.run(act) {
+            prize.removeFromParent()
+            self.nextLevel()
+        }
+        
+        // Tune the agent
+        for agent in agents {
+            // TODO: Add smooth remotion
+            agent.removeAllChildren()
+            agent.removeFromParent()
         }
     }
 }

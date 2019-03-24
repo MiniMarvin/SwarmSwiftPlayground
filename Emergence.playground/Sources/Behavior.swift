@@ -220,8 +220,6 @@ public class Seek: Behavior {
         self.point = point
     }
     
-    
-    
     /// Creates a seek behavior into an objective in scene
     ///
     /// - Parameters:
@@ -239,25 +237,12 @@ public class Seek: Behavior {
         self.prize = prize
     }
     
-//    func apply(boid: Boid) {
-//        // Approximate touch size
-//        let goalThreshhold: CGFloat = 44.0
-//
-//        // Remove this behavior once the goal has been reached
-//        guard boid.position.outside(goalThreshhold, of: point.toCGPoint()) else {
-//            boid.currentSpeed = boid.maximumFlockSpeed
-//            boid.behaviors = boid.behaviors.filter { $0 as? Seek !== self }
-//            return
-//        }
-//        boid.currentSpeed = boid.maximumGoalSpeed
-//        velocity = (self.point - boid.position.toVec())
-//    }
-    
     func apply(boid: Boid) {
         // Remove this behavior once the goal has been reached
         guard let prize = self.prize else { return }
         if boid.position.within(self.multiplier*CGFloat(prize.fillHorizon), of: prize.position) {
             self.velocity = (prize.position - boid.position).toVec()
+            print(self.velocity)
         }
     }
 }
@@ -370,10 +355,20 @@ public class AvoidZone: Behavior {
     public var name: String = "avoidzone"
     public var velocity: vector_float2 = vector_float2([0,0])
     public var intensity: Float = 0.0
+    public var borderMargin:Float = 30
     
     public required init() { }
     
-    func apply(toBoid boid: Boid, borderMargin: Float) {
+    public convenience init(intensity: Float, borderMargin: Float) {
+        self.init(intensity: intensity)
+        self.borderMargin = borderMargin
+    }
+    
+    public func apply(toBoid boid: Boid) {
+        self.apply(toBoid: boid, borderMargin: self.borderMargin)
+    }
+    
+    public func apply(toBoid boid: Boid, borderMargin: Float) {
         self.velocity = vector_float2([0,0])
         
         // Make sure each boid has a parent scene frame

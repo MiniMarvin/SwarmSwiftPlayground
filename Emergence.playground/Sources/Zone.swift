@@ -187,7 +187,7 @@ public class Zone: NSObject {
         // Compute the shapes based in the dark edges
         for side in sides {
             let edges = darkEdges[side] ?? []
-            print(side, edges)
+//            print(side, edges)
             for edge in edges {
                 let center = (2*edge.begin + edge.length)/2
                 var centerX:CGFloat = 0
@@ -195,30 +195,30 @@ public class Zone: NSObject {
                 var width:CGFloat = 0
                 var height:CGFloat = 0
                 
-                print("->", side, edge)
+//                print("->", side, edge)
                 
                 // Align the node in the center
                 if side == .bottom {
-                    centerY = self.computedRect.minY + wallborder/2
+                    centerY = self.computedRect.minY
                     centerX = center
                     width = edge.length
-                    height = wallborder
+                    height = wallborder*2
                 }
                 if side == .top {
-                    centerY = self.computedRect.maxY - wallborder/2
+                    centerY = self.computedRect.maxY
                     centerX = center
                     width = edge.length
-                    height = wallborder
+                    height = wallborder*2
                 }
                 if side == .right {
                     centerY = center
-                    centerX = self.computedRect.maxX - wallborder/2
-                    width = wallborder
+                    centerX = self.computedRect.maxX
+                    width = wallborder*2
                     height = edge.length
                 }
                 if side == .left {
                     centerY = center
-                    centerX = self.computedRect.minX + wallborder/2
+                    centerX = self.computedRect.minX
                     width = wallborder
                     height = edge.length
                 }
@@ -226,6 +226,8 @@ public class Zone: NSObject {
                 let node = SKSpriteNode(color: .black, size: CGSize(width: width, height: height))
                 node.position = CGPoint(x: centerX, y: centerY)
                 node.zPosition = 30
+//                node.color = .red
+                node.name = "dark"
                 shapes.append(node)
             }
         }

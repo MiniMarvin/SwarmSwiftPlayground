@@ -29,9 +29,10 @@ public class Level2 : GameScene {
     public override func levelZone(canvas:CGRect) -> Scenario {
         let zone1:Zone = Zone(startFractionX: 0, endFractionX: 0.5, startFractionY: 0.5, endFractionY: 1, canvas: self.canvas!, allowedEdgesFractions: [.bottom:[EdgePair(begin: 0, length: 0.5)]])
         let zone2:Zone = Zone(startFractionX: 0, endFractionX: 0.5, startFractionY: 0, endFractionY: 0.5, canvas: self.canvas!, allowedEdgesFractions: [.top:[EdgePair(begin: 0, length: 0.5)], .right: [EdgePair(begin: 0, length: 1)]])
-        let zone3:Zone = Zone(startFractionX: 0.5, endFractionX: 1, startFractionY: 0, endFractionY: 1, canvas: self.canvas!, allowedEdgesFractions: [.left: [EdgePair(begin: 0, length: 0.5)]])
+        let zone3:Zone = Zone(startFractionX: 0.5, endFractionX: 0.7, startFractionY: 0, endFractionY: 1, canvas: self.canvas!, allowedEdgesFractions: [.left: [EdgePair(begin: 0, length: 0.5)], .right: [EdgePair(begin: 0.5, length: 0.5)]])
+        let zone4:Zone = Zone(startFractionX: 0.7, endFractionX: 1, startFractionY: 0, endFractionY: 1, canvas: self.canvas!, allowedEdgesFractions: [.left: [EdgePair(begin: 0.5, length: 0.5)]])
         
-        return Scenario(zones: [zone1, zone2, zone3])
+        return Scenario(zones: [zone1, zone2, zone3, zone4])
     }
     
     public override func levelPrizes(canvas:CGRect) -> [Prize] {
@@ -44,8 +45,12 @@ public class Level2 : GameScene {
     }
     
     public override func nextLevel() {
+        // Set the menu with all levels
+        __GLOBAL_UNLOCKED_LEVELS = 2
+        __GLOBAL_POINTING_SPOT = nil
+        
         let transition = SKTransition.fade(withDuration: 1)
-        if let scene = Level0(fileNamed: "GameScene") {
+        if let scene = GameIntro(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene, transition: transition)
         }

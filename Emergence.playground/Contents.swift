@@ -25,9 +25,12 @@ sceneView.showsNodeCount = true
 // Build the audioplayer
 var player:AVAudioPlayer? = nil
 
+// Add custom fonts
+addCustomFonts()
+
 playBackgroundSound(player: &player)
 
-if let scene = Level2(fileNamed: "GameScene") {
+if let scene = Level0(fileNamed: "GameScene") {
     // Set the scale mode to scale to fit the window
 //    scene.scaleMode = .aspectFill
     scene.scaleMode = .aspectFit
@@ -36,9 +39,7 @@ if let scene = Level2(fileNamed: "GameScene") {
     sceneView.presentScene(scene)
 }
 
-
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
-
 
 
 

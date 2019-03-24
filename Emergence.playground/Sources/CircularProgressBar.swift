@@ -16,6 +16,7 @@ public class CircularProgressBar: SKNode {
     public var radius: CGFloat = 90
     public var width: CGFloat = 12
     public var isAvaiable: Bool = true
+    public var isWorking: Bool = true
 //    public var fontSize: CGFloat = 48
     
     private let circleNode = SKShapeNode(circleOfRadius: 0)
@@ -23,16 +24,22 @@ public class CircularProgressBar: SKNode {
     private let valueLabel = SKLabelNode(text: "NaN %")
     
     
-    // Sets or returns the value of the progress bar
+    // Sets or returns the valaue of the progress bar
     public var value: Double {
         didSet {
             // Label to display the percentage
 //            valueLabel.text = "\(Int(value)) %"
             
             if !isAvaiable {
-                self.alpha = 0
+                return
+            }
+            
+            if !isWorking {
                 self.isHidden = true
                 return
+            }
+            else {
+                self.isHidden = false
             }
             
             // Calculate the Bezier path for the circle

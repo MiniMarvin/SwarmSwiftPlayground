@@ -97,7 +97,7 @@ public func stopBackgroundSound(player: inout AVAudioPlayer?) {
 // Add Custom fonts
 public func addCustomFonts() {
 //    let cfURL = Bundle.main.URLForResource("Proxima Nova Semibold", withExtension: "ttf") as! CFURL
-    let cfURL = Bundle.main.url(forResource: "Proxima Nova Semibold", withExtension: "ttf") as! CFURL
+    let cfURL = Bundle.main.url(forResource: "GermaniaOne-Regular", withExtension: "ttf") as! CFURL
     CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
 //    let font = UIFont(name: "ProximaNova-Semibold", size:  14.0)
 }
@@ -108,6 +108,7 @@ public func addCustomFonts() {
 var __GLOBAL_POINTING_SPOT:CGPoint? = nil
 var __GLOBAL_POINTING_LOCK:Bool = false
 var __GLOBAL_POINTER_IS_WORKING:Int = 0
+var __GLOBAL_UNLOCKED_LEVELS:Int = 0
 
 func setGlobalPointing(point:CGPoint?) {
     if !__GLOBAL_POINTING_LOCK {

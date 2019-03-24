@@ -134,7 +134,8 @@ public class Boid: SKSpriteNode {
                 continue
             }
             if let avoid = behavior as? AvoidZone {
-                avoid.apply(toBoid: self, borderMargin: self.borderMargin)
+//                avoid.apply(toBoid: self, borderMargin: self.borderMargin)
+                avoid.apply(toBoid: self)
                 continue
             }
             if let seek = behavior as? Seek {

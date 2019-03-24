@@ -80,6 +80,12 @@ extension CGPoint: CustomStringConvertible {
     }
 }
 
+extension CGSize {
+    func area() -> CGFloat {
+        return self.width*self.height
+    }
+}
+
 public prefix func + (value: CGPoint) -> CGPoint {
     return value
 }
