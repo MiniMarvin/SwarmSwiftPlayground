@@ -38,6 +38,8 @@ public class GameScene: SKScene, Stage, Pointable {
     public var playable: Bool = true
     public var musicPlayer:AVAudioPlayer?
     
+    var didStartFinish: Bool = false
+    
     public var fireflies:[ZoneBuilder] = [ZoneBuilder(intervalX: (0)...(0.5), intervalY: (0.4)...(0.6), numOfAgents: 300)]
     public var behaviors:[Behavior] = []
     var pointingSize:CGFloat = 100
@@ -327,6 +329,17 @@ public class GameScene: SKScene, Stage, Pointable {
         
         self.playmusic(fileName: "level completion", withExtension: "mp3")
 
+        
+        let act = SKAction.fadeOut(withDuration: 2)
+        let act1 = SKAction.scale(by: (self.canvas?.width)!, duration: 2)
+        for node in agents {
+            node.run(act) {
+                if node.parent != nil {
+                    node.removeFromParent()
+                }
+            }
+        }
+        
         // Tune the trophy
         for prize in self.prizes {
             prize.agents = []
@@ -339,34 +352,27 @@ public class GameScene: SKScene, Stage, Pointable {
             node.alpha = 0.05
             node.position = prize.position
             
-            let act = SKAction.fadeOut(withDuration: 3)
-            let act1 = SKAction.scale(by: 1.5*(self.canvas!).width, duration: 4)
-            let group = SKAction.sequence([act1])
             self.addChild(node)
-            node.run(group) {
-                for nd in self.children {
-                    nd.run(act) {
-                        node.removeFromParent()
+            
+            node.run(act1) {
+                for c in self.children {
+                    c.run(act) {
+                        c.removeFromParent()
+                        self.nextLevel()
                     }
                 }
             }
         }
-        
-        // Tune the agent
-        for agent in agents {
-            // TODO: Add smooth remotion
-            agent.removeAllChildren()
-            agent.removeFromParent()
-        }
     }
     
     public func nextLevel() {
-        let transition = SKTransition.fade(withDuration: 1)
+        if self.didStartFinish {
+            return
+        }
         
-        // Dealloc every node in the scene
-//        for node in self.children {
-//            node.removeFromParent()
-//        }
+        self.didStartFinish = true
+        
+        let transition = SKTransition.fade(withDuration: 1)
         
         if let scene = Level1(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit

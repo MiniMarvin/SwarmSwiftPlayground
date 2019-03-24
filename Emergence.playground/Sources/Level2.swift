@@ -45,6 +45,13 @@ public class Level2 : GameScene {
     }
     
     public override func nextLevel() {
+        
+        if self.didStartFinish {
+            return
+        }
+        
+        self.didStartFinish = true
+        
         // Set the menu with all levels
         __GLOBAL_UNLOCKED_LEVELS = 3
         __GLOBAL_POINTING_SPOT = nil

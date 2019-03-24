@@ -43,6 +43,13 @@ public class Level1 : GameScene {
     }
     
     public override func nextLevel() {
+        
+        if self.didStartFinish {
+            return
+        }
+        
+        self.didStartFinish = true
+        
         let transition = SKTransition.fade(withDuration: 1)
         
         // Dealloc every node in the scene

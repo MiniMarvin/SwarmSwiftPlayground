@@ -53,8 +53,14 @@ public class Level3 : GameScene {
     }
     
     public override func nextLevel() {
+        if self.didStartFinish {
+            return
+        }
+        
+        self.didStartFinish = true
+        
         // Set the menu with all levels
-        __GLOBAL_UNLOCKED_LEVELS = 2
+        __GLOBAL_UNLOCKED_LEVELS = 3
         __GLOBAL_POINTING_SPOT = nil
         
         let transition = SKTransition.fade(withDuration: 1)
