@@ -44,11 +44,13 @@ public class Level1 : GameScene {
     
     public override func nextLevel() {
         
-        if self.didStartFinish {
-            return
-        }
-        
+        if self.didStartFinish { return }
         self.didStartFinish = true
+        
+        if __GLOBAL_UNLOCKED_LEVELS < 2 {
+            __GLOBAL_UNLOCKED_LEVELS = 2
+        }
+        __GLOBAL_POINTING_SPOT = nil
         
         let transition = SKTransition.fade(withDuration: 1)
         
@@ -57,7 +59,7 @@ public class Level1 : GameScene {
             node.removeFromParent()
         }
         
-        if let scene = Level2(fileNamed: "GameScene") {
+        if let scene = GameIntro(fileNamed: "GameScene") {
             scene.scaleMode = .aspectFit
             self.view?.presentScene(scene, transition: transition)
         }

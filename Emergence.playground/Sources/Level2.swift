@@ -7,7 +7,7 @@ public class Level2 : GameScene {
     public override func didMove(to view: SKView) {
         var arr:[ZoneBuilder] = []
         let frac = 4
-        let n = 200/((frac/2)*(frac/2))
+        let n = 300/((frac/2)*(frac/2))
         
         for pi in 0...(frac-1) {
             for pj in 0...(frac-1) {
@@ -46,14 +46,12 @@ public class Level2 : GameScene {
     
     public override func nextLevel() {
         
-        if self.didStartFinish {
-            return
-        }
-        
+        if self.didStartFinish { return }
         self.didStartFinish = true
         
-        // Set the menu with all levels
-        __GLOBAL_UNLOCKED_LEVELS = 3
+        if __GLOBAL_UNLOCKED_LEVELS < 3 {
+            __GLOBAL_UNLOCKED_LEVELS = 3
+        }
         __GLOBAL_POINTING_SPOT = nil
         
         let transition = SKTransition.fade(withDuration: 1)

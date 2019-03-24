@@ -35,35 +35,57 @@ public class GameIntro:GameScene {
         var allPrizes:[Prize] = []
         
         if self.unlockedLevels == 0 {
-            let prize = self.genPrize(px: 0.5, py: 0.6, canvas:canvas)
-            allPrizes.append(prize)
-            self.genNumber(text: "1", prize: prize)
+            let prize1 = self.genPrize(px: 0.5, py: 0.6, canvas:canvas)
+            self.genNumber(text: "1", prize: prize1)
+            
+            allPrizes.append(prize1)
         }
-        else {
-            let prize = self.genPrize(px: 0.5, py: 0.8, canvas:canvas)
-            allPrizes.append(prize)
-            self.genNumber(text: "1", prize: prize)
+        else if self.unlockedLevels == 1 {
+            let prize1 = self.genPrize(px: 0.3, py: 0.6, canvas:canvas)
+            self.genNumber(text: "1", prize: prize1)
+            
+            let prize2 = self.genPrize(px: 0.7, py: 0.6, canvas:canvas)
+            self.genNumber(text: "2", prize: prize2)
+            
+            allPrizes.append(prize1)
+            allPrizes.append(prize2)
         }
-        if self.unlockedLevels > 0 {
-            let prize = self.genPrize(px: 0.2, py: 0.5, canvas:canvas)
-            allPrizes.append(prize)
-            // Add the label
-            self.genNumber(text: "2", prize: prize)
+        else if self.unlockedLevels == 2 {
+            let prize1 = self.genPrize(px: 0.5, py: 0.8, canvas:canvas)
+            self.genNumber(text: "1", prize: prize1)
+            
+            let prize2 = self.genPrize(px: 0.3, py: 0.5, canvas:canvas)
+            self.genNumber(text: "2", prize: prize2)
+            
+            let prize3 = self.genPrize(px: 0.7, py: 0.5, canvas:canvas)
+            self.genNumber(text: "3", prize: prize3)
+            
+            allPrizes.append(prize1)
+            allPrizes.append(prize2)
+            allPrizes.append(prize3)
         }
-        if self.unlockedLevels > 1 {
-            let prize = self.genPrize(px: 0.5, py: 0.5, canvas:canvas)
-            allPrizes.append(prize)
-            // Add the label
-            self.genNumber(text: "3", prize: prize)
+        else if self.unlockedLevels == 3 {
+            let prize1 = self.genPrize(px: 0.5, py: 0.8, canvas:canvas)
+            self.genNumber(text: "1", prize: prize1)
+            
+            let prize2 = self.genPrize(px: 0.2, py: 0.5, canvas:canvas)
+            self.genNumber(text: "2", prize: prize2)
+            
+            let prize3 = self.genPrize(px: 0.5, py: 0.5, canvas:canvas)
+            self.genNumber(text: "3", prize: prize3)
+            
+            let prize4 = self.genPrize(px: 0.8, py: 0.5, canvas:canvas)
+            self.genNumber(text: "4", prize: prize4)
+            
+            allPrizes.append(prize1)
+            allPrizes.append(prize2)
+            allPrizes.append(prize3)
+            allPrizes.append(prize4)
         }
-        if self.unlockedLevels > 2 {
-            let prize = self.genPrize(px: 0.8, py: 0.5, canvas:canvas)
-            allPrizes.append(prize)
-            // Add the label
-            self.genNumber(text: "4", prize: prize)
-        }
+        
         // Add the text label to indicate the game itself
-        self.genText(text: "hold the circle to go to the level", position: CGPoint(x: 0, y: canvas.minY + 0.2*canvas.height))
+        self.genText(text: "tap and hold", position: CGPoint(x: 0, y: canvas.minY + 0.1*canvas.height + 80))
+        self.genText(text: "to guide fireflies to a level", position: CGPoint(x: 0, y: canvas.minY + 0.1*canvas.height))
         
         return allPrizes
     }
@@ -92,6 +114,10 @@ public class GameIntro:GameScene {
         label.position = position
         label.fontColor = .lightGray
         label.fontSize = 60
+        label.numberOfLines = 2
+        label.horizontalAlignmentMode = .center
+        label.verticalAlignmentMode = .baseline
+        label.preferredMaxLayoutWidth = (self.canvas?.width)!*0.8
         self.addChild(label)
     }
     

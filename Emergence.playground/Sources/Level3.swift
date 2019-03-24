@@ -53,10 +53,7 @@ public class Level3 : GameScene {
     }
     
     public override func nextLevel() {
-        if self.didStartFinish {
-            return
-        }
-        
+        if self.didStartFinish { return }
         self.didStartFinish = true
         
         // Set the menu with all levels
