@@ -1,6 +1,8 @@
 import Foundation
 import SpriteKit
 
+
+/// Introduction of the game
 public class GameIntro:GameScene {
     
     // Variable to tell how many levels have been unlocked already
@@ -25,12 +27,21 @@ public class GameIntro:GameScene {
     }
     
     
+    /// The level itself
+    ///
+    /// - Parameter canvas: The canvas size
+    /// - Returns: The levels
     public override func levelZone(canvas:CGRect) -> Scenario {
         let zone1:Zone = Zone(startFractionX: 0, startFractionY: 0, widthFraction: 1, heightFraction: 1, canvas: canvas, allowedEdgesFractions: [:])
         
         return Scenario(zones: [zone1])
     }
     
+    
+    /// The prizes in the level
+    ///
+    /// - Parameter canvas: The canvas size
+    /// - Returns: The prizes list
     public override func levelPrizes(canvas:CGRect) -> [Prize] {
         var allPrizes:[Prize] = []
         
@@ -90,8 +101,16 @@ public class GameIntro:GameScene {
         return allPrizes
     }
     
+    
+    /// Generate a prize in the screen
+    ///
+    /// - Parameters:
+    ///   - px: The partial rate of the  screen for 0 to 1 in x
+    ///   - py: The partial rate of the  screen for 0 to 1 in y
+    ///   - canvas: The canvas size
+    /// - Returns: The trophy
     func genPrize(px: CGFloat, py: CGFloat, canvas:CGRect) -> Prize {
-        let prize:Prize = Prize(withTexture: "spark.png", size: 100, countToFill: 35)
+        let prize:Prize = Prize(withTexture: "spark.png", size: 100, countToFill: 50)
         let x = canvas.width*px - canvas.width/2
         let y = canvas.height*py - canvas.height/2
         prize.position = CGPoint(x: x, y: y)
@@ -99,6 +118,12 @@ public class GameIntro:GameScene {
         return prize
     }
     
+    
+    /// Generate a number over a sphere
+    ///
+    /// - Parameters:
+    ///   - text: The text of the number
+    ///   - prize: The object of the sphere
     func genNumber(text:String, prize:Prize) {
         let label = SKLabelNode(text: text)
         label.fontName = "GermaniaOne-Regular"
@@ -108,6 +133,12 @@ public class GameIntro:GameScene {
         self.addChild(label)
     }
     
+    
+    /// Generate a text in the screen
+    ///
+    /// - Parameters:
+    ///   - text: The text
+    ///   - position: The position to generate
     func genText(text:String, position:CGPoint) {
         let label = SKLabelNode(text: text)
         label.fontName = "GermaniaOne-Regular"
@@ -121,6 +152,10 @@ public class GameIntro:GameScene {
         self.addChild(label)
     }
     
+    
+    /// Controls the agents update
+    ///
+    /// - Parameter currentTime: actual time since start of program
     override public func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         let deltaTime: TimeInterval = self.lastUpdateTime == 0 ? 0 : currentTime - self.lastUpdateTime
@@ -174,12 +209,9 @@ public class GameIntro:GameScene {
     }
     
     
+    /// Does instantiate the next level
     override public func nextLevel() {
-        
-        if self.didStartFinish {
-            return
-        }
-        
+        if self.didStartFinish { return }
         self.didStartFinish = true
         
         let transition = SKTransition.fade(withDuration: 1)
@@ -208,7 +240,7 @@ public class GameIntro:GameScene {
     }
     
     
-    
+    /// Does make the necessary actions in the level finish
     override public func finishLevel() {
         let agents = self.agents
         self.agents = []

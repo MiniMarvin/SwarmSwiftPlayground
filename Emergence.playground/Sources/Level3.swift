@@ -5,8 +5,6 @@ import SpriteKit
 public class Level3 : GameScene {
     
     public override func didMove(to view: SKView) {
-        var arr:[ZoneBuilder] = []
-        
         let z1 = ZoneBuilder(intervalX: 0.4...0.6, intervalY: 0.4...0.6, numOfAgents: 200)
         let z2 = ZoneBuilder(intervalX: 0.6...0.7, intervalY: 0.45...0.55, numOfAgents: 75)
         let z3 = ZoneBuilder(intervalX: 0.3...0.4, intervalY: 0.45...0.55, numOfAgents: 75)
@@ -14,7 +12,6 @@ public class Level3 : GameScene {
         let z5 = ZoneBuilder(intervalX: 0.45...0.55, intervalY: 0.3...0.4, numOfAgents: 75)
                 
         self.fireflies = [z1, z2, z3, z4, z5]
-        
         self.wallBorder = 10
         
         super.didMove(to: view)

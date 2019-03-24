@@ -6,17 +6,17 @@
 //  Copyright © 2019 Caio Gomes. All rights reserved.
 //
 
-// TODO: Update neighborhood with a lower rate
-// TODO: Add a alpha blending logic to the scenario
-// TODO: Enhance the behavio
-// TODO: Avoid the v = -v behavior
-// TODO: Add a method to make the flocks separe themselves
-// TODO: Enforce the boids to attach to the prize
-
-
 import Foundation
 import SpriteKit
 
+
+
+/// An indicator of the boid's orientation
+///
+/// - north: north
+/// - east: east
+/// - south: south
+/// - west: west
 public enum BoidOrientation: Float {
     case north = 0
     case east = 270
@@ -24,8 +24,10 @@ public enum BoidOrientation: Float {
     case west = 90
 }
 
+/// The agent
 public class Boid: SKSpriteNode {
     
+    // Basic variables about the agent sensors
     public var maximumFlockSpeed: Float = 2
     public var maximumGoalSpeed: Float = 4
     public var currentSpeed: Float = 2
@@ -35,9 +37,11 @@ public class Boid: SKSpriteNode {
     public let momentum: Float = 6
     public let visionAngle: Float = 180
     
+    // Information category for identification of any individual
     public var id: Int = 0
     public var category: Int = 0
     
+    // The variables for perceiving the neighboorhood
     public var sceneFrame = CGRect.zero
     public var neighborhood: [Boid] = []
     public var allNeighboors: [Boid] = []
@@ -47,12 +51,9 @@ public class Boid: SKSpriteNode {
     public var awayPerception = vector_float2([0,0])
     public var borderMargin:Float = 0
     
-    
+    // Variables for the agent interaction with behaviours
     lazy var radius: Float = { return min(size.width.toDouble(), size.height.toDouble()) }()
     lazy var neighborhoodSize: Float = { return radius * 4 }()
-    
-    
-    //    public var emitter:SKEmitterNode = SKEmitterNode(fileNamed: "Blue.sks")!
     public var nearNodes:[Boid] = []
     
     
@@ -81,25 +82,7 @@ public class Boid: SKSpriteNode {
         self.id = id
         self.category = category
         self.size = CGSize(width: size, height: size)
-        
-        // TODO: Add glow in a performatic way
-        // Add a glow effect under the fireflies
-//        self.glow = SKSpriteNode(imageNamed: "spark.png")
-//        self.glow = SKSpriteNode(color: .yellow, size: self.size)
-//        self.glow?.color = .yellow
-//        self.glow?.size = CGSize(width: 6*self.size.width, height: 6*self.size.height)
-//        self.glow?.alpha = 0.01
-//        self.glow?.colorBlendFactor = 1
-//        self.glow?.blendMode = .alpha
-//        self.addChild(glow!)
-        
         self.orientation = orientation
-        // TODO: Behaviors
-        //        self.behaviors = [Cohesion(intensity: 0.02), Separation(intensity: 0.1), Alignment(intensity: 0.5), Bound(intensity:0.4)]
-        
-        // FlockBehavior: Cohesion, Separation, Alignment
-        //        self.behaviors = [FlockBehavior(intensities: [0.3, 0.2, 0.6]), Bound(intensity: 0.4), SeekFinger(intensity: 0.3)]
-//        self.behaviors = [FlockBehavior(intensities: [0.3, 0.3, 0.6]), Bound(intensity: 4), SeekFinger(intensity: 0.7), AvoidZone(intensity: 1)]
         self.behaviors = behaviors
     }
     
@@ -134,7 +117,6 @@ public class Boid: SKSpriteNode {
                 continue
             }
             if let avoid = behavior as? AvoidZone {
-//                avoid.apply(toBoid: self, borderMargin: self.borderMargin)
                 avoid.apply(toBoid: self)
                 continue
             }
@@ -148,7 +130,6 @@ public class Boid: SKSpriteNode {
             }
             if let seekFinger = behavior as? SeekFinger {
                 seekFinger.apply(boid: self)
-//                print(seekFinger.scaledVelocity)
                 continue
             }
             if let evade = behavior as? Evade {
@@ -238,6 +219,7 @@ public extension Boid {
     }
     
     
+    /// Update the perception of the node, used for not overload the CPU every time
     public func updatePerception() {
         if neighborhood.count == 0 {
             return
@@ -263,24 +245,17 @@ public extension Boid {
                     awayPerception -= awayVector.toVec()/dist
                 }
             }
-            //            let awayVector = (node.position - self.position)
         }
         self.perceivedCenter = perceivedCenter/total
         self.perceivedDirection = perceivedDirection/total
         self.awayPerception = awayPerception
         self.nearNodes = nearNodes
-        
-        //        for flockBoid in flock {
-        //            guard flockBoid != boid else { continue }
-        //
-        //            if boid.position.distance(from: flockBoid.position).toDouble() < boid.radius*2 {
-        //                let awayVector = (flockBoid.position - boid.position)
-        //                self.velocity -= awayVector.toVec() * (1/boid.position.distance(from: flockBoid.position).toDouble())
-        //            }
-        //        }
     }
     
     
+    /// Analysis who is part of the actual neighborhood
+    ///
+    /// - Parameter flock: A set of agents
     public func evaluateNeighborhood(forFlock flock: [Boid]) {
         self.neighborhood = flock.filter { boid in
             return isNeighboor(boid: boid)

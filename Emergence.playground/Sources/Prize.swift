@@ -68,7 +68,6 @@ public class Prize: SKSpriteNode {
         self.fillHorizon = Int(size)
         
         // Add progressbar
-//        self.progressCircle.radius = self.size.width
         self.addChild(self.progressCircle)
     }
     

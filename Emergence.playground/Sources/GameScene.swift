@@ -10,7 +10,6 @@
 // TODO: Remove the pointing effects after the finish level
 
 import SpriteKit
-import GameplayKit
 import AVFoundation
 
 public class GameScene: SKScene, Stage, Pointable {
@@ -75,23 +74,13 @@ public class GameScene: SKScene, Stage, Pointable {
             addChild(prize)
         }
         
-        
         // Setup pointing
         setupPointing(size: self.pointingSize, pointingOutline: self.pointingOutline)
         
         
         // Setup the sprites of the maze
         self.buildDarkSprites()
-        
-        
-        //Register for the applicationWillResignActive anywhere in your app.
-//        let app = UIApplication.shared
-//        NotificationCenter.default.addObserver(self, selector: #selector(GameScene.applicationWillResignActive(notification:)), name: NSNotification.Name.UIApplicationWillResignActive, object: app)
     }
-    
-//    @objc func applicationWillResignActive(notification: NSNotification) {
-//
-//    }
 
     
     override public func update(_ currentTime: TimeInterval) {
@@ -473,7 +462,6 @@ public class GameScene: SKScene, Stage, Pointable {
                         square.color = .black
                         square.zPosition = 30
                         addChild(square)
-                        print("hehe")
                     }
                     
                 }

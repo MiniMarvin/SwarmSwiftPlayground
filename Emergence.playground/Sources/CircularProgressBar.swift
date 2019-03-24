@@ -17,7 +17,6 @@ public class CircularProgressBar: SKNode {
     public var width: CGFloat = 12
     public var isAvaiable: Bool = true
     public var isWorking: Bool = true
-//    public var fontSize: CGFloat = 48
     
     private let circleNode = SKShapeNode(circleOfRadius: 0)
     private let backCircle = SKShapeNode(circleOfRadius: 0)
@@ -27,9 +26,6 @@ public class CircularProgressBar: SKNode {
     // Sets or returns the valaue of the progress bar
     public var value: Double {
         didSet {
-            // Label to display the percentage
-//            valueLabel.text = "\(Int(value)) %"
-            
             if !isAvaiable {
                 return
             }
@@ -52,10 +48,6 @@ public class CircularProgressBar: SKNode {
                 self.isHidden = false
             }
             
-            
-//            #if os(OSX)
-            // TODO: Add MacOS Version
-//            #else
             circleNode.path = UIBezierPath(
                 arcCenter: CGPoint(x: 0 , y: 0),
                 radius: radius * 2,
@@ -63,7 +55,6 @@ public class CircularProgressBar: SKNode {
                 endAngle: endAngle,
                 clockwise: false)
                 .cgPath
-//            #endif
         }
     }
     

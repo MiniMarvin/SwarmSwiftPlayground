@@ -5,6 +5,7 @@
 //  Created by Caio Gomes on 17/03/19.
 //  Copyright © 2019 Caio Gomes. All rights reserved.
 //
+//  Used for easier implementations
 
 import Foundation
 import SpriteKit

@@ -13,6 +13,8 @@
 import Foundation
 import SpriteKit
 
+
+/// Protocol that describes a behavior of an agent
 public protocol Behavior: AnyObject {
     // The result velocity after the calculation
     var velocity: vector_float2 { get }
@@ -21,9 +23,7 @@ public protocol Behavior: AnyObject {
     var intensity: Float { get set }
     
     var name: String { get }
-    
-    //    var name: String { get set }
-    
+
     init(intensity: Float)
     
     init()
@@ -56,6 +56,7 @@ public extension Behavior {
 }
 
 /**
+ WARNING: NOT USED FOR PERFORMANCE REASONS
  This behavior applies a tendency to move the boid toward a position.
  This position tends to be the averaged position of the entire flock
  or a smaller group.
@@ -67,6 +68,12 @@ public class Cohesion: Behavior {
     
     public required init() { }
     
+    
+    /// Apply this behavior to an agent
+    ///
+    /// - Parameters:
+    ///   - boid: The agent
+    ///   - centerOfMass: The center of mass perceived by the agent
     public func apply(toBoid boid: Boid, withCenterOfMass centerOfMass: vector_float2) {
         self.velocity = (centerOfMass - boid.position.toVec())
         
@@ -75,6 +82,12 @@ public class Cohesion: Behavior {
         }
     }
     
+    
+    /// Apply this behavior to an agent
+    ///
+    /// - Parameters:
+    ///   - boid: The agent
+    ///   - neighborhood: The agents that this agent sees
     public func apply(toBoid boid: Boid, withNeighboors neighborhood:[Boid]) {
         let perceivedCenter = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.position.toVec() }) / Float(neighborhood.count)
         self.apply(toBoid: boid, withCenterOfMass: perceivedCenter)
@@ -91,6 +104,7 @@ public class Cohesion: Behavior {
 }
 
 /**
+ WARNING: NOT USED FOR PERFORMANCE REASONS
  This behavior applies a tendency to move away from neighbors when
  they get too close together.  Prevents the proclivity to stack up
  on one another.
@@ -102,6 +116,12 @@ public class Separation: Behavior {
     
     public required init() { }
     
+    
+    /// Apply the behavior in an agent
+    ///
+    /// - Parameters:
+    ///   - boid: The agent where it will be applied
+    ///   - flock: The neighboorhood of the agent
     func apply(toBoid boid: Boid, inFlock flock: [Boid]) {
         self.velocity = vector_float2([0,0])
         
@@ -119,6 +139,11 @@ public class Separation: Behavior {
         }
     }
     
+    
+    /// Short call for agents that contains the neighboorhood in
+    /// their data structure
+    ///
+    /// - Parameter boid: The agent
     func apply(toBoid boid: Boid) {
         self.apply(toBoid: boid, inFlock: boid.getNeighboors())
     }
@@ -126,6 +151,7 @@ public class Separation: Behavior {
 
 
 /**
+ WARNING: NOT USED FOR PERFORMANCE REASONS
  This behavior applies a tendency for a boid to align its
  direction with the average direction of the entire flock.
  */
@@ -136,15 +162,32 @@ public class Alignment: Behavior {
     
     public required init() { }
     
+    
+    
+    /// Apply the behavior in an agent
+    ///
+    /// - Parameters:
+    ///   - boid: The agent
+    ///   - alignment: The vector to align with
     func apply(toBoid boid: Boid, withAlignment alignment: vector_float2) {
         self.velocity = (alignment - boid.velocity)
     }
     
+    
+    /// Computes the vector and then apply it to the agent
+    ///
+    /// - Parameters:
+    ///   - boid: The agent
+    ///   - neighborhood: The neighboorhood
     func apply(toBoid boid:Boid, withNeighboors neighborhood: [Boid]) {
         let perceivedDirection = (neighborhood.reduce(vector_float2([0,0])) { $0 + $1.velocity }) / Float(neighborhood.count)
         self.apply(toBoid: boid, withAlignment: perceivedDirection)
     }
     
+    
+    /// Easy call for the application of the method
+    ///
+    /// - Parameter boid: The agent
     func apply(toBoid boid:Boid) {
         if boid.getNeighboors().count == 0 {
             self.velocity = vector_float2([0,0])
@@ -231,12 +274,22 @@ public class Seek: Behavior {
         self.prize = prize
     }
     
+    /// Creates a seek behavior into an objective in scene
+    ///
+    /// - Parameters:
+    ///   - intensity: Intensity of seeking the objective
+    ///   - prize: The objective to seek
+    ///   - multiplier: Setup a amount of the prize radius to follow
     convenience init(intensity: Float, prize: Prize, multiplier:CGFloat) {
         self.init(intensity: intensity)
         self.point = prize.position.toVec()
         self.prize = prize
     }
     
+    
+    /// Apply the behavior to an agent
+    ///
+    /// - Parameter boid: the agent
     func apply(boid: Boid) {
         // Remove this behavior once the goal has been reached
         self.velocity = vector_float2([0,0])
@@ -260,17 +313,26 @@ public class SeekPoint: Behavior {
     
     public required init() { }
 
+    
     /// Creates a seek behavior into an objective in scene
     ///
     /// - Parameters:
     ///   - intensity: Intensity of seeking the objective
     ///   - prize: The objective to seek
+    ///   - actionRadius: The action radius to the behavior
     convenience init(intensity: Float, point: CGPoint, actionRadius:CGFloat) {
         self.init(intensity: intensity)
         self.point = point
         self.actionRadius = actionRadius
     }
     
+    /// Creates a seek behavior into an objective in scene
+    ///
+    /// - Parameters:
+    ///   - intensity: Intensity of seeking the objective
+    ///   - prize: The objective to seek
+    ///   - actionRadius: The action radius to the behavior
+    ///   - multiplier: multiply how much strong is the atraction to the point
     convenience init(intensity: Float, point: CGPoint, actionRadius:CGFloat, multiplier:CGFloat) {
         self.init(intensity: intensity)
         self.point = point
@@ -326,6 +388,10 @@ public class Evade: Behavior {
     }
 }
 
+
+
+/// The three heuristcs from boids algorithms together
+/// used for performance reasons
 public class FlockBehavior: Behavior {
     public var name: String = "flockbehavior"
     public var velocity: vector_float2 = vector_float2([0,0])
@@ -348,7 +414,6 @@ public class FlockBehavior: Behavior {
         let alignment = boid.perceivedDirection - boid.velocity
         let cohesion = boid.perceivedCenter - boid.position.toVec()
         let separation = boid.awayPerception
-        //        let noise = vector_float2(x: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))), y: Float.random(in: ClosedRange(uncheckedBounds: (-0.3, 0.3))))
         
         self.velocity = cohesion*self.intensities[0] + separation*self.intensities[1] + alignment*intensities[2]
     }
@@ -386,7 +451,6 @@ public class SeekFinger: Behavior {
             return
         }
         
-        //        boid.currentSpeed = boid.maximumGoalSpeed
         self.velocity = (pt - boid.position).toVec()
         
         // Say that the finger attracts some node
@@ -395,6 +459,7 @@ public class SeekFinger: Behavior {
 }
 
 
+/// Avoid an specific zone in the scenario
 public class AvoidZone: Behavior {
     public var name: String = "avoidzone"
     public var velocity: vector_float2 = vector_float2([0,0])
@@ -419,18 +484,15 @@ public class AvoidZone: Behavior {
         guard let _ = boid.parent?.frame else {
             return
         }
-//        print("aaaaa")
-        
+
         // Make sure that the scenario does exist
         guard let _ = boid.scenario else {
             return
         }
-//        print("bbbbb")
-        
+
         guard let zone = boid.zone else {
             return
         }
-//        print("ccccc")
         
         let borderAversion:Float = 1000
         
@@ -439,9 +501,7 @@ public class AvoidZone: Behavior {
         let h1 = zone.computedRect.maxY - borderMargin.toCGFloat()
         let w0 = zone.computedRect.minX + borderMargin.toCGFloat()
         let w1 = zone.computedRect.maxX - borderMargin.toCGFloat()
-        
-//        print(h0, h1, w0, w1)
-        
+
         if boid.position.x < w0 {
             var allowed = false
             // verify if it is in the allowed border
@@ -456,7 +516,6 @@ public class AvoidZone: Behavior {
             
             if !allowed {
                 self.velocity.x += borderAversion
-//                print("left")
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
@@ -467,7 +526,6 @@ public class AvoidZone: Behavior {
             // verify if it is in the allowed border
             if let edges = zone.allowedEdges[.right] {
                 for edge in edges {
-                    //                    print(edge, boid.position.y)
                     if edge.contains(position: boid.position.y) {
                         allowed = true
                         break
@@ -477,7 +535,6 @@ public class AvoidZone: Behavior {
             
             if !allowed {
                 self.velocity.x -= borderAversion
-//                print("right")
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
@@ -497,7 +554,6 @@ public class AvoidZone: Behavior {
             
             if !allowed {
                 self.velocity.y += borderAversion
-//                print("top")
             }
             else { AvoidZone.updateZone(boid: boid) }
         }
@@ -518,17 +574,13 @@ public class AvoidZone: Behavior {
             if !allowed { self.velocity.y -= borderAversion }
             else {
                 AvoidZone.updateZone(boid: boid)
-//                print("bottom")
             }
         }
     }
     
     public static func updateZone(boid:Boid) {
         guard let zones = boid.scenario?.zones else { return }
-//        print("iiiiihaaaa")
         for zone in zones {
-            //            print(zone.computedRect, boid.position, zone.computedRect.contains(boid.position))
-//            print(zone.computedRect, boid.position)
             if zone.computedRect.contains(boid.position) {
                 boid.zone = zone
                 break
